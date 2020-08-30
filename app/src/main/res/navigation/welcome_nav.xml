@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/welcome_nav"
+    app:startDestination="@id/firstWelcomeFragment">
+    <action
+        android:id="@+id/action_global_secondWelcomeFragment"
+        app:destination="@id/secondWelcomeFragment" />
+    <action
+        android:id="@+id/action_global_thirdWelcomeFragment"
+        app:destination="@id/thirdWelcomeFragment" />
+    <action
+        android:id="@+id/action_global_fourthWelcomeFragment"
+        app:destination="@id/fourthWelcomeFragment" />
+    <fragment
+        android:id="@+id/firstWelcomeFragment"
+        android:name="com.app.playup.welcome.fragments.FirstWelcomeFragment"
+        android:label="fragment_first_welcome"
+        tools:layout="@layout/fragment_first_welcome" />
+    <fragment
+        android:id="@+id/secondWelcomeFragment"
+        android:name="com.app.playup.welcome.fragments.SecondWelcomeFragment"
+        android:label="fragment_second_welcome"
+        tools:layout="@layout/fragment_second_welcome" />
+    <fragment
+        android:id="@+id/thirdWelcomeFragment"
+        android:name="com.app.playup.welcome.fragments.ThirdWelcomeFragment"
+        android:label="fragment_third_welcome"
+        tools:layout="@layout/fragment_third_welcome" />
+    <fragment
+        android:id="@+id/fourthWelcomeFragment"
+        android:name="com.app.playup.welcome.fragments.FourthWelcomeFragment"
+        android:label="fragment_fourth_welcome"
+        tools:layout="@layout/fragment_fourth_welcome" />
+    <action
+        android:id="@+id/action_global_userActivity"
+        app:destination="@id/userActivity" />
+    <activity
+        android:id="@+id/userActivity"
+        android:name="com.app.playup.user.UserActivity"
+        android:label="activity_user"
+        tools:layout="@layout/activity_user" />
+
+</navigation>
