@@ -28,6 +28,7 @@ dependencies {
     def material_version = "1.1.0-rc02"
     def nav_version = "2.3.0-alpha03"
     def facebook_version = "[5,6)"
+    def facebook_sdk_version = "[4,5)"
     def google_version = "16.0.0"
 
     //material
@@ -39,6 +40,7 @@ dependencies {
 
     //facebook
     implementation "com.facebook.android:facebook-login:$facebook_version"
+//    implementation "com.facebook.android:facebook-android-sdk:$facebook_sdk_version"
 
     //google
     implementation "com.google.android.gms:play-services-auth:$google_version"
