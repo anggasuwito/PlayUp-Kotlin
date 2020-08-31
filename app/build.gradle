@@ -27,6 +27,8 @@ android {
 dependencies {
     def material_version = "1.1.0-rc02"
     def nav_version = "2.3.0-alpha03"
+    def facebook_version = "[5,6)"
+    def google_version = "16.0.0"
 
     //material
     implementation "com.google.android.material:material:$material_version"
@@ -34,6 +36,12 @@ dependencies {
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    //facebook
+    implementation "com.facebook.android:facebook-login:$facebook_version"
+
+    //google
+    implementation "com.google.android.gms:play-services-auth:$google_version"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

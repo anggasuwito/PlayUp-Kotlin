@@ -13,6 +13,9 @@
     <action
         android:id="@+id/action_global_fourthWelcomeFragment"
         app:destination="@id/fourthWelcomeFragment" />
+    <action
+        android:id="@+id/action_global_userActivity"
+        app:destination="@id/userActivity" />
     <fragment
         android:id="@+id/firstWelcomeFragment"
         android:name="com.app.playup.welcome.fragments.FirstWelcomeFragment"
@@ -33,9 +36,7 @@
         android:name="com.app.playup.welcome.fragments.FourthWelcomeFragment"
         android:label="fragment_fourth_welcome"
         tools:layout="@layout/fragment_fourth_welcome" />
-    <action
-        android:id="@+id/action_global_userActivity"
-        app:destination="@id/userActivity" />
+
     <activity
         android:id="@+id/userActivity"
         android:name="com.app.playup.user.UserActivity"

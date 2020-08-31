@@ -4,10 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_nav"
     app:startDestination="@id/userLoginFragment">
-
+    <action
+        android:id="@+id/action_global_userRegisterFragment"
+        app:destination="@id/userRegisterFragment" />
+    <action
+        android:id="@+id/action_global_userLoginFragment"
+        app:destination="@id/userLoginFragment" />
     <fragment
         android:id="@+id/userLoginFragment"
         android:name="com.app.playup.user.fragments.UserLoginFragment"
         android:label="fragment_user_login"
         tools:layout="@layout/fragment_user_login" />
+    <fragment
+        android:id="@+id/userRegisterFragment"
+        android:name="com.app.playup.user.fragments.UserRegisterFragment"
+        android:label="fragment_user_register"
+        tools:layout="@layout/fragment_user_register" />
+
+
 </navigation>

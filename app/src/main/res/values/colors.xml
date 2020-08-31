@@ -3,11 +3,15 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="customBlack">#000000</color>
 
+    <color name="customBlack">#000000</color>
+    <color name="customWhite">#FFFFFF</color>
+    <color name="customFacebook">#3B5998</color>
+    <color name="customGoogle">#D44638</color>
+    <color name="customText">#808080</color>
     <color name="custom1">#F9E07E</color>
     <color name="custom2">#17A398</color>
-    <color name="custom3">#0AC1A5</color>
+    <color name="customLinkText">#0AC1A5</color>
     <color name="custom4">#030303</color>
     <color name="customBackground">#F5F5F5</color>
     <color name="custom5">#575A89</color>

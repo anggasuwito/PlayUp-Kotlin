@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/userLoginLayout"
@@ -18,9 +17,9 @@
 
         <LinearLayout
             android:id="@+id/userLoginLinearLayout"
-            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
@@ -32,27 +31,37 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_baseline_person_24"
-                android:layout_height="wrap_content">
+                android:textColorHint="@color/customText"
+                app:boxStrokeColor="@color/customText"
+                app:startIconTint="@color/customText">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/userUsername"
+                    android:id="@+id/userLoginUsername"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
+                    android:textColor="@color/customBlack"
                     android:hint="Username / Email" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/customText"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
-                android:layout_height="wrap_content">
+                app:boxStrokeColor="@color/customText"
+                app:startIconTint="@color/customText">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/userPassword"
+                    android:id="@+id/userLoginPassword"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textPassword"
                     android:backgroundTint="@android:color/transparent"
-                    android:hint="Password" />
+                    android:hint="Password"
+                    android:textColor="@color/customBlack"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -60,34 +69,64 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="99dp"
-                android:text="MASUK"
                 android:backgroundTint="@color/customButton"
-                app:cornerRadius="10dp"/>
+                android:text="MASUK"
+                android:textColor="@color/customWhite"
+                app:cornerRadius="10dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text="Atau"
                 android:gravity="center"
-                android:textSize="20dp"/>
+                android:text="Atau"
+                android:textColor="@color/customText"
+                android:textSize="20dp"
+                android:textStyle="italic" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/userLoginFacebookButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/customBlack"
+                android:backgroundTint="@color/customFacebook"
                 android:text="MASUK DENGAN FACEBOOK"
-                app:iconSize="20dp"
-                android:backgroundTint="@android:color/transparent"
-                app:cornerRadius="10dp"/>
+                android:textColor="@color/customWhite"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/com_facebook_button_icon"
+                app:iconTint="@color/customBackground"
+                app:iconSize="25dp"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/userLoginGoogleButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/customGoogle"
                 android:text="MASUK DENGAN GOOGLE"
-                android:textColor="@color/customBlack"
-                android:backgroundTint="@android:color/transparent"
-                android:layout_marginBottom="100dp"
-                app:cornerRadius="10dp"/>
+                android:textColor="@color/customWhite"
+                app:icon="@drawable/ic_baseline_mail_24"
+                app:iconTint="@color/customBackground"
+                app:iconSize="25dp"
+                app:cornerRadius="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Tidak punya akun ?"
+                android:textColor="@color/customText"
+                android:textSize="15dp"
+                android:textStyle="italic"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/userLoginToRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:clickable="true"
+                android:text="Buat Akun"
+                android:textColor="@color/customLinkText"
+                android:textSize="15dp"
+                android:textStyle="italic"
+                android:layout_marginBottom="100dp"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
