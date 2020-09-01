@@ -58,7 +58,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
                 v?.findNavController()?.navigate(R.id.action_global_userLoginFragment)
             }
             userRegisterButton -> {
-
+                v?.findNavController()?.navigate(R.id.action_global_userSuccessRegisterFragment)
             }
             userRegisterBirthday -> {
                 val c = Calendar.getInstance()

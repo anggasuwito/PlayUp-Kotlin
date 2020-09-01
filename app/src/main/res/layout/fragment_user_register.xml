@@ -139,6 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Jenis Kelamin"
+                    android:textColor="@color/customText"
                     android:textSize="16dp"
                     android:layout_marginTop="20dp"/>
 
@@ -151,12 +152,14 @@
                         android:id="@+id/userRegisterMale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:buttonTint="@color/customButton"
                         android:text="Laki-laki"
                         android:textColor="@color/customText"/>
                     <RadioButton
                         android:id="@+id/userRegisterFemale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:buttonTint="@color/customButton"
                         android:text="Perempuan"
                         android:textColor="@color/customText"/>
                 </RadioGroup>

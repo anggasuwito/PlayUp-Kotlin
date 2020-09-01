@@ -102,7 +102,7 @@
                 android:backgroundTint="@color/customGoogle"
                 android:text="MASUK DENGAN GOOGLE"
                 android:textColor="@color/customWhite"
-                app:icon="@drawable/ic_baseline_mail_24"
+                app:icon="@drawable/ic_icons8_google"
                 app:iconTint="@color/customBackground"
                 app:iconSize="25dp"
                 app:cornerRadius="10dp" />

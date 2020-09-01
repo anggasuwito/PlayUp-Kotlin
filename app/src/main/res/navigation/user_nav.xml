@@ -10,6 +10,9 @@
     <action
         android:id="@+id/action_global_userLoginFragment"
         app:destination="@id/userLoginFragment" />
+    <action
+        android:id="@+id/action_global_userSuccessRegisterFragment"
+        app:destination="@id/userSuccessRegisterFragment" />
     <fragment
         android:id="@+id/userLoginFragment"
         android:name="com.app.playup.user.fragments.UserLoginFragment"
@@ -20,6 +23,9 @@
         android:name="com.app.playup.user.fragments.UserRegisterFragment"
         android:label="fragment_user_register"
         tools:layout="@layout/fragment_user_register" />
-
-
+    <fragment
+        android:id="@+id/userSuccessRegisterFragment"
+        android:name="com.app.playup.user.fragments.UserSuccessRegisterFragment"
+        android:label="fragment_user_success_register"
+        tools:layout="@layout/fragment_user_success_register" />
 </navigation>
