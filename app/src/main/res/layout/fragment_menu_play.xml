@@ -8,66 +8,81 @@
     android:background="@color/customBackground"
     tools:context=".menu.fragments.MenuPlayFragment">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/menuPlayMaterialCard"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:backgroundTint="@color/customLinkText"
-        app:cardCornerRadius="20dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/menuPlayText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Temukan lawanmu"
-            android:textAlignment="center"
-            android:textColor="@color/customWhite"
-            android:textSize="25dp" />
-    </com.google.android.material.card.MaterialCardView>
+        <LinearLayout
+            android:id="@+id/menuScheduleLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuPlayMaterialCard">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/menuPlayMaterialCard"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="@color/customLinkText"
+                app:cardCornerRadius="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Mulai bertanding ?"
-            android:textColor="@color/customBlack"
-            android:textSize="30dp" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/menuPlayWaitOpponentButton"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/customBlue"
-            android:text="CARI LAWAN"
-            android:textColor="@color/customWhite"
-            android:layout_gravity="center"
-            app:cornerRadius="10dp"
-            android:layout_marginTop="50dp"/>
+                <TextView
+                    android:id="@+id/menuPlayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Temukan lawanmu"
+                    android:textAlignment="center"
+                    android:textColor="@color/customWhite"
+                    android:textSize="25dp" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/menuPlayBeOpponentButton"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/customRed"
-            android:layout_gravity="center"
-            android:text="JADI LAWAN"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/customWhite"
-            app:cornerRadius="10dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/menuPlayMaterialCard">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Mulai bertanding ?"
+                    android:textColor="@color/customBlack"
+                    android:textSize="30dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/menuPlayWaitOpponentButton"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:backgroundTint="@color/customBlue"
+                    android:text="CARI LAWAN"
+                    android:textColor="@color/customWhite"
+                    app:cornerRadius="10dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/menuPlayBeOpponentButton"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/customRed"
+                    android:text="JADI LAWAN"
+                    android:textColor="@color/customWhite"
+                    app:cornerRadius="10dp"
+                    android:layout_marginBottom="100dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

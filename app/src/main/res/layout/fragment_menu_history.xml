@@ -31,7 +31,6 @@
                 android:layout_marginBottom="100dp"
                 android:backgroundTint="@color/customLinkText"
                 app:cardCornerRadius="20dp">
-
                 <TextView
                     android:id="@+id/menuHistoryText"
                     android:layout_width="wrap_content"

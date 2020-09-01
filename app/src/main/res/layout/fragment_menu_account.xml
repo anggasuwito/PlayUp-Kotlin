@@ -29,7 +29,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="100dp"
                 android:backgroundTint="@color/customLinkText"
                 app:cardCornerRadius="20dp">
 
@@ -59,6 +58,26 @@
                         android:textSize="25dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/menuAccountSetting"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="PENGATURAN"
+                android:layout_gravity="center"
+                android:textColor="@color/customWhite"
+                android:backgroundTint="@color/customButton"
+                app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/menuAccountLogout"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100dp"
+                android:text="KELUAR"
+                android:layout_gravity="center"
+                android:textColor="@color/customWhite"
+                android:backgroundTint="@color/customButton"
+                app:cornerRadius="10dp"/>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

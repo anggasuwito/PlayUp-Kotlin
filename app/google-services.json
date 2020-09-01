@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1098032043964",
+    "firebase_url": "https://playup-kotlin.firebaseio.com",
+    "project_id": "playup-kotlin",
+    "storage_bucket": "playup-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098032043964:android:0814f1d8a306f5f1cd3db9",
+        "android_client_info": {
+          "package_name": "com.app.playup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098032043964-129uavhvvivma2t79ftvu7iq04vpgok2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh-g5BtVaXTY8ilwkTIGtaIN2v2x3AsGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098032043964-129uavhvvivma2t79ftvu7iq04vpgok2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
