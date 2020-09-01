@@ -27,12 +27,16 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         userLoginToRegister.setOnClickListener(this)
+        userLoginButton.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
             userLoginToRegister -> {
                 v?.findNavController()?.navigate(R.id.action_global_userRegisterFragment)
+            }
+            userLoginButton->{
+                v?.findNavController()?.navigate(R.id.action_global_userMenuActivity)
             }
         }
     }

@@ -13,6 +13,9 @@
     <action
         android:id="@+id/action_global_userSuccessRegisterFragment"
         app:destination="@id/userSuccessRegisterFragment" />
+    <action
+        android:id="@+id/action_global_userMenuActivity"
+        app:destination="@id/menuActivity" />
     <fragment
         android:id="@+id/userLoginFragment"
         android:name="com.app.playup.user.fragments.UserLoginFragment"
@@ -28,4 +31,9 @@
         android:name="com.app.playup.user.fragments.UserSuccessRegisterFragment"
         android:label="fragment_user_success_register"
         tools:layout="@layout/fragment_user_success_register" />
+    <activity
+        android:id="@+id/menuActivity"
+        android:name="com.app.playup.menu.MenuActivity"
+        android:label="activity_menu"
+        tools:layout="@layout/activity_menu" />
 </navigation>

@@ -30,6 +30,7 @@ dependencies {
     def facebook_version = "[5,6)"
     def facebook_sdk_version = "[4,5)"
     def google_version = "16.0.0"
+    def circle_image_view_version = "3.1.0"
 
     //material
     implementation "com.google.android.material:material:$material_version"
@@ -44,6 +45,9 @@ dependencies {
 
     //google
     implementation "com.google.android.gms:play-services-auth:$google_version"
+
+    //circle imageview
+    implementation "de.hdodenhof:circleimageview:$circle_image_view_version"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

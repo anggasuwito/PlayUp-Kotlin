@@ -2,12 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/menuHomeLayout"
+    android:id="@+id/menuHistoryLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@color/customBackground"
-    tools:context=".menu.fragments.MenuHomeFragment">
-
+    android:layout_height="match_parent"
+    tools:context=".menu.fragments.MenuHistoryFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,14 +15,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/menuHomeLinearLayout"
+            android:id="@+id/menuHistoryLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/menuHomeMaterialCard"
+                android:id="@+id/menuHistoryMaterialCard"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginLeft="15dp"
@@ -34,11 +33,11 @@
                 app:cardCornerRadius="20dp">
 
                 <TextView
-                    android:id="@+id/menuHomeText"
+                    android:id="@+id/menuHistoryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Selamat Datang, User"
+                    android:text="Riwayat pertandinganmu"
                     android:textAlignment="center"
                     android:textColor="@color/customWhite"
                     android:textSize="25dp" />

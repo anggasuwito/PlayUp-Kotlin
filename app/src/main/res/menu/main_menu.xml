@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuHome"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_home1"
+        android:title="Beranda" />
+    <item
+        android:id="@+id/menuSchedule"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_calendar1"
+        android:title="Jadwal" />
+    <item
+        android:id="@+id/menuPlay"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_play"
+        android:title="Main" />
+    <item
+        android:id="@+id/menuHistory"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_history1"
+        android:title="Riwayat" />
+    <item
+        android:id="@+id/menuAccount"
+        android:enabled="true"
+        android:icon="@drawable/ic_icon_account1"
+        android:title="Akun" />
+</menu>

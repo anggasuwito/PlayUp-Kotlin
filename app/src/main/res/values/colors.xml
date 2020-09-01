@@ -16,5 +16,7 @@
     <color name="customBackground">#F5F5F5</color>
     <color name="custom5">#575A89</color>
     <color name="customButton">#2C3C5B</color>
+    <color name="customBlue">#0000FF</color>
+    <color name="customRed">#FF0000</color>
 
 </resources>
