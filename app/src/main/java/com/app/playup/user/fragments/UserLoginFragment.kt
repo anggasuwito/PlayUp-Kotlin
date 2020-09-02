@@ -29,7 +29,6 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
