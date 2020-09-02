@@ -13,6 +13,8 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
@@ -28,7 +30,8 @@ import javax.xml.datatype.DatatypeConstants.MONTHS
 class UserRegisterFragment : Fragment(), View.OnClickListener {
     @Inject
     lateinit var userRegisterViewModel: UserRegisterViewModel
-    var gender: String = ""
+    lateinit var navController: NavController
+    var gender: String = "L"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
@@ -44,6 +47,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         userRegisterToLogin.setOnClickListener(this)
         userRegisterButton.setOnClickListener(this)
         userRegisterRadioGender.setOnCheckedChangeListener { group, checkedId ->
@@ -67,8 +71,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
                 } else {
                     Toast.makeText(this.context, "Buat akun sukses", Toast.LENGTH_SHORT)
                         .show()
-                    view?.findNavController()
-                        ?.navigate(R.id.action_global_userSuccessRegisterFragment)
+                    navController.navigate(R.id.action_global_userSuccessRegisterFragment)
                 }
             })
     }
@@ -76,7 +79,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             userRegisterToLogin -> {
-                v?.findNavController()?.navigate(R.id.action_global_userLoginFragment)
+                navController.navigate(R.id.action_global_userLoginFragment)
             }
             userRegisterButton -> {
                 val userRegisterModel = UserRegisterModel(
