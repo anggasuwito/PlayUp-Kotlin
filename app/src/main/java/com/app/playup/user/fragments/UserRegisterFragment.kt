@@ -12,18 +12,26 @@ import android.view.Window
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.findNavController
 import com.app.playup.R
+import com.app.playup.dagger.MyApplication
+import com.app.playup.user.model.UserRegisterModel
+import com.app.playup.user.viewmodel.UserRegisterViewModel
 import kotlinx.android.synthetic.main.fragment_user_login.*
 import kotlinx.android.synthetic.main.fragment_user_register.*
 import kotlinx.android.synthetic.main.fragment_user_register.view.*
 import java.util.*
+import javax.inject.Inject
 import javax.xml.datatype.DatatypeConstants.MONTHS
 
 class UserRegisterFragment : Fragment(), View.OnClickListener {
-
+    @Inject
+    lateinit var userRegisterViewModel: UserRegisterViewModel
+    var gender: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -38,18 +46,31 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         userRegisterToLogin.setOnClickListener(this)
         userRegisterButton.setOnClickListener(this)
-        userRegisterBirthday.setOnClickListener(this)
         userRegisterRadioGender.setOnCheckedChangeListener { group, checkedId ->
             val userRadioGender =
                 view.context.resources.getResourceEntryName(view.userRegisterRadioGender.checkedRadioButtonId)
-            var userGender = ""
             if (userRadioGender == "userRegisterMale") {
-                userGender = "Laki-laki"
+                gender = "L"
             } else {
-                userGender = "Perempuan"
+                gender = "P"
             }
-            println(userGender)
         }
+        userRegisterViewModel.userRegisterResponse.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it.code == 500.toString()) {
+                    Toast.makeText(
+                        this.context,
+                        "Username atau email sudah terdaftar",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(this.context, "Buat akun sukses", Toast.LENGTH_SHORT)
+                        .show()
+                    view?.findNavController()
+                        ?.navigate(R.id.action_global_userSuccessRegisterFragment)
+                }
+            })
     }
 
     override fun onClick(v: View?) {
@@ -58,27 +79,31 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
                 v?.findNavController()?.navigate(R.id.action_global_userLoginFragment)
             }
             userRegisterButton -> {
-                v?.findNavController()?.navigate(R.id.action_global_userSuccessRegisterFragment)
-            }
-            userRegisterBirthday -> {
-                val c = Calendar.getInstance()
-                val year = c.get(Calendar.YEAR)
-                val month = c.get(Calendar.MONTH)
-                val day = c.get(Calendar.DAY_OF_MONTH)
-
-
-                val dpd = DatePickerDialog(
-                    this.requireContext(),
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        // Display Selected date in textbox
-                        userRegisterBirthday.setText("" + dayOfMonth + " " + MONTHS + ", " + year)
-                    },
-                    year,
-                    month,
-                    day
+                val userRegisterModel = UserRegisterModel(
+                    username = userRegisterUsername.text.toString(),
+                    user_full_name = userRegisterFullName.text.toString(),
+                    gender = gender,
+                    email = userRegisterEmail.text.toString(),
+                    password = userRegisterPassword.text.toString()
                 )
-
-                dpd.show()
+                if (userRegisterFullName.text.toString() == "" ||
+                    userRegisterEmail.text.toString() == "" ||
+                    userRegisterUsername.text.toString() == "" ||
+                    userRegisterPassword.text.toString() == "" ||
+                    userRegisterConfirmPassword.text.toString() == ""
+                ) {
+                    Toast.makeText(this.context, "Isi semua form", Toast.LENGTH_SHORT).show()
+                } else if (userRegisterPassword.text.toString() !=
+                    userRegisterConfirmPassword.text.toString()
+                ) {
+                    Toast.makeText(
+                        this.context,
+                        "Konfirmasi password tidak sesuai",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    userRegisterViewModel.registerNewUser(userRegisterModel)
+                }
             }
         }
     }

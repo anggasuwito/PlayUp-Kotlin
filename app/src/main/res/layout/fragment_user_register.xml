@@ -90,6 +90,7 @@
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Password"
+                    android:inputType="textPassword"
                     android:textColor="@color/customBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,29 +107,11 @@
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Konfirmasi Password"
+                    android:inputType="textPassword"
                     android:textColor="@color/customBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColorHint="@color/customText"
-                app:boxStrokeColor="@color/customText"
-                app:startIconDrawable="@drawable/ic_baseline_calendar_today_24"
-                app:startIconTint="@color/customText">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/userRegisterBirthday"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@android:color/transparent"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:hint="Tanggal Lahir"
-                    android:textColor="@color/customBlack" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
+           <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/customText"
