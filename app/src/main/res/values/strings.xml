@@ -7,4 +7,10 @@
         <item>Laki-laki</item>
         <item>Perempuan</item>
     </string-array>
+
+
+    <string name="shared_preference_name">com.playup.shared.preference</string>
+    <string name="username_key">USERNAME</string>
+    <string name="login_method_key">LOGIN_METHOD</string>
+    <string name="default_value">DEFAULT</string>
 </resources>

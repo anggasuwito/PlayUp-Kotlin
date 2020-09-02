@@ -1,5 +1,7 @@
 package com.app.playup.welcome.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,8 +12,14 @@ import com.app.playup.R
 import kotlinx.android.synthetic.main.fragment_first_welcome.*
 
 class FirstWelcomeFragment : Fragment(), View.OnClickListener {
+    var sharedPreferences: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences =
+            activity?.getSharedPreferences(
+                getString(R.string.shared_preference_name),
+                Context.MODE_PRIVATE
+            )
     }
 
     override fun onCreateView(
@@ -24,6 +32,12 @@ class FirstWelcomeFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (sharedPreferences?.contains(getString(R.string.username_key))!! && sharedPreferences?.contains(
+                getString(R.string.login_method_key)
+            )!!
+        ) {
+            view?.findNavController().navigate(R.id.action_global_userMenuActivity2)
+        }
         firstWelcomeButton.setOnClickListener(this)
     }
 
