@@ -16,10 +16,10 @@
         android:icon="@drawable/ic_icon_play"
         android:title="Main" />
     <item
-        android:id="@+id/menuHistory"
+        android:id="@+id/menuRank"
         android:enabled="true"
-        android:icon="@drawable/ic_icon_history1"
-        android:title="Riwayat" />
+        android:icon="@drawable/ic_icon_rank"
+        android:title="Peringkat" />
     <item
         android:id="@+id/menuAccount"
         android:enabled="true"

@@ -59,11 +59,20 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/menuAccountSetting"
+                android:id="@+id/menuAccountSettingProfile"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
-                android:text="PENGATURAN"
+                android:text="UBAH PROFILE"
+                android:layout_gravity="center"
+                android:textColor="@color/customWhite"
+                android:backgroundTint="@color/customButton"
+                app:cornerRadius="10dp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/menuAccountSettingPassword"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="UBAH PASSWORD"
                 android:layout_gravity="center"
                 android:textColor="@color/customWhite"
                 android:backgroundTint="@color/customButton"

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.app.playup.R
 
-class MenuHistoryFragment : Fragment() {
+class MenuRankFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -17,6 +17,6 @@ class MenuHistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu_history, container, false)
+        return inflater.inflate(R.layout.fragment_menu_rank, container, false)
     }
 }

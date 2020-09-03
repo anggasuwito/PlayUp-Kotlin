@@ -11,8 +11,8 @@
         android:id="@+id/action_global_menuPlayFragment"
         app:destination="@id/menuPlayFragment" />
     <action
-        android:id="@+id/action_global_menuHistoryFragment"
-        app:destination="@id/menuHistoryFragment" />
+        android:id="@+id/action_global_menuRankFragment"
+        app:destination="@id/menuRankFragment" />
     <action
         android:id="@+id/action_global_menuAccountFragment"
         app:destination="@id/menuAccountFragment" />
@@ -35,10 +35,10 @@
         android:label="fragment_menu_play"
         tools:layout="@layout/fragment_menu_play" />
     <fragment
-        android:id="@+id/menuHistoryFragment"
-        android:name="com.app.playup.menu.fragments.MenuHistoryFragment"
+        android:id="@+id/menuRankFragment"
+        android:name="com.app.playup.menu.fragments.MenuRankFragment"
         android:label="fragment_menu_history"
-        tools:layout="@layout/fragment_menu_history" />
+        tools:layout="@layout/fragment_menu_rank" />
     <fragment
         android:id="@+id/menuAccountFragment"
         android:name="com.app.playup.menu.fragments.MenuAccountFragment"

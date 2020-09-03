@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="30dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
                     android:backgroundTint="@color/customBlue"
                     android:text="CARI LAWAN"
                     android:textColor="@color/customWhite"
@@ -81,7 +81,71 @@
                     android:text="JADI LAWAN"
                     android:textColor="@color/customWhite"
                     app:cornerRadius="10dp"
-                    android:layout_marginBottom="100dp"/>
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity=""
+                    android:textColorHint="@color/customText"
+                    app:boxStrokeColor="@color/customText"
+                    app:startIconTint="@color/customText">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jenis Pertandingan"
+                        android:layout_gravity="center"
+                        android:textColor="@color/customBlack"
+                        android:textSize="16dp"
+                        android:layout_marginTop="20dp"
+                        />
+
+                    <RadioGroup
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:id="@+id/selectPlayMatchType"
+                        android:checkedButton="@+id/userRegisterMale"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:id="@+id/playBadmintonSingle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/customButton"
+                            android:text="Badminton 1 vs 1"
+                            android:textColor="@color/customBlack"/>
+                        <RadioButton
+                            android:id="@+id/playBadmintonDouble"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/customButton"
+                            android:text="Badminton 2 vs 2"
+                            android:textColor="@color/customBlack"/>
+                        <RadioButton
+                            android:id="@+id/playBilliardSingle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/customButton"
+                            android:text="Billiard 1 vs 1"
+                            android:textColor="@color/customBlack"/>
+                        <RadioButton
+                            android:id="@+id/playTennisBorderSingle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/customButton"
+                            android:text="Tenis Meja 1 vs 1"
+                            android:textColor="@color/customBlack"/>
+                        <RadioButton
+                            android:id="@+id/playBasketBallTriple"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/customButton"
+                            android:text="Basket 3 vs 3"
+                            android:textColor="@color/customBlack"
+                            android:layout_marginBottom="100dp"/>
+                    </RadioGroup>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
