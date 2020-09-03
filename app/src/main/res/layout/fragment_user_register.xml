@@ -129,8 +129,7 @@
                 <RadioGroup
                     android:id="@+id/userRegisterRadioGender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checkedButton="@+id/userRegisterMale">
+                    android:layout_height="wrap_content">
 
                     <RadioButton
                         android:id="@+id/userRegisterMale"

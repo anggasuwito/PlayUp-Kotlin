@@ -31,7 +31,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
     @Inject
     lateinit var userRegisterViewModel: UserRegisterViewModel
     lateinit var navController: NavController
-    var gender: String = "L"
+    var gender: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
@@ -50,15 +50,6 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
         navController = Navigation.findNavController(view)
         userRegisterToLogin.setOnClickListener(this)
         userRegisterButton.setOnClickListener(this)
-        userRegisterRadioGender.setOnCheckedChangeListener { group, checkedId ->
-            val userRadioGender =
-                view.context.resources.getResourceEntryName(view.userRegisterRadioGender.checkedRadioButtonId)
-            if (userRadioGender == "userRegisterMale") {
-                gender = "L"
-            } else {
-                gender = "P"
-            }
-        }
         userRegisterViewModel.userRegisterResponse.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
@@ -82,6 +73,14 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
                 navController.navigate(R.id.action_global_userLoginFragment)
             }
             userRegisterButton -> {
+                if (userRegisterRadioGender.checkedRadioButtonId == userRegisterMale.id) {
+                    gender = "L"
+                } else if (userRegisterRadioGender.checkedRadioButtonId == userRegisterFemale.id) {
+                    gender = "P"
+                } else {
+                    gender = ""
+                }
+
                 val userRegisterModel = UserRegisterModel(
                     username = userRegisterUsername.text.toString(),
                     user_full_name = userRegisterFullName.text.toString(),
@@ -89,6 +88,7 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
                     email = userRegisterEmail.text.toString(),
                     password = userRegisterPassword.text.toString()
                 )
+
                 if (userRegisterFullName.text.toString() == "" ||
                     userRegisterEmail.text.toString() == "" ||
                     userRegisterUsername.text.toString() == "" ||
@@ -102,6 +102,12 @@ class UserRegisterFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(
                         this.context,
                         "Konfirmasi password tidak sesuai",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (gender == "") {
+                    Toast.makeText(
+                        this.context,
+                        "Pilih jenis kelamin",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {

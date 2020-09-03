@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
 import com.app.playup.R
 import kotlinx.android.synthetic.main.fragment_user_change_profile_form.*
+import kotlinx.android.synthetic.main.fragment_user_register.*
+import kotlinx.android.synthetic.main.fragment_user_register.view.*
 
-class UserChangeProfileFormFragment : Fragment(),View.OnClickListener {
-
+class UserChangeProfileFormFragment : Fragment(), View.OnClickListener {
+    var gender: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,11 +33,20 @@ class UserChangeProfileFormFragment : Fragment(),View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when(v){
-            userChangeProfileSaveButton->{
-                v?.findNavController()?.navigate(R.id.action_global_userChangeProfileSuccessFragment)
+        when (v) {
+            userChangeProfileSaveButton -> {
+                if (gender == "") {
+                    Toast.makeText(
+                        this.context,
+                        "Pilih jenis kelamin",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    v?.findNavController()
+                        ?.navigate(R.id.action_global_userChangeProfileSuccessFragment)
+                }
             }
-            userChangeProfileCancelButton->{
+            userChangeProfileCancelButton -> {
                 activity?.finish()
             }
         }
