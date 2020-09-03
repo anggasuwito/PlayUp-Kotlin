@@ -97,6 +97,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+            menuAccountImage.setImageBitmap(imageBitmap)
+        }
         if (requestCode == SELECT_FILE_FROM_STORAGE && resultCode == Activity.RESULT_OK) {
             val originalPath = getOriginalPathFromUri(data?.data!!)
             val imageFile: File = File(originalPath)
@@ -131,7 +135,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         val photoURI =
             FileProvider.getUriForFile(
                 this.requireContext(),
-                "com.app.camerakotlin.fileprovider",
+               "com.app.playup.fileprovider",
                 photoFile
             )
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
