@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -84,20 +85,23 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                 } else {
                     Toast.makeText(this.context, "Login sukses", Toast.LENGTH_SHORT)
                         .show()
-                    with(sharedPreferences?.edit()) {
-                        this?.putString(
-                            getString(R.string.username_key),
-                            userLoginUsername.text.toString()
-                        )
-                        this?.putString(
-                            getString(R.string.login_method_key),
-                            "appLogin"
-                        )
-                        this?.commit()
-                    }
+                    userLoginViewModel.userLoginResponseData.observe(viewLifecycleOwner, Observer {
+                        with(sharedPreferences?.edit()) {
+                            this?.putString(
+                                getString(R.string.username_key),
+                                it.username
+                            )
+                            this?.putString(
+                                getString(R.string.login_method_key),
+                                "appLogin"
+                            )
+                            this?.commit()
+                        }
+                    })
                     navController.navigate(R.id.action_global_userMenuActivity)
                 }
             })
+
     }
 
     override fun onClick(v: View?) {

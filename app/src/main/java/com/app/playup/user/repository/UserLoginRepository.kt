@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.app.playup.user.api.UserLoginAPI
 import com.app.playup.user.api.UserRegisterAPI
 import com.app.playup.user.model.UserLoginModel
+import com.app.playup.user.model.UserLoginResponseDataModel
 import com.app.playup.user.model.UserRegisterModel
 import com.app.playup.utils.Wrapper
 import com.google.gson.Gson
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
     var userLoginResponse = MutableLiveData<Wrapper>()
+    var userLoginResponseData = MutableLiveData<UserLoginResponseDataModel>()
 
     fun loginUser(userLoginModel: UserLoginModel) {
         userLoginAPI.loginUser(userLoginModel).enqueue(object : Callback<Wrapper> {
@@ -24,9 +26,13 @@ class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
+                val stringResponseData = Gson().toJson(response?.data)
                 val userLoginResponseObject =
                     Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
+                val userLoginResponseDataObject =
+                    Gson().fromJson<UserLoginResponseDataModel>(stringResponseData,UserLoginResponseDataModel::class.java)
                 userLoginResponse.value = userLoginResponseObject
+                userLoginResponseData.value = userLoginResponseDataObject
             }
         })
     }
