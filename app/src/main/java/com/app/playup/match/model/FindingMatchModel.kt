@@ -9,6 +9,7 @@ class FindingMatchModel (
     var email: String = "default"
 ){}
 
+
 class FindingMatchResponseDataModel(
     var match_id:String = "default",
     var match_players:String

@@ -35,6 +35,14 @@ class UserChangeProfileFormFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             userChangeProfileSaveButton -> {
+                if (userChangeProfileRadioGender.checkedRadioButtonId == userChangeProfileMale.id) {
+                    gender = "L"
+                } else if (userChangeProfileRadioGender.checkedRadioButtonId == userChangeProfileFemale.id) {
+                    gender = "P"
+                } else {
+                    gender = ""
+                }
+
                 if (gender == "") {
                     Toast.makeText(
                         this.context,
