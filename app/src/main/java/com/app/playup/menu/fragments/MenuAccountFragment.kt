@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.app.playup.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_menu_account.*
@@ -41,6 +42,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         )
         menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         menuAccountLogout.setOnClickListener(this)
+        menuAccountSettingProfile.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -52,6 +54,9 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     this?.commit()
                 }
                 activity?.finish()
+            }
+            menuAccountSettingProfile -> {
+                v?.findNavController()?.navigate(R.id.action_global_userChangeProfileActivity)
             }
         }
     }

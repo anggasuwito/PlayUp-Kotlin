@@ -56,13 +56,13 @@
                 android:id="@+id/menuScheduleHistory"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="LIHAT RIWAYAT PERTANDINGAN"
+                android:text="RIWAYAT PERTANDINGAN"
                 android:layout_gravity="center"
                 android:textColor="@color/customWhite"
                 android:backgroundTint="@color/customButton"
                 android:layout_marginBottom="100dp"
                 app:cornerRadius="10dp"/>
-        
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

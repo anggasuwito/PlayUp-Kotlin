@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".chat.ChatActivity"></activity>
+        <activity android:name=".user.UserChangeProfilActivity"></activity>
+        <activity android:name=".match.MatchActivity" />
+        <activity android:name=".chat.ChatActivity" />
         <activity android:name=".menu.MenuActivity" />
         <activity android:name=".user.UserActivity" />
         <activity android:name=".MainActivity">

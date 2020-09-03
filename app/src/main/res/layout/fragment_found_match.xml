@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout   xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/userRegisterSuccessLayout"
+    android:id="@+id/foundMatchLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/customBackground"
-    tools:context=".user.fragments.UserSuccessRegisterFragment">
-
+    tools:context=".match.fragments.FoundMatchFragment">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,40 +15,38 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/userRegisterSuccessLinearLayout"
+            android:id="@+id/matchFoundLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/userRegisterSuccessImage"
+                android:id="@+id/matchFoundImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="200dp"
                 android:src="@drawable/success_animation" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="Akun Berhasil Ditambakan !"
+                android:text="Lawan Ditemukan !"
                 android:textColor="@color/customBlack"
                 android:textSize="20dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/userRegisterSuccessButton"
+                android:id="@+id/matchFoundButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="100dp"
                 android:backgroundTint="@color/customButton"
-                android:text="MASUK"
+                android:text="CHAT LAWANMU"
                 android:textColor="@color/customWhite"
                 app:cornerRadius="10dp" />
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

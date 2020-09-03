@@ -19,6 +19,12 @@
     <action
         android:id="@+id/action_global_menuHomeFragment"
         app:destination="@id/menuHomeFragment" />
+    <action
+        android:id="@+id/action_global_matchActivity"
+        app:destination="@id/matchActivity" />
+    <action
+        android:id="@+id/action_global_userChangeProfileActivity"
+        app:destination="@id/userChangeProfilActivity" />
     <fragment
         android:id="@+id/menuHomeFragment"
         android:name="com.app.playup.menu.fragments.MenuHomeFragment"
@@ -44,4 +50,14 @@
         android:name="com.app.playup.menu.fragments.MenuAccountFragment"
         android:label="fragment_menu_account"
         tools:layout="@layout/fragment_menu_account" />
+    <activity
+        android:id="@+id/matchActivity"
+        android:name="com.app.playup.match.MatchActivity"
+        android:label="activity_match"
+        tools:layout="@layout/activity_match" />
+    <activity
+        android:id="@+id/userChangeProfilActivity"
+        android:name="com.app.playup.user.UserChangeProfilActivity"
+        android:label="activity_user_change_profil"
+        tools:layout="@layout/activity_user_change_profil" />
 </navigation>

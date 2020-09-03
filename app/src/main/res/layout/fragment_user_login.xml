@@ -43,7 +43,7 @@
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
                     android:textColor="@color/customBlack"
-                    android:hint="Username / Email" />
+                    android:hint="Username" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Atau"
-                android:textColor="@color/customText"
+                android:textColor="@color/customBlack"
                 android:textSize="20dp"
                 android:textStyle="italic" />
 
@@ -112,10 +112,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Tidak punya akun ?"
-                android:textColor="@color/customText"
+                android:textColor="@color/customBlack"
                 android:textSize="15dp"
                 android:textStyle="italic"
                 android:layout_marginTop="20dp"/>
+
             <TextView
                 android:id="@+id/userLoginToRegister"
                 android:layout_width="match_parent"

@@ -54,6 +54,9 @@ dependencies {
     //circle imageview
     implementation "de.hdodenhof:circleimageview:$circle_image_view_version"
 
+    //gif
+    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.18"
+
     //firebase
     implementation "com.google.firebase:firebase-auth:$firebase_version"
 
