@@ -5,13 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.app.playup.R
+import com.app.playup.dagger.MyApplication
+import com.app.playup.match.viewmodel.MatchViewModel
 import kotlinx.android.synthetic.main.fragment_menu_play.*
+import javax.inject.Inject
 
 class MenuPlayFragment : Fragment(),View.OnClickListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -31,10 +37,10 @@ class MenuPlayFragment : Fragment(),View.OnClickListener {
     override fun onClick(v: View?) {
         when(v){
             menuPlayFindOpponentButton->{
-                v?.findNavController()?.navigate(R.id.action_global_matchActivity)
+                v?.findNavController()?.navigate(R.id.action_global_matchActivity, bundleOf("status" to "FIND"))
             }
             menuPlayWaitOpponentButton->{
-                v?.findNavController()?.navigate(R.id.action_global_matchActivity)
+                v?.findNavController()?.navigate(R.id.action_global_matchActivity, bundleOf("status" to "WAIT"))
             }
         }
     }

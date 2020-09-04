@@ -1,6 +1,7 @@
 package com.app.playup.dagger
 
 import com.app.playup.config.RetrofitBuilder
+import com.app.playup.match.api.MatchAPI
 import com.app.playup.user.api.UserLoginAPI
 import com.app.playup.user.api.UserRegisterAPI
 import dagger.Module
@@ -16,5 +17,10 @@ class NetworkModule {
     @Provides
     fun provideUserLoginAPI(): UserLoginAPI {
         return RetrofitBuilder.createRetrofit().create(UserLoginAPI::class.java)
+    }
+
+    @Provides
+    fun provideMatchAPI(): MatchAPI {
+        return RetrofitBuilder.createRetrofit().create(MatchAPI::class.java)
     }
 }

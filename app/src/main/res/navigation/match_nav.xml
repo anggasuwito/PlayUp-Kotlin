@@ -4,10 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/match_nav"
     app:startDestination="@id/findingMatchFragment">
-
+    <action
+        android:id="@+id/action_global_foundMatchFragment"
+        app:destination="@id/foundMatchFragment" />
+    <action
+        android:id="@+id/action_global_findingMatchFragment"
+        app:destination="@id/findingMatchFragment" />
     <fragment
         android:id="@+id/findingMatchFragment"
         android:name="com.app.playup.match.fragments.FindingMatchFragment"
         android:label="fragment_finding_match"
         tools:layout="@layout/fragment_finding_match" />
+    <fragment
+        android:id="@+id/foundMatchFragment"
+        android:name="com.app.playup.match.fragments.FoundMatchFragment"
+        android:label="fragment_found_match"
+        tools:layout="@layout/fragment_found_match" />
 </navigation>

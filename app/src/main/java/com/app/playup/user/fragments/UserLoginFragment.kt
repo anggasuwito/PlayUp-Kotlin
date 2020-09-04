@@ -86,22 +86,23 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(this.context, "Login sukses", Toast.LENGTH_SHORT)
                         .show()
                     userLoginViewModel.userLoginResponseData.observe(viewLifecycleOwner, Observer {
-                        with(sharedPreferences?.edit()) {
-                            this?.putString(
-                                getString(R.string.username_key),
-                                it.username
-                            )
-                            this?.putString(
-                                getString(R.string.login_method_key),
-                                "appLogin"
-                            )
-                            this?.commit()
+                        if (it != null) {
+                            with(sharedPreferences?.edit()) {
+                                this?.putString(
+                                    getString(R.string.username_key),
+                                    it.username
+                                )
+                                this?.putString(
+                                    getString(R.string.login_method_key),
+                                    "appLogin"
+                                )
+                                this?.commit()
+                            }
+                            navController.navigate(R.id.action_global_userMenuActivity)
                         }
                     })
-                    navController.navigate(R.id.action_global_userMenuActivity)
                 }
             })
-
     }
 
     override fun onClick(v: View?) {

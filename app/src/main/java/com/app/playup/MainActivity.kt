@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +26,8 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == REQUEST_READ_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             secondCameraPermission()
-        }else if (requestCode == REQUEST_READ_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_DENIED){
+        } else if (requestCode == REQUEST_READ_STORAGE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            Toast.makeText(this, "Mohon berikan perizinan", Toast.LENGTH_SHORT).show()
             firstStoragePermission()
         }
     }
