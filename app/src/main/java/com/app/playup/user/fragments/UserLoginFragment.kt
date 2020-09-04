@@ -89,8 +89,28 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                         if (it != null) {
                             with(sharedPreferences?.edit()) {
                                 this?.putString(
+                                    getString(R.string.id_key),
+                                    it.id
+                                )
+                                this?.putString(
+                                    getString(R.string.photo_key),
+                                    it.photo
+                                )
+                                this?.putString(
                                     getString(R.string.username_key),
                                     it.username
+                                )
+                                this?.putString(
+                                    getString(R.string.username_full_name_key),
+                                    it.user_full_name
+                                )
+                                this?.putString(
+                                    getString(R.string.gender_key),
+                                    it.gender
+                                )
+                                this?.putString(
+                                    getString(R.string.email_key),
+                                    it.email
                                 )
                                 this?.putString(
                                     getString(R.string.login_method_key),
@@ -124,41 +144,43 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                 }
             }
             userLoginFacebookButton -> {
-
+                with(sharedPreferences?.edit()) {
+                    this?.putString(
+                        getString(R.string.photo_key),
+                        "facebookPhotoDefault.jpg"
+                    )
+                    this?.putString(
+                        getString(R.string.username_key),
+                        "facebook"
+                    )
+                    this?.putString(
+                        getString(R.string.login_method_key),
+                        "facebookLogin"
+                    )
+                    this?.commit()
+                }
+                navController.navigate(R.id.action_global_userMenuActivity)
             }
             userLoginGoogleButton -> {
-                // Configure Google Sign In
-                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build()
-
-                val googleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso)
-                val signInGoogleIntent = googleSignInClient.signInIntent
-                startActivityForResult(signInGoogleIntent, GOOGLE_SIGN_IN_REQUEST)
+                with(sharedPreferences?.edit()) {
+                    this?.putString(
+                        getString(R.string.photo_key),
+                        "googlePhotoDefault.jpg"
+                    )
+                    this?.putString(
+                        getString(R.string.username_key),
+                        "google"
+                    )
+                    this?.putString(
+                        getString(R.string.login_method_key),
+                        "googleLogin"
+                    )
+                    this?.commit()
+                }
+                navController.navigate(R.id.action_global_userMenuActivity)
             }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        val googleTask = GoogleSignIn.getSignedInAccountFromIntent(data)
-        var userGoogleToken: String? = null
-
-        try {
-            val googleAccount: GoogleSignInAccount? = googleTask.getResult(ApiException::class.java)
-            if (googleAccount != null) {
-                userGoogleToken = googleAccount.idToken
-            }
-        } catch (exception: Exception) {
-            println("CATCH = " + exception.toString())
-        }
-
-        println("TOKEN = " + userGoogleToken)
-        if (requestCode == GOOGLE_SIGN_IN_REQUEST && userGoogleToken != null) {
-            navController.navigate(R.id.action_global_userMenuActivity)
-        }
-    }
 
 }

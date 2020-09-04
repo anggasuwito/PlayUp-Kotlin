@@ -1,7 +1,7 @@
 package com.app.playup.user.model
 
 class UserRegisterModel(
-    var photo: String = "defaultUserPhoto.jpeg",
+    var photo: String = "defaultUserPhoto.jpg",
     var username: String = "default",
     var user_full_name: String = "default",
     var gender: String = "default",

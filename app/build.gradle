@@ -84,7 +84,10 @@ dependencies {
     //co routine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8"
 
-    
+    //picasso load image
+    implementation "com.squareup.picasso:picasso:2.71828"
+
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'

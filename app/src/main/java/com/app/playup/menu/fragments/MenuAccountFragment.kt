@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider
 import androidx.navigation.findNavController
 import com.app.playup.R
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_menu_account.*
 import java.io.File
 import java.io.IOException
@@ -52,6 +53,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val photo = sharedPreferences?.getString(
+            getString(R.string.photo_key),
+            getString(R.string.default_value)
+        )
         val username = sharedPreferences?.getString(
             getString(R.string.username_key),
             getString(R.string.default_value)
@@ -60,6 +65,15 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             getString(R.string.login_method_key),
             getString(R.string.default_value)
         )
+        if (photo == "facebookPhotoDefault.jpg") {
+            Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+        } else if (photo == "googlePhotoDefault.jpg") {
+            Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+        } else if (photo == "defaultUserPhoto.jpg") {
+            Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
+        }
+
+
         menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         menuAccountLogout.setOnClickListener(this)
         menuAccountSettingProfile.setOnClickListener(this)
@@ -135,7 +149,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         val photoURI =
             FileProvider.getUriForFile(
                 this.requireContext(),
-               "com.app.playup.fileprovider",
+                "com.app.playup.fileprovider",
                 photoFile
             )
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)

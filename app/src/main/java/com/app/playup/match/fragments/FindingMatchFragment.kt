@@ -1,5 +1,7 @@
 package com.app.playup.match.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,13 +21,17 @@ import javax.inject.Inject
 class FindingMatchFragment : Fragment(), View.OnClickListener {
     val coroutineScope = CoroutineScope(Dispatchers.IO)
     var status: String? = ""
-    var i = 0
-
+    var sharedPreferences: SharedPreferences? = null
+    var username:String? = ""
     @Inject
     lateinit var matchViewModel: MatchViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
+        sharedPreferences = activity?.getSharedPreferences(
+            getString(R.string.shared_preference_name),
+            Context.MODE_PRIVATE
+        )
     }
 
     override fun onCreateView(
@@ -38,6 +44,13 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        username = sharedPreferences?.getString(
+            getString(R.string.username_key),
+            getString(R.string.default_value)
+        )
+
+
         status = arguments?.getString("status")
         matchFindingCancelButton.setOnClickListener(this)
         findMatchCoRoutine(1000)
@@ -84,8 +97,6 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
         )
         coroutineScope.launch {
             while (true) {
-                i++
-                println(i)
                 delay(interval)
                 if (status == "FIND") {
                     matchViewModel.findOpponentSingleBadminton(findingMatchModel)
