@@ -48,6 +48,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     lateinit var currentPhotoPath: String
     var username: String? = ""
     var photo: String? = ""
+    var id: String? = ""
 
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
@@ -70,6 +71,11 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        id = sharedPreferences?.getString(
+            getString(R.string.id_key),
+            getString(R.string.default_value)
+        )
         photo = sharedPreferences?.getString(
             getString(R.string.photo_key),
             getString(R.string.default_value)
@@ -90,11 +96,29 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
         } else {
             menuAccountViewModel.getUserPhoto(
-                "wallpaperflare.com_wallpaper.jpg",
+                photo!!,
                 menuAccountImage,
                 this.requireActivity()
             )
         }
+        menuAccountViewModel.menuAccountResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it != null) {
+                    with(sharedPreferences?.edit()) {
+                        this?.putString(
+                            getString(R.string.photo_key),
+                            it.photo
+                        )
+                        this?.commit()
+                    }
+                    menuAccountViewModel.getUserPhoto(
+                        it.photo,
+                        menuAccountImage,
+                        this.requireActivity()
+                    )
+                }
+            })
         menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         menuAccountLogout.setOnClickListener(this)
         menuAccountSettingProfile.setOnClickListener(this)
@@ -105,8 +129,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         when (v) {
             menuAccountLogout -> {
                 with(sharedPreferences?.edit()) {
-                    this?.remove(getString(R.string.username_key))
-                    this?.remove(getString(R.string.login_method_key))
+                    this?.clear()
                     this?.commit()
                 }
                 activity?.finish()
@@ -138,11 +161,15 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             val requestBody = photoFile.asRequestBody("multipart".toMediaTypeOrNull())
             val imageFileChoosed =
                 MultipartBody.Part.createFormData("image", photoFile.name, requestBody)
-            val data = MultipartBody.Part.createFormData(
-                "data",
-                """{"username":"${username}","image_name":"${photo}"}"""
+//            val data = MultipartBody.Part.createFormData(
+//                "data",
+//                """{"username":"${username}","image_name":"${photo}"}"""
+//            )
+            val userId = MultipartBody.Part.createFormData(
+                "id",
+                "$id"
             )
-            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, data)
+            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, userId)
             menuAccountImage.setImageBitmap(imageBitmap)
         }
         if (requestCode == SELECT_FILE_FROM_STORAGE && resultCode == Activity.RESULT_OK) {
@@ -153,11 +180,15 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             val requestBody = imageFile.asRequestBody("multipart".toMediaTypeOrNull())
             val imageFileChoosed =
                 MultipartBody.Part.createFormData("image", imageFile.name, requestBody)
-            val data = MultipartBody.Part.createFormData(
-                "data",
-                """{"username":"${username}","image_name":"${photo}"}"""
+//            val data = MultipartBody.Part.createFormData(
+//                "data",
+//                """{"username":"${username}","image_name":"${photo}"}"""
+//            )
+            val userId = MultipartBody.Part.createFormData(
+                "id",
+                "$id"
             )
-            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, data)
+            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, userId)
             menuAccountImage.setImageBitmap(imageBitmap)
         }
     }
@@ -206,7 +237,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             storageDir /* directory */
         ).apply {
             currentPhotoPath = absolutePath
-            println("COBA = " + currentPhotoPath)
         }
     }
 

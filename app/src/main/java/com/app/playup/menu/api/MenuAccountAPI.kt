@@ -17,7 +17,7 @@ interface MenuAccountAPI {
     fun menuAccountChangePhoto(
         @Part image: MultipartBody.Part,
         @Part data: MultipartBody.Part
-    ): Call<MenuAccountModel>
+    ): Call<Wrapper>
 
     @GET("user/get-image/{id}")
     fun getUserPhoto(@Path("id") id: String): Call<ResponseBody>

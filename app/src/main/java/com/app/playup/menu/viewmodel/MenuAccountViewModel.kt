@@ -10,6 +10,8 @@ import javax.inject.Inject
 
 class MenuAccountViewModel @Inject constructor(var menuAccountRepository: MenuAccountRepository) :
     ViewModel() {
+    var menuAccountResponseData = menuAccountRepository.menuAccountResponseData
+
     fun menuAccountChangePhoto(image: MultipartBody.Part,data:MultipartBody.Part) {
         menuAccountRepository.menuAccountChangePhoto(image,data)
     }
