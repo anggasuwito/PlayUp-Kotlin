@@ -52,7 +52,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var username: String? = ""
     var photo: String? = ""
     var id: String? = ""
-
     var googleUsername: String? = ""
     var googlePhoto: Uri? = null
 
@@ -116,10 +115,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
         if (loginMethod == "googleLogin") {
             menuAccountSettingProfile.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah profil", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Tidak bisa ubah profil dengan google login", Toast.LENGTH_SHORT).show()
             }
             menuAccountImage.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah gambar", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Tidak bisa ubah gambar dengan google login", Toast.LENGTH_SHORT).show()
             }
             menuAccountLogout.setOnClickListener {
                 googleSignOutWithButton()
@@ -138,10 +137,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             menuAccountText.text = "$googleUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         } else if (loginMethod == "facebookLogin") {
             menuAccountSettingProfile.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah profil", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Tidak bisa ubah profil dengan facebook login", Toast.LENGTH_SHORT).show()
             }
             menuAccountImage.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah gambar", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this.context, "Tidak bisa ubah gambar dengan facebook login", Toast.LENGTH_SHORT).show()
             }
         } else {
             if (photo == "facebookPhotoDefault.jpg") {
@@ -279,37 +278,38 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    //fungsi keluar google namun data google masih terhubung dengan aplikasi (unsecure)
     fun googleSignOutWithButton() {
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
-//        mGoogleSignInClient.signOut()
-//            .addOnCompleteListener(this, object : OnCompleteListener<Void?> {
-//                override fun onComplete(p0: Task<Void?>) {
-//
-//                }
-//            })
+        //        mGoogleSignInClient.signOut()
+        //            .addOnCompleteListener(this, object : OnCompleteListener<Void?> {
+        //                override fun onComplete(p0: Task<Void?>) {
+        //
+        //                }
+        //            })
         mGoogleSignInClient.signOut()
             .addOnCompleteListener {
                 println("LOGOUT IT = " + it)
             }
     }
 
-
+    //fungsi keluar google dan memutuskan data google dengan aplikasi (secure and recommended)
     private fun revokeAccessGoogleSignOut() {
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
-//        mGoogleSignInClient.revokeAccess()
-//            .addOnCompleteListener(
-//                this,
-//                OnCompleteListener<Void?> {
-//                    // ...
-//                })
+        //        mGoogleSignInClient.revokeAccess()
+        //            .addOnCompleteListener(
+        //                this,
+        //                OnCompleteListener<Void?> {
+        //                    // ...
+        //                })
         mGoogleSignInClient.revokeAccess()
             .addOnCompleteListener {
                 println("REVOKE IT = " + it)

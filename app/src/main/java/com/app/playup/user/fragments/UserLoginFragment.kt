@@ -181,10 +181,23 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    //funtion untuk melakukan aktivitas setelah berhasil start intent google login
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode === RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
     //function for sign in
     fun googleSignIn() {
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("1098032043964-lorva2qev51g3097t9jpa12kj31nva39.apps.googleusercontent.com")
                 .requestEmail()
                 .build()
 
@@ -210,28 +223,16 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode === RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            val task: Task<GoogleSignInAccount> =
-                GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
-            navController.navigate(R.id.action_global_userMenuActivity)
-        }
-    }
-
+    //function ini dipanggil di onActivityResult
     fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account =
                 completedTask.getResult(ApiException::class.java)
-
             // Signed in successfully, show authenticated UI.
-
             //  updateUI(account)
             if (account != null) {
                 Toast.makeText(this.context, "Sukses login dengan google", Toast.LENGTH_SHORT)
+                navController.navigate(R.id.action_global_userMenuActivity)
             } else {
                 Toast.makeText(this.context, "Gagal login dengan google", Toast.LENGTH_SHORT)
             }
