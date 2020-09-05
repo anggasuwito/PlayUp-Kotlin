@@ -32,10 +32,8 @@ dependencies {
     def material_version = "1.1.0-rc02"
     def nav_version = "2.3.0-alpha03"
     def facebook_version = "[5,6)"
-    def google_version = "16.0.0"
     def circle_image_view_version = "3.1.0"
     def firebase_version = "19.3.2"
-    def firebase_google_auth_version = "18.1.0"
     def lifecycle_version = "2.2.0"
 
     //material
@@ -49,7 +47,7 @@ dependencies {
     implementation "com.facebook.android:facebook-login:$facebook_version"
 
     //google
-    implementation "com.google.android.gms:play-services-auth:$google_version"
+    implementation "com.google.android.gms:play-services-auth:18.1.0"
 
     //circle imageview
     implementation "de.hdodenhof:circleimageview:$circle_image_view_version"
@@ -59,9 +57,6 @@ dependencies {
 
     //firebase
     implementation "com.google.firebase:firebase-auth:$firebase_version"
-
-    //firebase auth google
-    implementation "com.google.android.gms:play-services-auth:$firebase_google_auth_version"
 
     //view model
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

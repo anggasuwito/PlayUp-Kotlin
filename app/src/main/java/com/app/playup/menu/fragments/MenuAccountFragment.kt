@@ -17,11 +17,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.menu.viewmodel.MenuAccountViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -50,6 +53,9 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var photo: String? = ""
     var id: String? = ""
 
+    var googleUsername: String? = ""
+    var googlePhoto: Uri? = null
+
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +65,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             getString(R.string.shared_preference_name),
             Context.MODE_PRIVATE
         )
+        googleProfileResponse()
     }
 
     override fun onCreateView(
@@ -88,19 +95,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             getString(R.string.login_method_key),
             getString(R.string.default_value)
         )
-        if (photo == "facebookPhotoDefault.jpg") {
-            Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-        } else if (photo == "googlePhotoDefault.jpg") {
-            Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
-        } else if (photo == "defaultUserPhoto.jpg") {
-            Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
-        } else {
-            menuAccountViewModel.getUserPhoto(
-                photo!!,
-                menuAccountImage,
-                this.requireActivity()
-            )
-        }
         menuAccountViewModel.menuAccountResponseData.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
@@ -119,10 +113,55 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     )
                 }
             })
-        menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
-        menuAccountLogout.setOnClickListener(this)
-        menuAccountSettingProfile.setOnClickListener(this)
-        menuAccountImage.setOnClickListener(this)
+
+        if (loginMethod == "googleLogin") {
+            menuAccountSettingProfile.setOnClickListener {
+                Toast.makeText(this.context, "Tidak bisa ubah profil", Toast.LENGTH_SHORT).show()
+            }
+            menuAccountImage.setOnClickListener {
+                Toast.makeText(this.context, "Tidak bisa ubah gambar", Toast.LENGTH_SHORT).show()
+            }
+            menuAccountLogout.setOnClickListener {
+                googleSignOutWithButton()
+                revokeAccessGoogleSignOut()
+                with(sharedPreferences?.edit()) {
+                    this?.clear()
+                    this?.commit()
+                }
+                activity?.finish()
+            }
+            if (googlePhoto == null) {
+                Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+            } else {
+                Picasso.get().load(googlePhoto).into(menuAccountImage)
+            }
+            menuAccountText.text = "$googleUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
+        } else if (loginMethod == "facebookLogin") {
+            menuAccountSettingProfile.setOnClickListener {
+                Toast.makeText(this.context, "Tidak bisa ubah profil", Toast.LENGTH_SHORT).show()
+            }
+            menuAccountImage.setOnClickListener {
+                Toast.makeText(this.context, "Tidak bisa ubah gambar", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            if (photo == "facebookPhotoDefault.jpg") {
+                Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+            } else if (photo == "googlePhotoDefault.jpg") {
+                Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+            } else if (photo == "defaultUserPhoto.jpg") {
+                Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
+            } else {
+                menuAccountViewModel.getUserPhoto(
+                    photo!!,
+                    menuAccountImage,
+                    this.requireActivity()
+                )
+            }
+            menuAccountSettingProfile.setOnClickListener(this)
+            menuAccountImage.setOnClickListener(this)
+            menuAccountLogout.setOnClickListener(this)
+            menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
+        }
     }
 
     override fun onClick(v: View?) {
@@ -240,5 +279,56 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    fun googleSignOutWithButton() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
+//        mGoogleSignInClient.signOut()
+//            .addOnCompleteListener(this, object : OnCompleteListener<Void?> {
+//                override fun onComplete(p0: Task<Void?>) {
+//
+//                }
+//            })
+        mGoogleSignInClient.signOut()
+            .addOnCompleteListener {
+                println("LOGOUT IT = " + it)
+            }
+    }
+
+
+    private fun revokeAccessGoogleSignOut() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
+//        mGoogleSignInClient.revokeAccess()
+//            .addOnCompleteListener(
+//                this,
+//                OnCompleteListener<Void?> {
+//                    // ...
+//                })
+        mGoogleSignInClient.revokeAccess()
+            .addOnCompleteListener {
+                println("REVOKE IT = " + it)
+            }
+    }
+
+    //google profile response
+    fun googleProfileResponse() {
+        val acct = GoogleSignIn.getLastSignedInAccount(activity)
+        if (acct != null) {
+            val personName = acct.displayName
+            val personGivenName = acct.givenName
+            val personFamilyName = acct.familyName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto: Uri? = acct.photoUrl
+            googleUsername = personName
+            googlePhoto = personPhoto
+        }
+    }
 }
 

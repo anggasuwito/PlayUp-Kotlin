@@ -1,42 +1,33 @@
 package com.app.playup.user.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.user.model.UserLoginModel
-import com.app.playup.user.model.UserRegisterModel
 import com.app.playup.user.viewmodel.UserLoginViewModel
-import com.app.playup.user.viewmodel.UserRegisterViewModel
-import kotlinx.android.synthetic.main.fragment_user_login.*
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.fragment_user_register.*
-import java.lang.Exception
+import com.google.android.gms.tasks.Task
+import kotlinx.android.synthetic.main.fragment_user_login.*
 import javax.inject.Inject
 
+
 class UserLoginFragment : Fragment(), View.OnClickListener {
-    val GOOGLE_SIGN_IN_REQUEST = 1001
+    val RC_SIGN_IN = 666
     var sharedPreferences: SharedPreferences? = null
     lateinit var navController: NavController
 
@@ -166,6 +157,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                 navController.navigate(R.id.action_global_userMenuActivity)
             }
             userLoginGoogleButton -> {
+                googleSignIn()
                 with(sharedPreferences?.edit()) {
                     this?.putString(
                         getString(R.string.photo_key),
@@ -185,10 +177,71 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                     )
                     this?.commit()
                 }
-                navController.navigate(R.id.action_global_userMenuActivity)
             }
         }
     }
 
+    //function for sign in
+    fun googleSignIn() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+
+        val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
+
+        //check for last account
+        val account = GoogleSignIn.getLastSignedInAccount(this.context)
+        if (account != null) {
+            Toast.makeText(
+                this.context,
+                "Sukses login dengan google last account",
+                Toast.LENGTH_SHORT
+            )
+        } else {
+            Toast.makeText(
+                this.context,
+                "Gagal login dengan google last account",
+                Toast.LENGTH_SHORT
+            )
+        }
+
+        val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode === RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+            navController.navigate(R.id.action_global_userMenuActivity)
+        }
+    }
+
+    fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account =
+                completedTask.getResult(ApiException::class.java)
+
+            // Signed in successfully, show authenticated UI.
+
+            //  updateUI(account)
+            if (account != null) {
+                Toast.makeText(this.context, "Sukses login dengan google", Toast.LENGTH_SHORT)
+            } else {
+                Toast.makeText(this.context, "Gagal login dengan google", Toast.LENGTH_SHORT)
+            }
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            // Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            println("signInResult:failed code=" + e.statusCode)
+            // updateUI(null)
+        }
+    }
 
 }
