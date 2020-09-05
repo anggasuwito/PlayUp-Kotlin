@@ -88,9 +88,13 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
         } else if (photo == "defaultUserPhoto.jpg") {
             Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
+        } else {
+            menuAccountViewModel.getUserPhoto(
+                "wallpaperflare.com_wallpaper.jpg",
+                menuAccountImage,
+                this.requireActivity()
+            )
         }
-
-
         menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         menuAccountLogout.setOnClickListener(this)
         menuAccountSettingProfile.setOnClickListener(this)

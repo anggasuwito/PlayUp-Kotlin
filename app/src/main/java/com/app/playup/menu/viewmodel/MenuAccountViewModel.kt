@@ -1,5 +1,7 @@
 package com.app.playup.menu.viewmodel
 
+import android.app.Activity
+import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import com.app.playup.menu.repository.MenuAccountRepository
 import okhttp3.MultipartBody
@@ -10,5 +12,8 @@ class MenuAccountViewModel @Inject constructor(var menuAccountRepository: MenuAc
     ViewModel() {
     fun menuAccountChangePhoto(image: MultipartBody.Part,data:MultipartBody.Part) {
         menuAccountRepository.menuAccountChangePhoto(image,data)
+    }
+    fun getUserPhoto(id: String, imageContainer: ImageView,activity: Activity) {
+        menuAccountRepository.getUserPhoto(id,imageContainer,activity)
     }
 }
