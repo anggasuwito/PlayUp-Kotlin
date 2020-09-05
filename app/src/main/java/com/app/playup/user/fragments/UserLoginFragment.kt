@@ -154,6 +154,10 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                         "facebook"
                     )
                     this?.putString(
+                        getString(R.string.gender_key),
+                        "L"
+                    )
+                    this?.putString(
                         getString(R.string.login_method_key),
                         "facebookLogin"
                     )
@@ -170,6 +174,10 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                     this?.putString(
                         getString(R.string.username_key),
                         "google"
+                    )
+                    this?.putString(
+                        getString(R.string.gender_key),
+                        "P"
                     )
                     this?.putString(
                         getString(R.string.login_method_key),
