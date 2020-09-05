@@ -17,7 +17,6 @@ class MenuPlayFragment : Fragment(),View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
     }
 
     override fun onCreateView(

@@ -20,13 +20,25 @@ import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.navigation.findNavController
 import com.app.playup.R
+import com.app.playup.dagger.MyApplication
+import com.app.playup.menu.viewmodel.MenuAccountViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_menu_account.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class MenuAccountFragment : Fragment(), View.OnClickListener {
     var sharedPreferences: SharedPreferences? = null
@@ -34,9 +46,14 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     val OPEN_CAMERA_REQUEST_CODE = 13
     lateinit var photoFile: File
     lateinit var currentPhotoPath: String
+    var username: String? = ""
+    var photo: String? = ""
 
+    @Inject
+    lateinit var menuAccountViewModel: MenuAccountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
         sharedPreferences = activity?.getSharedPreferences(
             getString(R.string.shared_preference_name),
             Context.MODE_PRIVATE
@@ -53,11 +70,11 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val photo = sharedPreferences?.getString(
+        photo = sharedPreferences?.getString(
             getString(R.string.photo_key),
             getString(R.string.default_value)
         )
-        val username = sharedPreferences?.getString(
+        username = sharedPreferences?.getString(
             getString(R.string.username_key),
             getString(R.string.default_value)
         )
@@ -113,12 +130,30 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val imageBitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+
+            val requestBody = photoFile.asRequestBody("multipart".toMediaTypeOrNull())
+            val imageFileChoosed =
+                MultipartBody.Part.createFormData("image", photoFile.name, requestBody)
+            val data = MultipartBody.Part.createFormData(
+                "data",
+                """{"username":"${username}","image_name":"${photo}"}"""
+            )
+            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, data)
             menuAccountImage.setImageBitmap(imageBitmap)
         }
         if (requestCode == SELECT_FILE_FROM_STORAGE && resultCode == Activity.RESULT_OK) {
             val originalPath = getOriginalPathFromUri(data?.data!!)
             val imageFile: File = File(originalPath)
             val imageBitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+            val requestBody = imageFile.asRequestBody("multipart".toMediaTypeOrNull())
+            val imageFileChoosed =
+                MultipartBody.Part.createFormData("image", imageFile.name, requestBody)
+            val data = MultipartBody.Part.createFormData(
+                "data",
+                """{"username":"${username}","image_name":"${photo}"}"""
+            )
+            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, data)
             menuAccountImage.setImageBitmap(imageBitmap)
         }
     }
@@ -170,5 +205,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             println("COBA = " + currentPhotoPath)
         }
     }
+
 }
 
