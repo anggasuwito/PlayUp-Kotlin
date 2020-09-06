@@ -31,7 +31,8 @@ import javax.inject.Inject
 
 
 class UserLoginFragment : Fragment(), View.OnClickListener {
-    val RC_SIGN_IN = 666
+    val GOOGLE_SIGN_IN_REQUEST = 666
+    val FACEBOOK_SIGN_IN_REQUEST = 777
     var sharedPreferences: SharedPreferences? = null
     lateinit var navController: NavController
     lateinit var callbackManager: CallbackManager
@@ -193,14 +194,16 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     //funtion untuk melakukan aktivitas setelah berhasil start intent google login
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode === RC_SIGN_IN) {
+        if (requestCode === GOOGLE_SIGN_IN_REQUEST) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleSignInResult(task)
         }
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        if(requestCode === FACEBOOK_SIGN_IN_REQUEST){
+            callbackManager.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     //function for sign in
@@ -230,7 +233,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
         }
 
         val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST)
     }
 
     //function ini dipanggil di onActivityResult
