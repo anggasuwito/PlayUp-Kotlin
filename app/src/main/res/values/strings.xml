@@ -9,6 +9,9 @@
         <item>Buka Galeri</item>
     </string-array>
 
+    <string name="facebook_app_id">474240216792802</string>
+    <string name="fb_login_protocol_scheme">fb474240216792802</string>
+
     <string name="authority_key">com.app.playup.fileprovider</string>
     <string name="shared_preference_name">com.playup.shared.preference</string>
     <string name="id_key">ID</string>

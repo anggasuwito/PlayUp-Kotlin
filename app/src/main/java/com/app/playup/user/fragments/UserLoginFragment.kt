@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,9 @@ import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.user.model.UserLoginModel
 import com.app.playup.user.viewmodel.UserLoginViewModel
+import com.facebook.*
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -30,6 +34,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     val RC_SIGN_IN = 666
     var sharedPreferences: SharedPreferences? = null
     lateinit var navController: NavController
+    lateinit var callbackManager: CallbackManager
 
     @Inject
     lateinit var userLoginViewModel: UserLoginViewModel
@@ -62,6 +67,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
         navController = Navigation.findNavController(view)
         userLoginToRegister.setOnClickListener(this)
         userLoginButton.setOnClickListener(this)
+        userLoginFacebookButtonMaterial.setOnClickListener(this)
         userLoginFacebookButton.setOnClickListener(this)
         userLoginGoogleButton.setOnClickListener(this)
         userLoginViewModel.userLoginResponse.observe(
@@ -134,7 +140,11 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                     userLoginViewModel.loginUser(userLoginModel)
                 }
             }
+            userLoginFacebookButtonMaterial -> {
+                userLoginFacebookButton.performClick()
+            }
             userLoginFacebookButton -> {
+                facebookSignIn()
                 with(sharedPreferences?.edit()) {
                     this?.putString(
                         getString(R.string.photo_key),
@@ -154,7 +164,6 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                     )
                     this?.commit()
                 }
-                navController.navigate(R.id.action_global_userMenuActivity)
             }
             userLoginGoogleButton -> {
                 googleSignIn()
@@ -189,8 +198,9 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
             // a listener.
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
+            handleGoogleSignInResult(task)
         }
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     //function for sign in
@@ -224,7 +234,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     }
 
     //function ini dipanggil di onActivityResult
-    fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+    fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account =
                 completedTask.getResult(ApiException::class.java)
@@ -245,4 +255,31 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    //facebook oauth login
+    fun facebookSignIn() {
+        callbackManager = CallbackManager.Factory.create();
+
+        var loginButton = userLoginFacebookButton as LoginButton
+        loginButton.setReadPermissions("email")
+        loginButton.setFragment(this)
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+            override fun onSuccess(loginResult: LoginResult?) {
+                // App code
+                println("SUCCESS FB = " + loginResult?.accessToken)
+                navController.navigate(R.id.action_global_userMenuActivity)
+            }
+
+            override fun onCancel() {
+                // App code
+                println("CANCEL FB")
+            }
+
+            override fun onError(exception: FacebookException) {
+                // App code
+                println("ERROR FB = " + exception)
+            }
+        })
+    }
 }

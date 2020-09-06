@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,9 @@ import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.menu.viewmodel.MenuAccountViewModel
+import com.facebook.Profile
+import com.facebook.ProfileTracker
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -54,6 +58,8 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var id: String? = ""
     var googleUsername: String? = ""
     var googlePhoto: Uri? = null
+    var facebookUsername: String? = ""
+    var facebookPhoto: Uri? = null
 
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
@@ -65,6 +71,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             Context.MODE_PRIVATE
         )
         googleProfileResponse()
+        facebookProfileResponse()
     }
 
     override fun onCreateView(
@@ -115,10 +122,18 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
         if (loginMethod == "googleLogin") {
             menuAccountSettingProfile.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah profil dengan google login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    "Tidak bisa ubah profil dengan google login",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             menuAccountImage.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah gambar dengan google login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    "Tidak bisa ubah gambar dengan google login",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             menuAccountLogout.setOnClickListener {
                 googleSignOutWithButton()
@@ -137,11 +152,33 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             menuAccountText.text = "$googleUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         } else if (loginMethod == "facebookLogin") {
             menuAccountSettingProfile.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah profil dengan facebook login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    "Tidak bisa ubah profil dengan facebook login",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             menuAccountImage.setOnClickListener {
-                Toast.makeText(this.context, "Tidak bisa ubah gambar dengan facebook login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.context,
+                    "Tidak bisa ubah gambar dengan facebook login",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+            menuAccountLogout.setOnClickListener {
+                LoginManager.getInstance().logOut()
+                with(sharedPreferences?.edit()) {
+                    this?.clear()
+                    this?.commit()
+                }
+                activity?.finish()
+            }
+            if (facebookPhoto == null) {
+                Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+            } else {
+                Picasso.get().load(facebookPhoto).into(menuAccountImage)
+            }
+            menuAccountText.text = "$facebookUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         } else {
             if (photo == "facebookPhotoDefault.jpg") {
                 Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
@@ -328,6 +365,44 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             val personPhoto: Uri? = acct.photoUrl
             googleUsername = personName
             googlePhoto = personPhoto
+        }
+    }
+
+    //facebook profile response
+    fun facebookProfileResponse() {
+        if (Profile.getCurrentProfile() == null) {
+            var mProfileTracker: ProfileTracker? = null
+            mProfileTracker = object : ProfileTracker() {
+                override fun onCurrentProfileChanged(
+                    oldProfile: Profile?,
+                    currentProfile: Profile
+                ) {
+                    var facebookProfileId = currentProfile.id
+                    var facebookProfileFname = currentProfile.firstName
+                    var facebookProfileMname = currentProfile.middleName
+                    var facebookProfileLname = currentProfile.lastName
+                    var facebookProfileName = currentProfile.name
+                    var facebookProfileLinkUri = currentProfile.linkUri
+                    var facebookProfilePicture =
+                        currentProfile.getProfilePictureUri(150, 150)
+                    facebookUsername = facebookProfileName
+                    facebookPhoto = facebookProfilePicture
+                    mProfileTracker?.stopTracking()
+                }
+            }
+
+        } else {
+            val profile: Profile = Profile.getCurrentProfile()
+            var facebookProfileId = profile.id
+            var facebookProfileFname = profile.firstName
+            var facebookProfileMname = profile.middleName
+            var facebookProfileLname = profile.lastName
+            var facebookProfileName = profile.name
+            var facebookProfileLinkUri = profile.linkUri
+            var facebookProfilePicture =
+                profile.getProfilePictureUri(150, 150)
+            facebookUsername = facebookProfileName
+            facebookPhoto = facebookProfilePicture
         }
     }
 }

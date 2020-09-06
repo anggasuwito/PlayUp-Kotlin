@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.app.playup.R
+import com.facebook.Profile
+import com.facebook.ProfileTracker
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.fragment_menu_home.*
 
@@ -16,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_menu_home.*
 class MenuHomeFragment : Fragment() {
     var sharedPreferences: SharedPreferences? = null
     var googleUsername: String? = ""
+    var facebookUsername: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = activity?.getSharedPreferences(
@@ -23,6 +27,7 @@ class MenuHomeFragment : Fragment() {
             Context.MODE_PRIVATE
         )
         googleProfileResponse()
+        facebookProfileResponse()
     }
 
     override fun onCreateView(
@@ -45,6 +50,8 @@ class MenuHomeFragment : Fragment() {
         )
         if (loginMethod == "googleLogin") {
             menuHomeText.text = "Selamat datang, $googleUsername"
+        } else if (loginMethod == "facebookLogin") {
+            menuHomeText.text = "Selamat datang, $facebookUsername"
         } else {
             menuHomeText.text = "Selamat datang, $username"
         }
@@ -61,6 +68,42 @@ class MenuHomeFragment : Fragment() {
             val personId = acct.id
             val personPhoto: Uri? = acct.photoUrl
             googleUsername = personName
+        }
+    }
+
+    //facebook profile response
+    fun facebookProfileResponse() {
+        if (Profile.getCurrentProfile() == null) {
+            var mProfileTracker: ProfileTracker? = null
+            mProfileTracker = object : ProfileTracker() {
+                override fun onCurrentProfileChanged(
+                    oldProfile: Profile?,
+                    currentProfile: Profile
+                ) {
+                    var facebookProfileId = currentProfile.id
+                    var facebookProfileFname = currentProfile.firstName
+                    var facebookProfileMname = currentProfile.middleName
+                    var facebookProfileLname = currentProfile.lastName
+                    var facebookProfileName = currentProfile.name
+                    var facebookProfileLinkUri = currentProfile.linkUri
+                    var facebookProfilePicture =
+                        currentProfile.getProfilePictureUri(150, 150)
+                    facebookUsername = facebookProfileName
+                    mProfileTracker?.stopTracking()
+                }
+            }
+
+        } else {
+            val profile: Profile = Profile.getCurrentProfile()
+            var facebookProfileId = profile.id
+            var facebookProfileFname = profile.firstName
+            var facebookProfileMname = profile.middleName
+            var facebookProfileLname = profile.lastName
+            var facebookProfileName = profile.name
+            var facebookProfileLinkUri = profile.linkUri
+            var facebookProfilePicture =
+                profile.getProfilePictureUri(150, 150)
+            facebookUsername = facebookProfileName
         }
     }
 }

@@ -32,9 +32,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/ic_baseline_person_24"
                 android:textColorHint="@color/customText"
                 app:boxStrokeColor="@color/customText"
+                app:startIconDrawable="@drawable/ic_baseline_person_24"
                 app:startIconTint="@color/customText">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -42,16 +42,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
-                    android:textColor="@color/customBlack"
-                    android:hint="Username" />
+                    android:hint="Username"
+                    android:textColor="@color/customBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/customText"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:boxStrokeColor="@color/customText"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconTint="@color/customText">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -60,8 +60,8 @@
                     android:layout_height="match_parent"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="Password"
-                    android:textColor="@color/customBlack"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textColor="@color/customBlack" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -83,17 +83,29 @@
                 android:textSize="20dp"
                 android:textStyle="italic" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/userLoginFacebookButton"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/customFacebook"
-                android:text="MASUK DENGAN FACEBOOK"
-                android:textColor="@color/customWhite"
-                app:cornerRadius="10dp"
-                app:icon="@drawable/com_facebook_button_icon"
-                app:iconTint="@color/customBackground"
-                app:iconSize="25dp"/>
+            <FrameLayout
+                android:id="@+id/userLoginCustomFacebookButtonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/userLoginFacebookButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/userLoginFacebookButtonMaterial"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/customFacebook"
+                    android:text="MASUK DENGAN FACEBOOK"
+                    android:textColor="@color/customWhite"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/com_facebook_button_icon"
+                    app:iconSize="25dp"
+                    app:iconTint="@color/customBackground" />
+            </FrameLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/userLoginGoogleButton"
@@ -102,32 +114,32 @@
                 android:backgroundTint="@color/customGoogle"
                 android:text="MASUK DENGAN GOOGLE"
                 android:textColor="@color/customWhite"
+                app:cornerRadius="10dp"
                 app:icon="@drawable/ic_icons8_google"
-                app:iconTint="@color/customBackground"
                 app:iconSize="25dp"
-                app:cornerRadius="10dp" />
+                app:iconTint="@color/customBackground" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="Tidak punya akun ?"
                 android:textColor="@color/customBlack"
                 android:textSize="15dp"
-                android:textStyle="italic"
-                android:layout_marginTop="20dp"/>
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/userLoginToRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginBottom="100dp"
                 android:clickable="true"
+                android:gravity="center"
                 android:text="Buat Akun"
                 android:textColor="@color/customLinkText"
                 android:textSize="15dp"
-                android:textStyle="italic"
-                android:layout_marginBottom="100dp"/>
+                android:textStyle="italic" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
