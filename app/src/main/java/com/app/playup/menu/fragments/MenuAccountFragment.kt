@@ -56,6 +56,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var username: String? = ""
     var photo: String? = ""
     var id: String? = ""
+    var loginMethod: String? = ""
     var googleUsername: String? = ""
     var googlePhoto: Uri? = null
     var facebookUsername: String? = ""
@@ -97,7 +98,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             getString(R.string.username_key),
             getString(R.string.default_value)
         )
-        val loginMethod = sharedPreferences?.getString(
+        loginMethod = sharedPreferences?.getString(
             getString(R.string.login_method_key),
             getString(R.string.default_value)
         )
@@ -387,10 +388,15 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                         currentProfile.getProfilePictureUri(150, 150)
                     facebookUsername = facebookProfileName
                     facebookPhoto = facebookProfilePicture
+                    if (facebookPhoto == null) {
+                        Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+                    } else {
+                        Picasso.get().load(facebookPhoto).into(menuAccountImage)
+                    }
+                    menuAccountText.text = "$facebookUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
                     mProfileTracker?.stopTracking()
                 }
             }
-
         } else {
             val profile: Profile = Profile.getCurrentProfile()
             var facebookProfileId = profile.id

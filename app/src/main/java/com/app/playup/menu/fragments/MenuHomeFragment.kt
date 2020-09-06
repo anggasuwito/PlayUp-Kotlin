@@ -80,6 +80,7 @@ class MenuHomeFragment : Fragment() {
                     oldProfile: Profile?,
                     currentProfile: Profile
                 ) {
+                    mProfileTracker?.startTracking()
                     var facebookProfileId = currentProfile.id
                     var facebookProfileFname = currentProfile.firstName
                     var facebookProfileMname = currentProfile.middleName
@@ -89,10 +90,10 @@ class MenuHomeFragment : Fragment() {
                     var facebookProfilePicture =
                         currentProfile.getProfilePictureUri(150, 150)
                     facebookUsername = facebookProfileName
+                    menuHomeText.text = "Selamat datang, $facebookUsername"
                     mProfileTracker?.stopTracking()
                 }
             }
-
         } else {
             val profile: Profile = Profile.getCurrentProfile()
             var facebookProfileId = profile.id

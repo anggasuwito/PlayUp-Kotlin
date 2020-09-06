@@ -32,7 +32,6 @@ import javax.inject.Inject
 
 class UserLoginFragment : Fragment(), View.OnClickListener {
     val GOOGLE_SIGN_IN_REQUEST = 666
-    val FACEBOOK_SIGN_IN_REQUEST = 777
     var sharedPreferences: SharedPreferences? = null
     lateinit var navController: NavController
     lateinit var callbackManager: CallbackManager
@@ -201,9 +200,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                 GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleSignInResult(task)
         }
-        if(requestCode === FACEBOOK_SIGN_IN_REQUEST){
-            callbackManager.onActivityResult(requestCode, resultCode, data)
-        }
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     //function for sign in
@@ -260,6 +257,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
 
     //facebook oauth login
     fun facebookSignIn() {
+
         callbackManager = CallbackManager.Factory.create();
 
         var loginButton = userLoginFacebookButton as LoginButton
