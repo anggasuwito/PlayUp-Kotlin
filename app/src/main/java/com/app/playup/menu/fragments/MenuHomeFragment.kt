@@ -18,16 +18,12 @@ import kotlinx.android.synthetic.main.fragment_menu_home.*
 
 class MenuHomeFragment : Fragment() {
     var sharedPreferences: SharedPreferences? = null
-    var googleUsername: String? = ""
-    var facebookUsername: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = activity?.getSharedPreferences(
             getString(R.string.shared_preference_name),
             Context.MODE_PRIVATE
         )
-        googleProfileResponse()
-        facebookProfileResponse()
     }
 
     override fun onCreateView(
@@ -48,9 +44,13 @@ class MenuHomeFragment : Fragment() {
             getString(R.string.login_method_key),
             getString(R.string.default_value)
         )
+
+
         if (loginMethod == "googleLogin") {
-            menuHomeText.text = "Selamat datang, $googleUsername"
-        }  else if(loginMethod == "appLogin") {
+            googleProfileResponse()
+        } else if (loginMethod == "facebookLogin") {
+            facebookProfileResponse()
+        } else {
             menuHomeText.text = "Selamat datang, $username"
         }
     }
@@ -65,7 +65,9 @@ class MenuHomeFragment : Fragment() {
             val personEmail = acct.email
             val personId = acct.id
             val personPhoto: Uri? = acct.photoUrl
-            googleUsername = personName
+            if (personName != null || personName != "") {
+                menuHomeText.text = "Selamat datang, $personName"
+            }
         }
     }
 
@@ -87,7 +89,9 @@ class MenuHomeFragment : Fragment() {
                     var facebookProfileLinkUri = currentProfile.linkUri
                     var facebookProfilePicture =
                         currentProfile.getProfilePictureUri(150, 150)
-                    menuHomeText.text = "Selamat datang, $facebookProfileName"
+                    if (facebookProfileName != null || facebookProfileName != "") {
+                        menuHomeText.text = "Selamat datang, $facebookProfileName"
+                    }
                     mProfileTracker?.stopTracking()
                 }
             }
@@ -101,7 +105,9 @@ class MenuHomeFragment : Fragment() {
             var facebookProfileLinkUri = profile.linkUri
             var facebookProfilePicture =
                 profile.getProfilePictureUri(150, 150)
-            menuHomeText.text = "Selamat datang, $facebookProfileName"
+            if (facebookProfileName != null || facebookProfileName != "") {
+                menuHomeText.text = "Selamat datang, $facebookProfileName"
+            }
         }
     }
 }

@@ -71,8 +71,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             getString(R.string.shared_preference_name),
             Context.MODE_PRIVATE
         )
-        googleProfileResponse()
-        facebookProfileResponse()
     }
 
     override fun onCreateView(
@@ -122,6 +120,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             })
 
         if (loginMethod == "googleLogin") {
+            googleProfileResponse()
             menuAccountSettingProfile.setOnClickListener {
                 Toast.makeText(
                     this.context,
@@ -152,6 +151,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             }
             menuAccountText.text = "$googleUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
         } else if (loginMethod == "facebookLogin") {
+            facebookProfileResponse()
             menuAccountSettingProfile.setOnClickListener {
                 Toast.makeText(
                     this.context,
