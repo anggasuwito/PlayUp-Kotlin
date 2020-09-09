@@ -14,6 +14,7 @@ import com.app.playup.dagger.MyApplication
 import com.app.playup.schedule.recycleview.ScheduleRecycleView
 import com.app.playup.schedule.viewmodel.ScheduleViewModel
 import kotlinx.android.synthetic.main.fragment_schedule_active.*
+import kotlinx.android.synthetic.main.recycle_view_schedule.*
 import javax.inject.Inject
 
 class ScheduleActiveFragment : Fragment() {
@@ -51,7 +52,7 @@ class ScheduleActiveFragment : Fragment() {
         scheduleActiveRecycleViewContainer.layoutManager = LinearLayoutManager(this.context)
         scheduleViewModel.getActiveSchedule(id!!)
         scheduleViewModel.scheduleActiveResponseData.observe(viewLifecycleOwner, Observer {
-            scheduleRecycleView = ScheduleRecycleView(it)
+            scheduleRecycleView = ScheduleRecycleView(it,"active")
             scheduleActiveRecycleViewContainer.adapter = scheduleRecycleView
         })
     }

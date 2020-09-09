@@ -50,7 +50,7 @@ class ScheduleInactiveFragment : Fragment() {
         scheduleInactiveRecycleViewContainer.layoutManager = LinearLayoutManager(this.context)
         scheduleViewModel.getInactiveSchedule(id!!)
         scheduleViewModel.scheduleInactiveResponseData.observe(viewLifecycleOwner, Observer {
-            scheduleRecycleView = ScheduleRecycleView(it)
+            scheduleRecycleView = ScheduleRecycleView(it,"inactive")
             scheduleInactiveRecycleViewContainer.adapter = scheduleRecycleView
         })
     }

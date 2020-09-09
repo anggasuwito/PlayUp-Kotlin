@@ -15,8 +15,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/menuScheduleRecycleCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
@@ -24,9 +26,9 @@
             app:cardCornerRadius="10dp">
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -41,14 +43,12 @@
                     android:textSize="25dp" />
 
                 <TextView
-                    android:id="@+id/menuScheduleStatusText"
+                    android:id="@+id/menuScheduleIconText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:drawableTint="@color/customWhite"
-                    android:drawableStart="@drawable/ic_baseline_navigate_next_24"
                     android:textColor="@color/customWhite"
                     android:textSize="20dp" />
             </LinearLayout>
