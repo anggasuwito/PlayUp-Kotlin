@@ -10,6 +10,16 @@
     <action
         android:id="@+id/action_global_findingMatchFragment"
         app:destination="@id/findingMatchFragment" />
+    <action
+        android:id="@+id/action_global_chatDetailsFragment"
+        app:destination="@id/chatDetailsFragment" />
+    <action
+        android:id="@+id/action_global_scheduleCreateFragment"
+        app:destination="@id/scheduleCreateFragment" />
+    <action
+        android:id="@+id/action_global_scheduleCreateSuccessFragment"
+        app:destination="@id/scheduleCreateSuccessFragment" />
+
     <fragment
         android:id="@+id/findingMatchFragment"
         android:name="com.app.playup.match.fragments.FindingMatchFragment"
@@ -20,4 +30,20 @@
         android:name="com.app.playup.match.fragments.FoundMatchFragment"
         android:label="fragment_found_match"
         tools:layout="@layout/fragment_found_match" />
+    <fragment
+        android:id="@+id/chatDetailsFragment"
+        android:name="com.app.playup.chat.fragments.ChatDetailsFragment"
+        android:label="fragment_chat_details"
+        tools:layout="@layout/fragment_chat_details" />
+    <fragment
+        android:id="@+id/scheduleCreateFragment"
+        android:name="com.app.playup.schedule.fragments.ScheduleCreateFragment"
+        android:label="fragment_schedule_create"
+        tools:layout="@layout/fragment_schedule_create" />
+    <fragment
+        android:id="@+id/scheduleCreateSuccessFragment"
+        android:name="com.app.playup.schedule.fragments.ScheduleCreateSuccessFragment"
+        android:label="fragment_schedule_create_success"
+        tools:layout="@layout/fragment_schedule_create_success" />
+
 </navigation>

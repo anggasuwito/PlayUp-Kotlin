@@ -10,6 +10,6 @@ interface MatchAPI {
     @POST("play/badmintonS/find")
     fun findOpponentSingleBadminton(@Body findingMatchModel: FindingMatchModel): Call<Wrapper>
 
-    @POST("play/badmintonS/be")
-    fun waitOpponentSingleBadminton(@Body findingMatchModel: FindingMatchModel): Call<Wrapper>
+//    @POST("play/badmintonS/be")
+//    fun waitOpponentSingleBadminton(@Body findingMatchModel: FindingMatchModel): Call<Wrapper>
 }

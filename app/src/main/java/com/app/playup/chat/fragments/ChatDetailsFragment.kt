@@ -1,4 +1,4 @@
-package com.app.playup.match.fragments
+package com.app.playup.chat.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.app.playup.R
-import kotlinx.android.synthetic.main.fragment_found_match.*
+import kotlinx.android.synthetic.main.fragment_chat_details.*
 
-class FoundMatchFragment : Fragment(),View.OnClickListener {
+class ChatDetailsFragment : Fragment(),View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,18 +20,22 @@ class FoundMatchFragment : Fragment(),View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_found_match, container, false)
+        return inflater.inflate(R.layout.fragment_chat_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        matchFoundButton.setOnClickListener(this)
+        chatDetailsSendButton.setOnClickListener(this)
+        chatDetailsScheduleButton.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when(v){
-            matchFoundButton->{
-                v?.findNavController()?.navigate(R.id.action_global_chatDetailsFragment)
+            chatDetailsSendButton->{
+
+            }
+            chatDetailsScheduleButton->{
+                v?.findNavController()?.navigate(R.id.action_global_scheduleCreateFragment)
             }
         }
     }

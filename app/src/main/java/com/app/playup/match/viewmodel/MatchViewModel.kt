@@ -18,10 +18,10 @@ class MatchViewModel @Inject constructor(var matchRepository: MatchRepository) :
         matchRepository.findOpponentSingleBadminton(findingMatchModel)
     }
 
-    var matchWaitResponse = matchRepository.matchWaitResponse
-    var matchWaitResponseData = matchRepository.matchWaitResponseData
-    fun waitOpponentSingleBadminton(findingMatchModel: FindingMatchModel) {
-        matchRepository.waitOpponentSingleBadminton(findingMatchModel)
-    }
+//    var matchWaitResponse = matchRepository.matchWaitResponse
+//    var matchWaitResponseData = matchRepository.matchWaitResponseData
+//    fun waitOpponentSingleBadminton(findingMatchModel: FindingMatchModel) {
+//        matchRepository.waitOpponentSingleBadminton(findingMatchModel)
+//    }
 
 }

@@ -50,9 +50,12 @@ class MenuAccountRepository @Inject constructor(val menuAccountAPI: MenuAccountA
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 t.printStackTrace()
             }
+
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val responseImage = BitmapFactory.decodeStream(response.body()!!.byteStream())
+                if (response.code() != 404) {
+                    val responseImage = BitmapFactory.decodeStream(response.body()!!.byteStream())
                     Glide.with(activity).asBitmap().load(responseImage).into(imageContainer)
+                }
             }
         })
     }

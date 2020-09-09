@@ -34,7 +34,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
     val GOOGLE_SIGN_IN_REQUEST = 666
     var sharedPreferences: SharedPreferences? = null
     lateinit var navController: NavController
-    lateinit var callbackManager: CallbackManager
+    var callbackManager: CallbackManager? = null
 
     @Inject
     lateinit var userLoginViewModel: UserLoginViewModel
@@ -200,7 +200,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                 GoogleSignIn.getSignedInAccountFromIntent(data)
             handleGoogleSignInResult(task)
         }
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
     }
 
     //function for sign in

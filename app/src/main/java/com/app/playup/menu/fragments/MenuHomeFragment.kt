@@ -50,9 +50,7 @@ class MenuHomeFragment : Fragment() {
         )
         if (loginMethod == "googleLogin") {
             menuHomeText.text = "Selamat datang, $googleUsername"
-        } else if (loginMethod == "facebookLogin") {
-            menuHomeText.text = "Selamat datang, $facebookUsername"
-        } else {
+        }  else if(loginMethod == "appLogin") {
             menuHomeText.text = "Selamat datang, $username"
         }
     }
@@ -89,8 +87,7 @@ class MenuHomeFragment : Fragment() {
                     var facebookProfileLinkUri = currentProfile.linkUri
                     var facebookProfilePicture =
                         currentProfile.getProfilePictureUri(150, 150)
-                    facebookUsername = facebookProfileName
-                    menuHomeText.text = "Selamat datang, $facebookUsername"
+                    menuHomeText.text = "Selamat datang, $facebookProfileName"
                     mProfileTracker?.stopTracking()
                 }
             }
@@ -104,7 +101,7 @@ class MenuHomeFragment : Fragment() {
             var facebookProfileLinkUri = profile.linkUri
             var facebookProfilePicture =
                 profile.getProfilePictureUri(150, 150)
-            facebookUsername = facebookProfileName
+            menuHomeText.text = "Selamat datang, $facebookProfileName"
         }
     }
 }

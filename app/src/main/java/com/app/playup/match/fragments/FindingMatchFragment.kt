@@ -22,7 +22,12 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
     val coroutineScope = CoroutineScope(Dispatchers.IO)
     var status: String? = ""
     var sharedPreferences: SharedPreferences? = null
-    var username:String? = ""
+    var id: String? = ""
+    var photo: String? = ""
+    var username: String? = ""
+    var user_full_name: String? = ""
+    var gender: String? = ""
+    var email: String? = ""
     @Inject
     lateinit var matchViewModel: MatchViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,13 +50,34 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        id = sharedPreferences?.getString(
+            getString(R.string.id_key),
+            getString(R.string.default_value)
+        )
+        photo = sharedPreferences?.getString(
+            getString(R.string.photo_key),
+            getString(R.string.default_value)
+        )
         username = sharedPreferences?.getString(
             getString(R.string.username_key),
             getString(R.string.default_value)
         )
+        user_full_name = sharedPreferences?.getString(
+            getString(R.string.username_full_name_key),
+            getString(R.string.default_value)
+        )
+        gender = sharedPreferences?.getString(
+            getString(R.string.gender_key),
+            getString(R.string.default_value)
+        )
+        email = sharedPreferences?.getString(
+            getString(R.string.email_key),
+            getString(R.string.default_value)
+        )
 
 
-        status = arguments?.getString("status")
+//        status = arguments?.getString("status")
+
         matchFindingCancelButton.setOnClickListener(this)
         findMatchCoRoutine(1000)
         matchViewModel.matchFindResponse.observe(viewLifecycleOwner, Observer {
@@ -65,16 +91,16 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
             }
         })
 
-        matchViewModel.matchWaitResponse.observe(viewLifecycleOwner, Observer {
-            if (it.code == 200.toString()) {
-                coroutineScope.cancel()
-                if (it != null) {
-                    matchViewModel.matchWaitResponseData.observe(viewLifecycleOwner, Observer {
-                    })
-                    view.findNavController().navigate(R.id.action_global_foundMatchFragment)
-                }
-            }
-        })
+//        matchViewModel.matchWaitResponse.observe(viewLifecycleOwner, Observer {
+//            if (it.code == 200.toString()) {
+//                coroutineScope.cancel()
+//                if (it != null) {
+//                    matchViewModel.matchWaitResponseData.observe(viewLifecycleOwner, Observer {
+//                    })
+//                    view.findNavController().navigate(R.id.action_global_foundMatchFragment)
+//                }
+//            }
+//        })
     }
 
     override fun onClick(v: View?) {
@@ -88,21 +114,21 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
 
     fun findMatchCoRoutine(interval: Long) {
         val findingMatchModel = FindingMatchModel(
-            id = "default",
-            photo = "default",
-            username = "default",
-            user_full_name = "default",
-            gender = "L",
-            email = "a.gmail@gmail.com"
+            id = id!!,
+            photo = photo!!,
+            username = username!!,
+            user_full_name = user_full_name!!,
+            gender = gender!!,
+            email = email!!
         )
         coroutineScope.launch {
             while (true) {
                 delay(interval)
-                if (status == "FIND") {
+//                if (status == "FIND") {
                     matchViewModel.findOpponentSingleBadminton(findingMatchModel)
-                } else {
-                    matchViewModel.waitOpponentSingleBadminton(findingMatchModel)
-                }
+//                } else {
+//                    matchViewModel.waitOpponentSingleBadminton(findingMatchModel)
+//                }
             }
         }
     }

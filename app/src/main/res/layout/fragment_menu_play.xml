@@ -66,22 +66,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/customBlue"
+                    android:backgroundTint="@color/customButton"
                     android:text="CARI LAWAN"
                     android:textColor="@color/customWhite"
                     app:cornerRadius="10dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/menuPlayWaitOpponentButton"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:backgroundTint="@color/customRed"
-                    android:text="JADI LAWAN"
-                    android:textColor="@color/customWhite"
-                    app:cornerRadius="10dp"
-                    />
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/menuPlayWaitOpponentButton"-->
+<!--                    android:layout_width="300dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:backgroundTint="@color/customRed"-->
+<!--                    android:text="JADI LAWAN"-->
+<!--                    android:textColor="@color/customWhite"-->
+<!--                    app:cornerRadius="10dp"-->
+<!--                    />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

@@ -30,17 +30,17 @@ class MenuPlayFragment : Fragment(),View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         menuPlayFindOpponentButton.setOnClickListener(this)
-        menuPlayWaitOpponentButton.setOnClickListener(this)
+//        menuPlayWaitOpponentButton.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when(v){
             menuPlayFindOpponentButton->{
-                v?.findNavController()?.navigate(R.id.action_global_matchActivity, bundleOf("status" to "FIND"))
+                v?.findNavController()?.navigate(R.id.action_global_matchActivity)
             }
-            menuPlayWaitOpponentButton->{
-                v?.findNavController()?.navigate(R.id.action_global_matchActivity, bundleOf("status" to "WAIT"))
-            }
+//            menuPlayWaitOpponentButton->{
+//                v?.findNavController()?.navigate(R.id.action_global_matchActivity, bundleOf("status" to "WAIT"))
+//            }
         }
     }
 }

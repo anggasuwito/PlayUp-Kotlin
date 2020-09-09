@@ -18,10 +18,11 @@ class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
     fun findOpponentSingleBadminton(findingMatchModel: FindingMatchModel) {
         matchAPI.findOpponentSingleBadminton(findingMatchModel).enqueue(object : Callback<Wrapper> {
             override fun onFailure(call: Call<Wrapper>, t: Throwable) {
-//                t.printStackTrace()
+                t.printStackTrace()
             }
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                println("MATCH ID "+response.body()!!.data.toString())
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
                 val stringResponseData = Gson().toJson(response?.data)
@@ -38,30 +39,30 @@ class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
         })
     }
 
-    var matchWaitResponse = MutableLiveData<Wrapper>()
-    var matchWaitResponseData = MutableLiveData<FindingMatchResponseDataModel>()
-
-    fun waitOpponentSingleBadminton(findingMatchModel: FindingMatchModel) {
-        matchAPI.waitOpponentSingleBadminton(findingMatchModel).enqueue(object : Callback<Wrapper> {
-            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
-//                t.printStackTrace()
-            }
-
-            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
-                val response = response.body()
-                val stringResponse = Gson().toJson(response)
-                val stringResponseData = Gson().toJson(response?.data)
-                val matchWaitResponseObject =
-                    Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
-                val matchWaitResponseDataObject =
-                    Gson().fromJson<FindingMatchResponseDataModel>(
-                        stringResponseData,
-                        FindingMatchResponseDataModel::class.java
-                    )
-                matchWaitResponse.value = matchWaitResponseObject
-                matchWaitResponseData.value = matchWaitResponseDataObject
-            }
-        })
-    }
+//    var matchWaitResponse = MutableLiveData<Wrapper>()
+//    var matchWaitResponseData = MutableLiveData<FindingMatchResponseDataModel>()
+//
+//    fun waitOpponentSingleBadminton(findingMatchModel: FindingMatchModel) {
+//        matchAPI.waitOpponentSingleBadminton(findingMatchModel).enqueue(object : Callback<Wrapper> {
+//            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+////                t.printStackTrace()
+//            }
+//
+//            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+//                val response = response.body()
+//                val stringResponse = Gson().toJson(response)
+//                val stringResponseData = Gson().toJson(response?.data)
+//                val matchWaitResponseObject =
+//                    Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
+//                val matchWaitResponseDataObject =
+//                    Gson().fromJson<FindingMatchResponseDataModel>(
+//                        stringResponseData,
+//                        FindingMatchResponseDataModel::class.java
+//                    )
+//                matchWaitResponse.value = matchWaitResponseObject
+//                matchWaitResponseData.value = matchWaitResponseDataObject
+//            }
+//        })
+//    }
 }
 

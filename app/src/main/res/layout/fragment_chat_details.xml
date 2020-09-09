@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatDetailsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/customBackground"
+    tools:context=".chat.fragments.ChatDetailsFragment">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatDetailsRecycleViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/chatDetailsInputText"
+            android:layout_width="match_parent"
+            android:hint="Masukkan chat ..."
+            android:textColorHint="@color/customText"
+            android:backgroundTint="@color/customText"
+            android:textColor="@color/customBlack"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/chatDetailsSendButton"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            app:icon="@drawable/ic_baseline_send_24"
+            app:iconTint="@color/customWhite"
+            app:cornerRadius="10dp"
+            android:backgroundTint="@color/customButton"
+            app:iconGravity="textEnd" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/chatDetailsScheduleButton"
+            android:layout_width="60dp"
+            app:cornerRadius="10dp"
+            android:layout_height="match_parent"
+            app:icon="@drawable/ic_baseline_calendar_today_24"
+            app:iconTint="@color/customWhite"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="4dp"
+            android:backgroundTint="@color/customButton"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
