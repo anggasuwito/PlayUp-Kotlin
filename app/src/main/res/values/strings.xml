@@ -21,6 +21,9 @@
     <string name="username_full_name_key">USERNAME_FULL_NAME</string>
     <string name="gender_key">GENDER</string>
     <string name="email_key">EMAIL</string>
+    <string name="rank_id_key">RANK_ID</string>
+    <string name="rank_user_match_count_key">RANK_USER_MATCH_COUNT_KEY</string>
+    <string name="rank_user_grade_count_key">RANK_USER_GRADE_COUNT_KEY</string>
     <string name="login_method_key">LOGIN_METHOD</string>
     <string name="default_value">DEFAULT</string>
 

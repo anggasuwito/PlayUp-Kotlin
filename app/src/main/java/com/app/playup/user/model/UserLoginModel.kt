@@ -13,6 +13,9 @@ class UserLoginResponseDataModel(
     var gender: String = "default",
     var email: String = "default",
     var password: String = "default",
+    var rank_id:String="default",
+    var rank_user_match_count:String= "default",
+    var rank_user_grade_count:String= "default",
     var created: String = "default",
     var updated: String = "default"
 ) {}

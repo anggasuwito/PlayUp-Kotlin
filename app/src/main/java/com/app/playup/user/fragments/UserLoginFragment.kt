@@ -110,6 +110,18 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                                     it.email
                                 )
                                 this?.putString(
+                                    getString(R.string.rank_id_key),
+                                    it.rank_id
+                                )
+                                this?.putString(
+                                    getString(R.string.rank_user_match_count_key),
+                                    it.rank_user_match_count
+                                )
+                                this?.putString(
+                                    getString(R.string.rank_user_grade_count_key),
+                                    it.rank_user_grade_count
+                                )
+                                this?.putString(
                                     getString(R.string.login_method_key),
                                     "appLogin"
                                 )

@@ -140,6 +140,7 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
         when (v) {
             matchFindingCancelButton -> {
                 coroutineScope.cancel()
+                matchViewModel.cancelFindOpponentSingleBadminton(id!!)
                 activity?.finish()
             }
         }

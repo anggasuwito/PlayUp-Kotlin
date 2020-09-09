@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
@@ -34,6 +35,18 @@ class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
                     )
                 matchFindResponse.value = matchFindResponseObject
                 matchFindResponseData.value = matchFindResponseDataObject
+            }
+        })
+    }
+
+    fun cancelFindOpponentSingleBadminton(id: String) {
+        matchAPI.cancelFindOpponentSingleBadminton(id).enqueue(object : Callback<Wrapper> {
+            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                println("SUCCESS CANCEL MATCH")
             }
         })
     }

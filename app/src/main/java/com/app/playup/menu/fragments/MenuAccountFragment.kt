@@ -56,6 +56,9 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var username: String? = ""
     var photo: String? = ""
     var id: String? = ""
+    var rankIdUser: String? = ""
+    var rankMatchUser: String? = ""
+    var rankGradeUser: String? = ""
     var loginMethod: String? = ""
     var googleUsername: String? = ""
     var googlePhoto: Uri? = null
@@ -94,6 +97,18 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         )
         username = sharedPreferences?.getString(
             getString(R.string.username_key),
+            getString(R.string.default_value)
+        )
+        rankIdUser = sharedPreferences?.getString(
+            getString(R.string.rank_id_key),
+            getString(R.string.default_value)
+        )
+        rankMatchUser = sharedPreferences?.getString(
+            getString(R.string.rank_user_match_count_key),
+            getString(R.string.default_value)
+        )
+        rankGradeUser = sharedPreferences?.getString(
+            getString(R.string.rank_user_grade_count_key),
             getString(R.string.default_value)
         )
         loginMethod = sharedPreferences?.getString(
@@ -197,7 +212,14 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             menuAccountSettingProfile.setOnClickListener(this)
             menuAccountImage.setOnClickListener(this)
             menuAccountLogout.setOnClickListener(this)
-            menuAccountText.text = "$username\nMatch : 100\nRank : 70\nLogin : $loginMethod"
+            if (rankMatchUser == "DEFAULT") {
+                rankMatchUser = "0"
+            }
+            if (rankGradeUser == "DEFAULT") {
+                rankGradeUser = "0"
+            }
+            menuAccountText.text =
+                "$username\nMatch : $rankMatchUser\nRank : $rankGradeUser\nLogin : $loginMethod"
         }
     }
 
@@ -393,7 +415,8 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     } else {
                         Picasso.get().load(facebookPhoto).into(menuAccountImage)
                     }
-                    menuAccountText.text = "$facebookUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
+                    menuAccountText.text =
+                        "$facebookUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
                     mProfileTracker?.stopTracking()
                 }
             }
