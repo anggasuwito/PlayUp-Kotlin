@@ -5,12 +5,14 @@ import com.app.playup.menu.api.MenuAccountAPI
 import com.app.playup.menu.model.MenuAccountDataModel
 import com.app.playup.schedule.api.ScheduleAPI
 import com.app.playup.schedule.model.ScheduleModel
+import com.app.playup.user.model.UserLoginResponseDataModel
 import com.app.playup.utils.Wrapper
 import com.google.gson.Gson
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Body
 import javax.inject.Inject
 
 class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
@@ -66,5 +68,30 @@ class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
                     }
                 }
             })
+    }
+
+    var createNewScheduleResponse = MutableLiveData<Wrapper>()
+    var createNewScheduleResponseData = MutableLiveData<ScheduleModel>()
+    fun createNewSchedule(scheduleModel: ScheduleModel) {
+        scheduleAPI.createNewSchedule(scheduleModel).enqueue(object : Callback<Wrapper> {
+            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                println("RES = "+response.body().toString())
+                val response = response.body()
+                val stringResponse = Gson().toJson(response)
+                val stringResponseData = Gson().toJson(response?.data)
+                val createNewScheduleObject =
+                    Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
+                if (stringResponseData != "null") {
+                    val createNewScheduleDataObject: ScheduleModel =
+                        Gson().fromJson(stringResponseData, ScheduleModel::class.java)
+                    createNewScheduleResponseData.value = createNewScheduleDataObject
+                }
+                createNewScheduleResponse.value = createNewScheduleObject
+            }
+        })
     }
 }

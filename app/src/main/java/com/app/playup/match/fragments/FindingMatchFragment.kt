@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.app.playup.R
@@ -50,7 +51,10 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            coroutineScope.cancel()
+            requireActivity().finish()
+        }
         id = sharedPreferences?.getString(
             getString(R.string.id_key),
             getString(R.string.default_value)
@@ -92,7 +96,25 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
                                     getString(R.string.match_id_key),
                                     it.match_id
                                 )
-                                this?.commit()
+                                if (it.match_players.size == 2) {
+                                    this?.putString(
+                                        getString(R.string.schedule_user_id_key),
+                                        it.match_players[0].id
+                                    )
+                                    this?.putString(
+                                        getString(R.string.schedule_username_key),
+                                        it.match_players[0].username
+                                    )
+                                    this?.putString(
+                                        getString(R.string.schedule_opponent_key),
+                                        it.match_players[1].username
+                                    )
+                                    this?.putString(
+                                        getString(R.string.schedule_opponent_id_key),
+                                        it.match_players[1].id
+                                    )
+                                    this?.commit()
+                                }
                             }
                             view.findNavController().navigate(R.id.action_global_foundMatchFragment)
                         }

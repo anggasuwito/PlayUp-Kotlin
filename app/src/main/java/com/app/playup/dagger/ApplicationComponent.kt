@@ -6,6 +6,7 @@ import com.app.playup.menu.fragments.MenuAccountFragment
 import com.app.playup.menu.fragments.MenuPlayFragment
 import com.app.playup.menu.fragments.MenuScheduleFragment
 import com.app.playup.schedule.fragments.ScheduleActiveFragment
+import com.app.playup.schedule.fragments.ScheduleCreateFragment
 import com.app.playup.schedule.fragments.ScheduleInactiveFragment
 import com.app.playup.user.fragments.UserLoginFragment
 import com.app.playup.user.fragments.UserRegisterFragment
@@ -19,4 +20,5 @@ interface ApplicationComponent {
     fun inject(menuAccountFragment: MenuAccountFragment)
     fun inject(scheduleActiveFragment: ScheduleActiveFragment)
     fun inject(scheduleInactiveFragment: ScheduleInactiveFragment)
+    fun inject(scheduleCreateFragment: ScheduleCreateFragment)
 }

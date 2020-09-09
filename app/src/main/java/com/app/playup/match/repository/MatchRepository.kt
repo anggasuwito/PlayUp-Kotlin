@@ -22,7 +22,6 @@ class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
             }
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
-                println("MATCH ID "+response.body()!!.data.toString())
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
                 val stringResponseData = Gson().toJson(response?.data)

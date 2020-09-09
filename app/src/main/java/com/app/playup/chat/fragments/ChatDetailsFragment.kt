@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.navigation.findNavController
 import com.app.playup.R
 import kotlinx.android.synthetic.main.fragment_chat_details.*
@@ -27,6 +28,9 @@ class ChatDetailsFragment : Fragment(),View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         chatDetailsSendButton.setOnClickListener(this)
         chatDetailsScheduleButton.setOnClickListener(this)
+        requireActivity().onBackPressedDispatcher.addCallback(this){
+            requireActivity().finish()
+        }
     }
 
     override fun onClick(v: View?) {
