@@ -15,8 +15,8 @@ class MatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_match)
-//        val status = intent.getStringExtra("status")
-//        this.findNavController(R.id.match_nav_host).navigate(R.id.action_global_findingMatchFragment,
-//            bundleOf("status" to status))
+        val status = intent.getStringExtra("status")
+        this.findNavController(R.id.match_nav_host).navigate(R.id.action_global_foundMatchFragment,
+            bundleOf("status" to status))
     }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/schedule_nav"
+    app:startDestination="@id/scheduleDetailsFragment">
+    <action
+        android:id="@+id/action_global_scheduleResultFragment"
+        app:destination="@id/scheduleResultFragment" />
+    <action
+        android:id="@+id/action_global_resultWinFragment"
+        app:destination="@id/resultWinFragment" />
+    <action
+        android:id="@+id/action_global_resultLoseFragment"
+        app:destination="@id/resultLoseFragment" />
+    <fragment
+        android:id="@+id/scheduleDetailsFragment"
+        android:name="com.app.playup.schedule.fragments.ScheduleDetailsFragment"
+        android:label="fragment_schedule_details"
+        tools:layout="@layout/fragment_schedule_details" />
+    <fragment
+        android:id="@+id/scheduleResultFragment"
+        android:name="com.app.playup.schedule.fragments.ScheduleResultFragment"
+        android:label="fragment_schedule_result"
+        tools:layout="@layout/fragment_schedule_result" />
+    <fragment
+        android:id="@+id/resultWinFragment"
+        android:name="com.app.playup.result.fragments.ResultWinFragment"
+        android:label="fragment_result_win"
+        tools:layout="@layout/fragment_result_win" />
+    <fragment
+        android:id="@+id/resultLoseFragment"
+        android:name="com.app.playup.result.fragments.ResultLoseFragment"
+        android:label="fragment_result_lose"
+        tools:layout="@layout/fragment_result_lose" />
+
+</navigation>

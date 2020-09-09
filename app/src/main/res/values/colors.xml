@@ -10,6 +10,8 @@
     <color name="customGoogle">#D44638</color>
     <color name="customText">#808080</color>
     <color name="custom1">#F9E07E</color>
+    <color name="customWin">#00BCD4</color>
+    <color name="customLose">#DA2B00</color>
     <color name="custom2">#17A398</color>
     <color name="customChat">#323739</color>
     <color name="customLinkText">#0AC1A5</color>

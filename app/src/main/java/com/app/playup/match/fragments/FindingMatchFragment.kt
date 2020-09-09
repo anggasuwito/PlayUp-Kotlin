@@ -28,6 +28,7 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
     var user_full_name: String? = ""
     var gender: String? = ""
     var email: String? = ""
+
     @Inject
     lateinit var matchViewModel: MatchViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,8 +86,18 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
                 coroutineScope.cancel()
                 if (it != null) {
                     matchViewModel.matchFindResponseData.observe(viewLifecycleOwner, Observer {
+                        if (it != null) {
+                            with(sharedPreferences?.edit()) {
+                                this?.putString(
+                                    getString(R.string.match_id_key),
+                                    it.match_id
+                                )
+                                this?.commit()
+                            }
+                            view.findNavController().navigate(R.id.action_global_foundMatchFragment)
+                        }
                     })
-                    view.findNavController().navigate(R.id.action_global_foundMatchFragment)
+
                 }
             }
         })
@@ -125,7 +136,7 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
             while (true) {
                 delay(interval)
 //                if (status == "FIND") {
-                    matchViewModel.findOpponentSingleBadminton(findingMatchModel)
+                matchViewModel.findOpponentSingleBadminton(findingMatchModel)
 //                } else {
 //                    matchViewModel.waitOpponentSingleBadminton(findingMatchModel)
 //                }
