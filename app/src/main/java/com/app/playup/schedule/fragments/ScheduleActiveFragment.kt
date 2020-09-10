@@ -43,6 +43,15 @@ class ScheduleActiveFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_schedule_active, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        scheduleActiveRecycleViewContainer.layoutManager = LinearLayoutManager(this.context)
+        scheduleViewModel.getActiveSchedule(id!!)
+        scheduleViewModel.scheduleActiveResponseData.observe(viewLifecycleOwner, Observer {
+            scheduleRecycleView = ScheduleRecycleView(it,"active")
+            scheduleActiveRecycleViewContainer.adapter = scheduleRecycleView
+        })
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         id = sharedPreferences?.getString(

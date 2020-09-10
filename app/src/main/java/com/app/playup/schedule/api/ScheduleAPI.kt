@@ -19,6 +19,6 @@ interface ScheduleAPI {
     @POST("schedule/create")
     fun createNewSchedule(@Body scheduleModel: ScheduleModel): Call<Wrapper>
 
-    @PUT
+    @PUT("schedule/update")
     fun updateResultSchedule(@Body scheduleModel: ScheduleModel): Call<Wrapper>
 }

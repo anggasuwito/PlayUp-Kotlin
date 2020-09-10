@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
+import com.app.playup.schedule.model.ScheduleModel
 import com.app.playup.schedule.viewmodel.ScheduleViewModel
 import kotlinx.android.synthetic.main.fragment_result_lose.*
 import kotlinx.android.synthetic.main.fragment_result_win.*
@@ -61,13 +62,85 @@ class ScheduleResultFragment : Fragment(), View.OnClickListener {
             scheduleResultLoseButton -> {
                 scheduleViewModel.getScheduleById(scheduleId!!)
                 scheduleViewModel.scheduleByIdResponseData.observe(viewLifecycleOwner, Observer {
-                    if (it.schedule_result != "U") {
+                    if (it.schedule_result == "U") {
                         if (id == it.schedule_user_id) {
-                            println("MASUK 1A")
+                            scheduleViewModel.updateResultSchedule(
+                                ScheduleModel(
+                                    schedule_id = it.schedule_id,
+                                    schedule_match_id = it.schedule_match_id,
+                                    schedule_user_id = it.schedule_user_id,
+                                    schedule_user_name = it.schedule_user_name,
+                                    schedule_user_photo = it.schedule_user_photo,
+                                    schedule_location = it.schedule_location,
+                                    schedule_time = it.schedule_time,
+                                    schedule_status = "I",
+                                    schedule_result = "L",
+                                    schedule_opponent = it.schedule_opponent,
+                                    schedule_opponent_id = it.schedule_opponent_id,
+                                    schedule_opponent_photo = it.schedule_opponent_photo
+                                )
+                            )
                             v?.findNavController()?.navigate(R.id.action_global_resultLoseFragment)
                         } else {
-                            println("MASUK 1B")
-                            v?.findNavController()?.navigate(R.id.action_global_resultWinFragment)
+                            scheduleViewModel.updateResultSchedule(
+                                ScheduleModel(
+                                    schedule_id = it.schedule_id,
+                                    schedule_match_id = it.schedule_match_id,
+                                    schedule_user_id = it.schedule_user_id,
+                                    schedule_user_name = it.schedule_user_name,
+                                    schedule_user_photo = it.schedule_user_photo,
+                                    schedule_location = it.schedule_location,
+                                    schedule_time = it.schedule_time,
+                                    schedule_status = "I",
+                                    schedule_result = "W",
+                                    schedule_opponent = it.schedule_opponent,
+                                    schedule_opponent_id = it.schedule_opponent_id,
+                                    schedule_opponent_photo = it.schedule_opponent_photo
+                                )
+                            )
+                            v?.findNavController()?.navigate(R.id.action_global_resultLoseFragment)
+                        }
+                    } else {
+                        if (it.schedule_result == "W") {
+                            if (id == it.schedule_user_id) {
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultWinFragment)
+                            } else{
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultLoseFragment)
+                            }
+                        }else{
+                            if (id == it.schedule_user_id) {
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultLoseFragment)
+                            } else{
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultWinFragment)
+                            }
                         }
                     }
                 })
@@ -75,13 +148,85 @@ class ScheduleResultFragment : Fragment(), View.OnClickListener {
             scheduleResultWinButton -> {
                 scheduleViewModel.getScheduleById(scheduleId!!)
                 scheduleViewModel.scheduleByIdResponseData.observe(viewLifecycleOwner, Observer {
-                    if (it.schedule_result != "U") {
+                    if (it.schedule_result == "U") {
                         if (id == it.schedule_user_id) {
-                            println("MASUK 2A")
+                            scheduleViewModel.updateResultSchedule(
+                                ScheduleModel(
+                                    schedule_id = it.schedule_id,
+                                    schedule_match_id = it.schedule_match_id,
+                                    schedule_user_id = it.schedule_user_id,
+                                    schedule_user_name = it.schedule_user_name,
+                                    schedule_user_photo = it.schedule_user_photo,
+                                    schedule_location = it.schedule_location,
+                                    schedule_time = it.schedule_time,
+                                    schedule_status = "I",
+                                    schedule_result = "W",
+                                    schedule_opponent = it.schedule_opponent,
+                                    schedule_opponent_id = it.schedule_opponent_id,
+                                    schedule_opponent_photo = it.schedule_opponent_photo
+                                )
+                            )
                             v?.findNavController()?.navigate(R.id.action_global_resultWinFragment)
                         } else {
-                            println("MASUK 2B")
-                            v?.findNavController()?.navigate(R.id.action_global_resultLoseFragment)
+                            scheduleViewModel.updateResultSchedule(
+                                ScheduleModel(
+                                    schedule_id = it.schedule_id,
+                                    schedule_match_id = it.schedule_match_id,
+                                    schedule_user_id = it.schedule_user_id,
+                                    schedule_user_name = it.schedule_user_name,
+                                    schedule_user_photo = it.schedule_user_photo,
+                                    schedule_location = it.schedule_location,
+                                    schedule_time = it.schedule_time,
+                                    schedule_status = "I",
+                                    schedule_result = "L",
+                                    schedule_opponent = it.schedule_opponent,
+                                    schedule_opponent_id = it.schedule_opponent_id,
+                                    schedule_opponent_photo = it.schedule_opponent_photo
+                                )
+                            )
+                            v?.findNavController()?.navigate(R.id.action_global_resultWinFragment)
+                        }
+                    } else {
+                        if (it.schedule_result == "W") {
+                            if (id == it.schedule_user_id) {
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultWinFragment)
+                            } else{
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultLoseFragment)
+                            }
+                        }else{
+                            if (id == it.schedule_user_id) {
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultLoseFragment)
+                            } else{
+                                Toast.makeText(
+                                    this.context,
+                                    "Hasil sudah ditentukan",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                v?.findNavController()
+                                    ?.navigate(R.id.action_global_resultWinFragment)
+                            }
                         }
                     }
                 })
