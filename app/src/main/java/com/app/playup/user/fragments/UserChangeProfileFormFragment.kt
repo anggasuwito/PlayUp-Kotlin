@@ -12,13 +12,20 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.findNavController
 import com.app.playup.R
+import com.app.playup.dagger.MyApplication
+import com.app.playup.match.viewmodel.MatchViewModel
+import com.app.playup.user.model.UserRegisterModel
+import com.app.playup.user.viewmodel.UserRegisterViewModel
 import kotlinx.android.synthetic.main.fragment_user_change_profile_form.*
 import kotlinx.android.synthetic.main.fragment_user_register.*
 import kotlinx.android.synthetic.main.fragment_user_register.view.*
+import javax.inject.Inject
 
 class UserChangeProfileFormFragment : Fragment(), View.OnClickListener {
     var sharedPreferences: SharedPreferences? = null
 
+    @Inject
+    lateinit var userRegisterViewModel: UserRegisterViewModel
     var id: String? = ""
     var photo: String? = ""
     var username: String? = ""
@@ -28,6 +35,7 @@ class UserChangeProfileFormFragment : Fragment(), View.OnClickListener {
     var login_method: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
         sharedPreferences = activity?.getSharedPreferences(
             getString(R.string.shared_preference_name),
             Context.MODE_PRIVATE
@@ -102,10 +110,42 @@ class UserChangeProfileFormFragment : Fragment(), View.OnClickListener {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    user_full_name=userChangeProfileFullNameText.text.toString()
-                    println("NEW USER FULL NAME" + user_full_name)
-                    v?.findNavController()
-                        ?.navigate(R.id.action_global_userChangeProfileSuccessFragment)
+                    user_full_name = userChangeProfileFullNameText.text.toString()
+                    username = userChangeProfileUsernameText.text.toString()
+                    email = userChangeProfileEmailText.text.toString()
+                    if (user_full_name == "" || username == "" || email == "") {
+                        Toast.makeText(this.context, "Isi semua form", Toast.LENGTH_SHORT).show()
+                    } else {
+                        userRegisterViewModel.updateUserProfil(
+                            UserRegisterModel(
+                                user_full_name = user_full_name!!,
+                                username = username!!,
+                                email = email!!,
+                                gender = gender!!
+                            ), requireContext()
+                        )
+                        with(sharedPreferences?.edit()) {
+                            this?.putString(
+                                getString(R.string.username_full_name_key),
+                                user_full_name
+                            )
+                            this?.putString(
+                                getString(R.string.username_key),
+                                username
+                            )
+                            this?.putString(
+                                getString(R.string.email_key),
+                                email
+                            )
+                            this?.putString(
+                                getString(R.string.gender_key),
+                                gender
+                            )
+                            this?.commit()
+                        }
+                        v?.findNavController()
+                            ?.navigate(R.id.action_global_userChangeProfileSuccessFragment)
+                    }
                 }
             }
             userChangeProfileCancelButton -> {

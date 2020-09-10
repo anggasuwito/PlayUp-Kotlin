@@ -84,6 +84,56 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_menu_account, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        username = sharedPreferences?.getString(
+            getString(R.string.username_key),
+            getString(R.string.default_value)
+        )
+        photo = sharedPreferences?.getString(
+            getString(R.string.photo_key),
+            getString(R.string.default_value)
+        )
+        rankMatchUser = sharedPreferences?.getString(
+            getString(R.string.rank_user_match_count_key),
+            getString(R.string.default_value)
+        )
+        rankGradeUser = sharedPreferences?.getString(
+            getString(R.string.rank_user_grade_count_key),
+            getString(R.string.default_value)
+        )
+        loginMethod = sharedPreferences?.getString(
+            getString(R.string.login_method_key),
+            getString(R.string.default_value)
+        )
+        if (loginMethod == "appLogin") {
+            if (photo == "facebookPhotoDefault.jpg") {
+                Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+            } else if (photo == "googlePhotoDefault.jpg") {
+                Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+            } else if (photo == "defaultUserPhoto.jpg") {
+                Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
+            } else {
+                menuAccountViewModel.getUserPhoto(
+                    photo!!,
+                    menuAccountImage,
+                    this.requireActivity()
+                )
+            }
+            menuAccountSettingProfile.setOnClickListener(this)
+            menuAccountImage.setOnClickListener(this)
+            menuAccountLogout.setOnClickListener(this)
+            if (rankMatchUser == "DEFAULT") {
+                rankMatchUser = "0"
+            }
+            if (rankGradeUser == "DEFAULT") {
+                rankGradeUser = "0"
+            }
+            menuAccountText.text =
+                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nLogin : $loginMethod"
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

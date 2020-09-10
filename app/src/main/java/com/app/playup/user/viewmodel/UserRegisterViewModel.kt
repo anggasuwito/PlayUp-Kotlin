@@ -1,5 +1,7 @@
 package com.app.playup.user.viewmodel
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.playup.user.model.UserRegisterModel
@@ -12,5 +14,9 @@ class UserRegisterViewModel @Inject constructor(var userRegisterRepository: User
     var userRegisterResponse = userRegisterRepository.userRegisterResponse
     fun registerNewUser(userRegisterModel: UserRegisterModel) {
         userRegisterRepository.registerNewUser(userRegisterModel)
+    }
+
+    fun updateUserProfil(userRegisterModel: UserRegisterModel,context: Context){
+        userRegisterRepository.updateUserProfil(userRegisterModel,context)
     }
 }

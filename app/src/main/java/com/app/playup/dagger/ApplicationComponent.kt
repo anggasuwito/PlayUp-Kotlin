@@ -9,6 +9,7 @@ import com.app.playup.menu.fragments.MenuScheduleFragment
 import com.app.playup.rank.fragments.RankSingleBadmintonFragment
 import com.app.playup.rank.recycleview.RankRecycleView
 import com.app.playup.schedule.fragments.*
+import com.app.playup.user.fragments.UserChangeProfileFormFragment
 import com.app.playup.user.fragments.UserLoginFragment
 import com.app.playup.user.fragments.UserRegisterFragment
 import dagger.Component
@@ -27,4 +28,5 @@ interface ApplicationComponent {
     fun inject(rankRecycleView: RankRecycleView)
     fun inject(playingMatchFragment: PlayingMatchFragment)
     fun inject(scheduleResultFragment: ScheduleResultFragment)
+    fun inject(userChangeProfileFormFragment: UserChangeProfileFormFragment)
 }
