@@ -30,6 +30,20 @@ class ScheduleRecycleView(val scheduleList: List<ScheduleModel>, statusSchedule:
         holder.menuScheduleListText.text = scheduleList[position].schedule_location
         if (statusSchedule == "active") {
             holder.menuScheduleIconText.text = ">"
+        } else {
+            if (statusSchedule == scheduleList[position].schedule_user_id && scheduleList[position].schedule_result == "W") {
+                println("STATUS 1")
+                holder.menuScheduleIconText.text = "menang"
+            } else if (statusSchedule == scheduleList[position].schedule_user_id && scheduleList[position].schedule_result == "L") {
+                println("STATUS 2")
+                holder.menuScheduleIconText.text = "kalah"
+            } else if (statusSchedule != scheduleList[position].schedule_user_id && scheduleList[position].schedule_result == "W") {
+                println("STATUS 3")
+                holder.menuScheduleIconText.text = "kalah"
+            } else if (statusSchedule != scheduleList[position].schedule_user_id && scheduleList[position].schedule_result == "L") {
+                println("STATUS 4")
+                holder.menuScheduleIconText.text = "menang"
+            }
         }
         holder.menuScheduleRecycleCardView.setOnClickListener {
             val scheduleId = scheduleList[position].schedule_id

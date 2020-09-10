@@ -54,7 +54,7 @@ class ScheduleDetailsFragment : Fragment(), View.OnClickListener {
                 scheduleDetailsPlayerTwoImage,
                 requireActivity()
             )
-            scheduleDetailsText.text = "${it.schedule_time}\n${it.schedule_location}"
+            scheduleDetailsText.text = "Pukul : ${it.schedule_time}\nLokasi : ${it.schedule_location}"
         })
 
         scheduleDetailsPlayButton.setOnClickListener(this)

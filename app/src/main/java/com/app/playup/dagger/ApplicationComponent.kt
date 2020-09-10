@@ -5,6 +5,8 @@ import com.app.playup.match.fragments.FindingMatchFragment
 import com.app.playup.menu.fragments.MenuAccountFragment
 import com.app.playup.menu.fragments.MenuPlayFragment
 import com.app.playup.menu.fragments.MenuScheduleFragment
+import com.app.playup.rank.fragments.RankSingleBadmintonFragment
+import com.app.playup.rank.recycleview.RankRecycleView
 import com.app.playup.schedule.fragments.ScheduleActiveFragment
 import com.app.playup.schedule.fragments.ScheduleCreateFragment
 import com.app.playup.schedule.fragments.ScheduleDetailsFragment
@@ -23,4 +25,6 @@ interface ApplicationComponent {
     fun inject(scheduleInactiveFragment: ScheduleInactiveFragment)
     fun inject(scheduleCreateFragment: ScheduleCreateFragment)
     fun inject(scheduleDetailsFragment: ScheduleDetailsFragment)
+    fun inject(rankSingleBadmintonFragment: RankSingleBadmintonFragment)
+    fun inject(rankRecycleView: RankRecycleView)
 }

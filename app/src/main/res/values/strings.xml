@@ -14,7 +14,7 @@
 
     <string name="authority_key">com.app.playup.fileprovider</string>
     <string name="shared_preference_name">com.playup.shared.preference</string>
-   
+
     <string name="id_key">ID</string>
     <string name="photo_key">PHOTO</string>
     <string name="username_key">USERNAME</string>
@@ -30,10 +30,10 @@
     <string name="match_id_key">MATCH_ID</string>
     <string name="schedule_user_id_key">SCHEDULE_USER_ID</string>
     <string name="schedule_username_key">SCHEDULE_USERNAME</string>
-<!--    <string name="schedule_location_key">SCHEDULE_LOCATION</string>-->
-<!--    <string name="schedule_time_key">SCHEDULE_TIME</string>-->
-<!--    <string name="schedule_status_key">SCHEDULE_STATUS</string>-->
-<!--    <string name="schedule_result_key">SCHEDULE_RESULT</string>-->
+    <!--    <string name="schedule_location_key">SCHEDULE_LOCATION</string>-->
+    <!--    <string name="schedule_time_key">SCHEDULE_TIME</string>-->
+    <!--    <string name="schedule_status_key">SCHEDULE_STATUS</string>-->
+    <!--    <string name="schedule_result_key">SCHEDULE_RESULT</string>-->
     <string name="schedule_opponent_key">SCHEDULE_OPPONENT</string>
     <string name="schedule_opponent_id_key">SCHEDULE_OPPONENT_ID</string>
 </resources>

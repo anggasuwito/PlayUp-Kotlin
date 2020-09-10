@@ -3,6 +3,7 @@ package com.app.playup.dagger
 import com.app.playup.config.RetrofitBuilder
 import com.app.playup.match.api.MatchAPI
 import com.app.playup.menu.api.MenuAccountAPI
+import com.app.playup.rank.api.RankAPI
 import com.app.playup.schedule.api.ScheduleAPI
 import com.app.playup.user.api.UserLoginAPI
 import com.app.playup.user.api.UserRegisterAPI
@@ -34,5 +35,10 @@ class NetworkModule {
     @Provides
     fun provideScheduleAPI(): ScheduleAPI {
         return RetrofitBuilder.createRetrofit().create(ScheduleAPI::class.java)
+    }
+
+    @Provides
+    fun rankAPI(): RankAPI {
+        return RetrofitBuilder.createRetrofit().create(RankAPI::class.java)
     }
 }

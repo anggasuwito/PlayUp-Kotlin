@@ -164,7 +164,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             } else {
                 Picasso.get().load(googlePhoto).into(menuAccountImage)
             }
-            menuAccountText.text = "$googleUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
+            menuAccountText.text = "$googleUsername\nMatch : 0\nMenang : 0\nLogin : $loginMethod"
         } else if (loginMethod == "facebookLogin") {
             facebookProfileResponse()
             menuAccountSettingProfile.setOnClickListener {
@@ -194,7 +194,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             } else {
                 Picasso.get().load(facebookPhoto).into(menuAccountImage)
             }
-            menuAccountText.text = "$facebookUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
+            menuAccountText.text = "$facebookUsername\nMatch : 0\nMenang : 0\nLogin : $loginMethod"
         } else {
             if (photo == "facebookPhotoDefault.jpg") {
                 Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
@@ -219,7 +219,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 rankGradeUser = "0"
             }
             menuAccountText.text =
-                "$username\nMatch : $rankMatchUser\nRank : $rankGradeUser\nLogin : $loginMethod"
+                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nLogin : $loginMethod"
         }
     }
 
