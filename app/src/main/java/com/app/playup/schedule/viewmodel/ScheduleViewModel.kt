@@ -33,4 +33,9 @@ class ScheduleViewModel @Inject constructor(var scheduleRepository: ScheduleRepo
     fun getScheduleById(id: String) {
         scheduleRepository.getScheduleById(id)
     }
+
+    var updateResultScheduleResponse = scheduleRepository.updateResultScheduleResponse
+    fun updateResultSchedule(scheduleModel: ScheduleModel){
+        scheduleRepository.updateResultSchedule(scheduleModel)
+    }
 }

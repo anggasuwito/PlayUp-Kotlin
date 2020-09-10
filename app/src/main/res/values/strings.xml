@@ -28,6 +28,7 @@
     <string name="default_value">DEFAULT</string>
 
     <string name="match_id_key">MATCH_ID</string>
+    <string name="schedule_id_key">SCHEDULE_ID</string>
     <string name="schedule_user_id_key">SCHEDULE_USER_ID</string>
     <string name="schedule_username_key">SCHEDULE_USERNAME</string>
     <!--    <string name="schedule_location_key">SCHEDULE_LOCATION</string>-->

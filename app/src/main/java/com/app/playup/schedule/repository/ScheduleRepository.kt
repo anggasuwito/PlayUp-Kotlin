@@ -107,13 +107,31 @@ class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
                 val stringResponseData = Gson().toJson(response?.data)
-                println("API = "+stringResponseData)
                 val scheduleByIdResponseObject =
                     Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
                 if (stringResponseData != "null") {
                     val scheduleByIdResponseDataObject: ScheduleModel =
                         Gson().fromJson(stringResponseData, ScheduleModel::class.java)
                     scheduleByIdResponseData.value = scheduleByIdResponseDataObject
+                }
+            }
+        })
+    }
+
+    var updateResultScheduleResponse = MutableLiveData<Wrapper>()
+    fun updateResultSchedule(scheduleModel: ScheduleModel) {
+        scheduleAPI.updateResultSchedule(scheduleModel).enqueue(object : Callback<Wrapper> {
+            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                if (response.code() != 404) {
+                    val response = response.body()
+                    val stringResponse = Gson().toJson(response)
+                    val updateResultScheduleObject =
+                        Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
+                    updateResultScheduleResponse.value = updateResultScheduleObject
                 }
             }
         })

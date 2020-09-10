@@ -48,12 +48,14 @@ class ScheduleRecycleView(val scheduleList: List<ScheduleModel>, statusSchedule:
         holder.menuScheduleRecycleCardView.setOnClickListener {
             val scheduleId = scheduleList[position].schedule_id
             navController = Navigation.findNavController(it)
-            navController.navigate(
-                R.id.action_global_scheduleActivity,
-                bundleOf(
-                    "scheduleId" to scheduleId
+            if (statusSchedule == "active") {
+                navController.navigate(
+                    R.id.action_global_scheduleActivity,
+                    bundleOf(
+                        "scheduleId" to scheduleId
+                    )
                 )
-            )
+            }
         }
     }
 }
