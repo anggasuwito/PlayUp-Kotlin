@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.BitmapFactory
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
+import com.app.playup.R
 import com.app.playup.menu.api.MenuAccountAPI
 import com.app.playup.menu.model.MenuAccountDataModel
 import com.app.playup.menu.model.MenuAccountModel
@@ -55,6 +56,8 @@ class MenuAccountRepository @Inject constructor(val menuAccountAPI: MenuAccountA
                 if (response.code() != 404) {
                     val responseImage = BitmapFactory.decodeStream(response.body()!!.byteStream())
                     Glide.with(activity).asBitmap().load(responseImage).into(imageContainer)
+                }else{
+                    Glide.with(activity).asBitmap().load(R.drawable.user_icon_jpg).into(imageContainer)
                 }
             }
         })

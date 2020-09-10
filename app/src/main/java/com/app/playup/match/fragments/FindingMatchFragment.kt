@@ -53,6 +53,7 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             coroutineScope.cancel()
+            matchViewModel.cancelFindOpponentSingleBadminton(id!!)
             requireActivity().finish()
         }
         id = sharedPreferences?.getString(

@@ -13,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
@@ -79,7 +80,7 @@ class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
             }
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
-                println("RES = "+response.body().toString())
+                println("RES = " + response.body().toString())
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
                 val stringResponseData = Gson().toJson(response?.data)
@@ -91,6 +92,29 @@ class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
                     createNewScheduleResponseData.value = createNewScheduleDataObject
                 }
                 createNewScheduleResponse.value = createNewScheduleObject
+            }
+        })
+    }
+
+    var scheduleByIdResponseData = MutableLiveData<ScheduleModel>()
+    fun getScheduleById(id: String) {
+        scheduleAPI.getScheduleById(id).enqueue(object : Callback<Wrapper> {
+            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+                t.printStackTrace()
+            }
+
+            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                val response = response.body()
+                val stringResponse = Gson().toJson(response)
+                val stringResponseData = Gson().toJson(response?.data)
+                println("API = "+stringResponseData)
+                val scheduleByIdResponseObject =
+                    Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
+                if (stringResponseData != "null") {
+                    val scheduleByIdResponseDataObject: ScheduleModel =
+                        Gson().fromJson(stringResponseData, ScheduleModel::class.java)
+                    scheduleByIdResponseData.value = scheduleByIdResponseDataObject
+                }
             }
         })
     }

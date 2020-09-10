@@ -82,7 +82,7 @@ class ScheduleCreateFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             scheduleCreateCancelButton -> {
-                activity?.finish()
+                activity?.onBackPressed()
             }
             scheduleCreateSaveButton -> {
                 println("save here")

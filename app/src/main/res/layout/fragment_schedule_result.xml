@@ -31,7 +31,7 @@
                 android:textSize="30dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/menuPlayFindOpponentButton"
+                android:id="@+id/scheduleResultWinButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -42,7 +42,7 @@
                 app:cornerRadius="10dp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/menuPlayWaitOpponentButton"
+                android:id="@+id/scheduleResultLoseButton"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

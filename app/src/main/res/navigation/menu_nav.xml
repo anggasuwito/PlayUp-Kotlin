@@ -25,6 +25,9 @@
     <action
         android:id="@+id/action_global_userChangeProfileActivity"
         app:destination="@id/userChangeProfilActivity" />
+    <action
+        android:id="@+id/action_global_scheduleActivity"
+        app:destination="@id/scheduleActivity" />
     <fragment
         android:id="@+id/menuHomeFragment"
         android:name="com.app.playup.menu.fragments.MenuHomeFragment"
@@ -60,4 +63,9 @@
         android:name="com.app.playup.user.UserChangeProfilActivity"
         android:label="activity_user_change_profil"
         tools:layout="@layout/activity_user_change_profil" />
+    <activity
+        android:id="@+id/scheduleActivity"
+        android:name="com.app.playup.schedule.ScheduleActivity"
+        android:label="activity_schedule"
+        tools:layout="@layout/activity_schedule" />
 </navigation>

@@ -44,8 +44,8 @@ class MenuActivity : AppCompatActivity() {
                 }
             }
         }
-        chatButton.setOnClickListener{
-//            navController.navigate(R.id.action_global_menuAccountFragment)
-        }
+//        chatButton.setOnClickListener{
+////            navController.navigate(R.id.action_global_menuAccountFragment)
+//        }
     }
 }

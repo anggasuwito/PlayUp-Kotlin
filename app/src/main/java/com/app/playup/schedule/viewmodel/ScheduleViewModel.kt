@@ -7,6 +7,7 @@ import com.app.playup.schedule.repository.ScheduleRepository
 import com.app.playup.user.model.UserLoginModel
 import com.app.playup.user.repository.UserLoginRepository
 import com.app.playup.utils.Wrapper
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class ScheduleViewModel @Inject constructor(var scheduleRepository: ScheduleRepository) :
@@ -16,6 +17,7 @@ class ScheduleViewModel @Inject constructor(var scheduleRepository: ScheduleRepo
     fun getActiveSchedule(id: String) {
         scheduleRepository.getActiveSchedule(id)
     }
+
     var scheduleInactiveResponseData = scheduleRepository.scheduleInactiveResponseData
     fun getInactiveSchedule(id: String) {
         scheduleRepository.getInactiveSchedule(id)
@@ -23,7 +25,12 @@ class ScheduleViewModel @Inject constructor(var scheduleRepository: ScheduleRepo
 
     var createNewScheduleResponse = scheduleRepository.createNewScheduleResponse
     var createNewScheduleResponseData = scheduleRepository.createNewScheduleResponseData
-    fun createNewSchedule(scheduleModel: ScheduleModel){
+    fun createNewSchedule(scheduleModel: ScheduleModel) {
         scheduleRepository.createNewSchedule(scheduleModel)
+    }
+
+    var scheduleByIdResponseData = scheduleRepository.scheduleByIdResponseData
+    fun getScheduleById(id: String) {
+        scheduleRepository.getScheduleById(id)
     }
 }

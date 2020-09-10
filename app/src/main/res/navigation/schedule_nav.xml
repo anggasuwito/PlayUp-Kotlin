@@ -13,6 +13,13 @@
     <action
         android:id="@+id/action_global_resultLoseFragment"
         app:destination="@id/resultLoseFragment" />
+    <action
+        android:id="@+id/action_global_scheduleDetailsFragment"
+        app:destination="@id/scheduleDetailsFragment" />
+    <action
+        android:id="@+id/action_global_playingMatchFragment"
+        app:destination="@id/playingMatchFragment" />
+
     <fragment
         android:id="@+id/scheduleDetailsFragment"
         android:name="com.app.playup.schedule.fragments.ScheduleDetailsFragment"
@@ -33,5 +40,11 @@
         android:name="com.app.playup.result.fragments.ResultLoseFragment"
         android:label="fragment_result_lose"
         tools:layout="@layout/fragment_result_lose" />
+    <fragment
+        android:id="@+id/playingMatchFragment"
+        android:name="com.app.playup.match.fragments.PlayingMatchFragment"
+        android:label="fragment_playing_match"
+        tools:layout="@layout/fragment_playing_match" />
+
 
 </navigation>

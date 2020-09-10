@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import com.app.playup.R
 import kotlinx.android.synthetic.main.fragment_result_win.*
 
@@ -25,6 +26,9 @@ class ResultWinFragment : Fragment(),View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this){
+            requireActivity().finish()
+        }
         resultWinButton.setOnClickListener(this)
     }
 

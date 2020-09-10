@@ -16,6 +16,9 @@ interface ScheduleAPI {
     @GET("schedule/inactive/{id}")
     fun getInactiveSchedule(@Path("id") id: String): Call<Wrapper>
 
+    @GET("schedule/active/detail/{id}")
+    fun getScheduleById(@Path("id") id: String): Call<Wrapper>
+
     @POST("schedule/create")
     fun createNewSchedule(@Body scheduleModel: ScheduleModel): Call<Wrapper>
 }
