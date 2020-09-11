@@ -38,8 +38,8 @@ class RankRecycleView(val rankList: List<RankModel>, activity: Activity) :
         val match = rankList[position].rank_match_count
         val grade = rankList[position].rank_grade_count
         val photo = rankList[position].rank_user_photo_profile
-        println("HIT HERE = " + username)
-        holder.rankListText.text = "$username\nMatch : $match\nMenang : $grade"
+        var rankKalah = (match?.toInt()?.minus(grade!!.toInt())).toString()
+        holder.rankListText.text = "$username\nMatch : $match\nMenang : $grade\nKalah : $rankKalah"
         menuAccountViewModel.getUserPhoto(photo,holder.rankListImage,activity)
     }
 }
