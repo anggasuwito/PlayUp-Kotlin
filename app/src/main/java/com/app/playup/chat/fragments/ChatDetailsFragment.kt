@@ -16,8 +16,6 @@ import com.app.playup.chat.model.ChatModel
 import com.app.playup.chat.recycleview.ChatRecycleView
 import com.app.playup.chat.viewmodel.ChatViewModel
 import com.app.playup.dagger.MyApplication
-import com.app.playup.match.model.FindingMatchModel
-import com.app.playup.menu.viewmodel.MenuAccountViewModel
 import kotlinx.android.synthetic.main.fragment_chat_details.*
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -78,10 +76,17 @@ class ChatDetailsFragment : Fragment(), View.OnClickListener {
             requireActivity().finish()
         }
         getChatCoroutine(300)
+
         chatViewModel.getChatResponseData.observe(viewLifecycleOwner, Observer {
             chatRecycleView = ChatRecycleView(it, userId!!)
-            chatDetailsRecycleViewContainer.adapter = chatRecycleView
 
+            val recyclerViewState =
+                chatDetailsRecycleViewContainer.layoutManager?.onSaveInstanceState()
+            chatDetailsRecycleViewContainer.layoutManager?.onRestoreInstanceState(
+                recyclerViewState
+            )
+
+            chatDetailsRecycleViewContainer.adapter = chatRecycleView
         })
     }
 
