@@ -1,5 +1,6 @@
 package com.app.playup.dagger
 
+import com.app.playup.chat.fragments.ChatDetailsFragment
 import com.app.playup.match.MatchActivity
 import com.app.playup.match.fragments.FindingMatchFragment
 import com.app.playup.match.fragments.PlayingMatchFragment
@@ -29,4 +30,5 @@ interface ApplicationComponent {
     fun inject(playingMatchFragment: PlayingMatchFragment)
     fun inject(scheduleResultFragment: ScheduleResultFragment)
     fun inject(userChangeProfileFormFragment: UserChangeProfileFormFragment)
+    fun inject(chatDetailsFragment: ChatDetailsFragment)
 }

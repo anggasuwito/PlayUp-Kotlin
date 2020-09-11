@@ -1,5 +1,6 @@
 package com.app.playup.dagger
 
+import com.app.playup.chat.api.ChatAPI
 import com.app.playup.config.RetrofitBuilder
 import com.app.playup.match.api.MatchAPI
 import com.app.playup.menu.api.MenuAccountAPI
@@ -40,5 +41,10 @@ class NetworkModule {
     @Provides
     fun rankAPI(): RankAPI {
         return RetrofitBuilder.createRetrofit().create(RankAPI::class.java)
+    }
+
+    @Provides
+    fun chatAPI(): ChatAPI {
+        return RetrofitBuilder.createRetrofit().create(ChatAPI::class.java)
     }
 }

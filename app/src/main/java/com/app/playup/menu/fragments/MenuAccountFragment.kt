@@ -131,7 +131,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             }
             var rankKalah = (rankMatchUser?.toInt()?.minus(rankGradeUser!!.toInt())).toString()
             menuAccountText.text =
-                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nKalah : $rankKalah\nLogin : $loginMethod"
+                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nKalah : $rankKalah"
         }
     }
 
@@ -215,7 +215,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             } else {
                 Picasso.get().load(googlePhoto).into(menuAccountImage)
             }
-            menuAccountText.text = "$googleUsername\nMatch : 0\nMenang : 0\nKalah : 0\nLogin : $loginMethod"
+            menuAccountText.text = "$googleUsername\nMatch : 0\nMenang : 0\nKalah : 0"
         } else if (loginMethod == "facebookLogin") {
             facebookProfileResponse()
             menuAccountSettingProfile.setOnClickListener {
@@ -245,7 +245,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             } else {
                 Picasso.get().load(facebookPhoto).into(menuAccountImage)
             }
-            menuAccountText.text = "$facebookUsername\nMatch : 0\nMenang : 0\nKalah : 0\nLogin : $loginMethod"
+            menuAccountText.text = "$facebookUsername\nMatch : 0\nMenang : 0\nKalah : 0"
         } else {
             if (photo == "facebookPhotoDefault.jpg") {
                 Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
@@ -271,7 +271,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             }
             var rankKalah = (rankMatchUser?.toInt()?.minus(rankGradeUser!!.toInt())).toString()
             menuAccountText.text =
-                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nKalah : $rankKalah\nLogin : $loginMethod"
+                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nKalah : $rankKalah"
         }
     }
 
