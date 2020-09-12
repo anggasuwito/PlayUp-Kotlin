@@ -29,7 +29,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginBottom="100dp"
                 android:backgroundTint="@color/customLinkText"
                 app:cardCornerRadius="20dp">
 
@@ -43,6 +42,56 @@
                     android:textColor="@color/customWhite"
                     android:textSize="25dp" />
             </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/menuHomeFirstText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Temukan Lawanmu"
+                android:textColor="@color/customBlack"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:id="@+id/menuHomeFirstImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_icon_find" />
+            <TextView
+                android:id="@+id/menuHomeSecondText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Berkomunikasi dengan \nlawanmu"
+                android:textColor="@color/customBlack"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:id="@+id/menuHomeSecondImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_icon_chat2" />
+            <TextView
+                android:id="@+id/menuHomeThirdText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="Menangkan \npertandinganmu"
+                android:textColor="@color/customBlack"
+                android:textSize="24dp" />
+
+            <ImageView
+                android:id="@+id/menuHomeThirdImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="100dp"
+                android:src="@drawable/ic_icon_trophy" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

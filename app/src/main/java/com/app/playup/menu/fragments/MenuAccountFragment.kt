@@ -24,6 +24,7 @@ import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.menu.viewmodel.MenuAccountViewModel
+import com.app.playup.user.viewmodel.UserLoginViewModel
 import com.facebook.Profile
 import com.facebook.ProfileTracker
 import com.facebook.login.LoginManager
@@ -67,6 +68,9 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
 
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
+
+    @Inject
+    lateinit var userLoginViewModel: UserLoginViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
@@ -123,15 +127,18 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             menuAccountSettingProfile.setOnClickListener(this)
             menuAccountImage.setOnClickListener(this)
             menuAccountLogout.setOnClickListener(this)
-            if (rankMatchUser == "DEFAULT") {
-                rankMatchUser = "0"
-            }
-            if (rankGradeUser == "DEFAULT") {
-                rankGradeUser = "0"
-            }
-            var rankKalah = (rankMatchUser?.toInt()?.minus(rankGradeUser!!.toInt())).toString()
-            menuAccountText.text =
-                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nKalah : $rankKalah"
+            userLoginViewModel.getUserById(id!!)
+            userLoginViewModel.userByIdResponseData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it.rank_user_match_count == "DEFAULT") {
+                    it.rank_user_match_count = "0"
+                }
+                if (it.rank_user_grade_count == "DEFAULT") {
+                    it.rank_user_grade_count = "0"
+                }
+                var rankKalah = ( it.rank_user_match_count?.toInt()?.minus(it.rank_user_grade_count!!.toInt())).toString()
+                menuAccountText.text =
+                    "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
+            })
         }
     }
 
@@ -263,15 +270,19 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             menuAccountSettingProfile.setOnClickListener(this)
             menuAccountImage.setOnClickListener(this)
             menuAccountLogout.setOnClickListener(this)
-            if (rankMatchUser == "DEFAULT") {
-                rankMatchUser = "0"
-            }
-            if (rankGradeUser == "DEFAULT") {
-                rankGradeUser = "0"
-            }
-            var rankKalah = (rankMatchUser?.toInt()?.minus(rankGradeUser!!.toInt())).toString()
-            menuAccountText.text =
-                "$username\nMatch : $rankMatchUser\nMenang : $rankGradeUser\nKalah : $rankKalah"
+            userLoginViewModel.getUserById(id!!)
+            userLoginViewModel.userByIdResponseData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it.rank_user_match_count == "DEFAULT") {
+                    it.rank_user_match_count = "0"
+                }
+                if (it.rank_user_grade_count == "DEFAULT") {
+                    it.rank_user_grade_count = "0"
+                }
+                var rankKalah = ( it.rank_user_match_count?.toInt()?.minus(it.rank_user_grade_count!!.toInt())).toString()
+                menuAccountText.text =
+                    "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
+            })
+
         }
     }
 

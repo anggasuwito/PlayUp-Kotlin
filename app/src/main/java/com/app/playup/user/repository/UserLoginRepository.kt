@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Path
 import javax.inject.Inject
 
 class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
@@ -33,6 +34,26 @@ class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
                     Gson().fromJson<UserLoginResponseDataModel>(stringResponseData,UserLoginResponseDataModel::class.java)
                 userLoginResponse.value = userLoginResponseObject
                 userLoginResponseData.value = userLoginResponseDataObject
+            }
+        })
+    }
+
+    var userByIdResponseData = MutableLiveData<UserLoginResponseDataModel>()
+    fun getUserById(id: String){
+        userLoginAPI.getUserById(id).enqueue(object :Callback<Wrapper>{
+            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+                t.printStackTrace()
+                println("GET USER BY ID FAIL")
+            }
+
+            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+              println("GET USER BY ID SUCCESS")
+                val response = response.body()
+                val stringResponse = Gson().toJson(response)
+                val stringResponseData = Gson().toJson(response?.data)
+                val userByIdResponseDataObject =
+                    Gson().fromJson<UserLoginResponseDataModel>(stringResponseData,UserLoginResponseDataModel::class.java)
+                userByIdResponseData.value = userByIdResponseDataObject
             }
         })
     }
