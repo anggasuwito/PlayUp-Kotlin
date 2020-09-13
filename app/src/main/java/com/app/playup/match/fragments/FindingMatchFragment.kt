@@ -98,26 +98,28 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
                                     it.match_id
                                 )
                                 if (it.match_players.size == 2) {
-                                    this?.putString(
-                                        getString(R.string.schedule_user_id_key),
-                                        it.match_players[0].id
-                                    )
-                                    this?.putString(
-                                        getString(R.string.schedule_username_key),
-                                        it.match_players[0].username
-                                    )
-                                    this?.putString(
-                                        getString(R.string.schedule_opponent_key),
-                                        it.match_players[1].username
-                                    )
-                                    this?.putString(
-                                        getString(R.string.schedule_opponent_id_key),
-                                        it.match_players[1].id
-                                    )
-                                    this?.commit()
+                                    if (id!! == it.match_players[0].id || id!! == it.match_players[1].id) {
+                                        this?.putString(
+                                            getString(R.string.schedule_user_id_key),
+                                            it.match_players[0].id
+                                        )
+                                        this?.putString(
+                                            getString(R.string.schedule_username_key),
+                                            it.match_players[0].username
+                                        )
+                                        this?.putString(
+                                            getString(R.string.schedule_opponent_key),
+                                            it.match_players[1].username
+                                        )
+                                        this?.putString(
+                                            getString(R.string.schedule_opponent_id_key),
+                                            it.match_players[1].id
+                                        )
+                                        this?.commit()
+                                        view.findNavController().navigate(R.id.action_global_foundMatchFragment)
+                                    }
                                 }
                             }
-                            view.findNavController().navigate(R.id.action_global_foundMatchFragment)
                         }
                     })
 
