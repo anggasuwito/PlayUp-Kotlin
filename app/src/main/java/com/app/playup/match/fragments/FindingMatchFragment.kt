@@ -87,43 +87,42 @@ class FindingMatchFragment : Fragment(), View.OnClickListener {
         matchFindingCancelButton.setOnClickListener(this)
         findMatchCoRoutine(1000)
         matchViewModel.matchFindResponse.observe(viewLifecycleOwner, Observer {
-            if (it.code == 200.toString()) {
-                coroutineScope.cancel()
-                if (it != null) {
-                    matchViewModel.matchFindResponseData.observe(viewLifecycleOwner, Observer {
-                        if (it != null) {
-                            with(sharedPreferences?.edit()) {
+            if (it != null) {
+                matchViewModel.matchFindResponseData.observe(viewLifecycleOwner, Observer {
+                    if (it != null) {
+                        with(sharedPreferences?.edit()) {
+                            this?.putString(
+                                getString(R.string.match_id_key),
+                                it.match_id
+                            )
+                            println("IT MID = " + it.match_id)
+                            if (it.match_players.size == 2) {
                                 this?.putString(
-                                    getString(R.string.match_id_key),
-                                    it.match_id
+                                    getString(R.string.schedule_user_id_key),
+                                    it.match_players[0].id
                                 )
-                                if (it.match_players.size == 2) {
-                                    if (id!! == it.match_players[0].id || id!! == it.match_players[1].id) {
-                                        this?.putString(
-                                            getString(R.string.schedule_user_id_key),
-                                            it.match_players[0].id
-                                        )
-                                        this?.putString(
-                                            getString(R.string.schedule_username_key),
-                                            it.match_players[0].username
-                                        )
-                                        this?.putString(
-                                            getString(R.string.schedule_opponent_key),
-                                            it.match_players[1].username
-                                        )
-                                        this?.putString(
-                                            getString(R.string.schedule_opponent_id_key),
-                                            it.match_players[1].id
-                                        )
-                                        this?.commit()
-                                        view.findNavController().navigate(R.id.action_global_foundMatchFragment)
-                                    }
+                                this?.putString(
+                                    getString(R.string.schedule_username_key),
+                                    it.match_players[0].username
+                                )
+                                this?.putString(
+                                    getString(R.string.schedule_opponent_key),
+                                    it.match_players[1].username
+                                )
+                                this?.putString(
+                                    getString(R.string.schedule_opponent_id_key),
+                                    it.match_players[1].id
+                                )
+                                this?.commit()
+                                if (it.match_id != "") {
+                                    coroutineScope.cancel()
+                                    view.findNavController()
+                                        .navigate(R.id.action_global_foundMatchFragment)
                                 }
                             }
                         }
-                    })
-
-                }
+                    }
+                })
             }
         })
 

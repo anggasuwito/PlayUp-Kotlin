@@ -40,7 +40,6 @@ class ChatDetailsFragment : Fragment(), View.OnClickListener {
             getString(R.string.shared_preference_name),
             Context.MODE_PRIVATE
         )
-        getChatCoroutine(500)
     }
 
     override fun onCreateView(
@@ -76,6 +75,7 @@ class ChatDetailsFragment : Fragment(), View.OnClickListener {
             coroutineChatScope.cancel()
             requireActivity().finish()
         }
+        getChatCoroutine(500)
         println("MATCH ID = " + matchId)
         println("USER 1 = " + userOne)
         println("USER 2 = " + userTwo)

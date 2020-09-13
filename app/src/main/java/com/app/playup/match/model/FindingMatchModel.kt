@@ -10,7 +10,7 @@ class FindingMatchModel(
 ) {}
 
 class FindingMatchResponseDataModel(
-    var match_id: String = "default",
+    var match_id: String = "",
     var match_players: List<EachPlayer>
 ) {}
 
