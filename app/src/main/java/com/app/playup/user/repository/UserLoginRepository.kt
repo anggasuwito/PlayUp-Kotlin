@@ -14,7 +14,7 @@ import retrofit2.Response
 import retrofit2.http.Path
 import javax.inject.Inject
 
-class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
+class UserLoginRepository @Inject constructor(val userLoginAPI: UserLoginAPI) {
     var userLoginResponse = MutableLiveData<Wrapper>()
     var userLoginResponseData = MutableLiveData<UserLoginResponseDataModel>()
 
@@ -31,7 +31,10 @@ class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
                 val userLoginResponseObject =
                     Gson().fromJson<Wrapper>(stringResponse, Wrapper::class.java)
                 val userLoginResponseDataObject =
-                    Gson().fromJson<UserLoginResponseDataModel>(stringResponseData,UserLoginResponseDataModel::class.java)
+                    Gson().fromJson<UserLoginResponseDataModel>(
+                        stringResponseData,
+                        UserLoginResponseDataModel::class.java
+                    )
                 userLoginResponse.value = userLoginResponseObject
                 userLoginResponseData.value = userLoginResponseDataObject
             }
@@ -39,21 +42,27 @@ class UserLoginRepository  @Inject constructor(val userLoginAPI: UserLoginAPI) {
     }
 
     var userByIdResponseData = MutableLiveData<UserLoginResponseDataModel>()
-    fun getUserById(id: String){
-        userLoginAPI.getUserById(id).enqueue(object :Callback<Wrapper>{
+    fun getUserById(id: String) {
+        userLoginAPI.getUserById(id).enqueue(object : Callback<Wrapper> {
             override fun onFailure(call: Call<Wrapper>, t: Throwable) {
                 t.printStackTrace()
                 println("GET USER BY ID FAIL")
             }
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
-              println("GET USER BY ID SUCCESS")
+                println("GET USER BY ID SUCCESS")
+
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
                 val stringResponseData = Gson().toJson(response?.data)
-                val userByIdResponseDataObject =
-                    Gson().fromJson<UserLoginResponseDataModel>(stringResponseData,UserLoginResponseDataModel::class.java)
-                userByIdResponseData.value = userByIdResponseDataObject
+                if (stringResponseData != "null") {
+                    val userByIdResponseDataObject =
+                        Gson().fromJson<UserLoginResponseDataModel>(
+                            stringResponseData,
+                            UserLoginResponseDataModel::class.java
+                        )
+                    userByIdResponseData.value = userByIdResponseDataObject
+                }
             }
         })
     }
