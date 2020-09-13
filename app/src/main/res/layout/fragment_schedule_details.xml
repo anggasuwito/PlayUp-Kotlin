@@ -80,7 +80,6 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
-                        android:text="Username awdawda awdaw dawd awd awd awdaw daw dawd awdaw\nMatch : 100\nRank: 70"
                         android:textAlignment="center"
                         android:textColor="@color/customWhite"
                         android:textSize="25dp" />

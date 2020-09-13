@@ -16,6 +16,8 @@ interface MatchAPI {
     @POST("play/badmintonS/cancel/{id}")
     fun cancelFindOpponentSingleBadminton(@Path("id") id: String): Call<Wrapper>
 
+    @POST("play/badmintonS/reset")
+    fun resetRoom():Call<Wrapper>
 //    @POST("play/badmintonS/be")
 //    fun waitOpponentSingleBadminton(@Body findingMatchModel: FindingMatchModel): Call<Wrapper>
 }

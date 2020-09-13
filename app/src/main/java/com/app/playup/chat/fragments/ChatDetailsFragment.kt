@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 class ChatDetailsFragment : Fragment(), View.OnClickListener {
     var sharedPreferences: SharedPreferences? = null
-    val coroutineScope = CoroutineScope(Dispatchers.IO)
+    val coroutineChatScope = CoroutineScope(Dispatchers.IO)
     var userId: String? = ""
     var receiverUserId: String? = ""
     var senderUserId: String? = ""
@@ -72,11 +72,13 @@ class ChatDetailsFragment : Fragment(), View.OnClickListener {
             getString(R.string.default_value)
         )
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            coroutineScope.cancel()
+            coroutineChatScope.cancel()
             requireActivity().finish()
         }
-        getChatCoroutine(300)
-
+        getChatCoroutine(500)
+        println("MATCH ID = " + matchId)
+        println("USER 1 = " + userOne)
+        println("USER 2 = " + userTwo)
         chatViewModel.getChatResponseData.observe(viewLifecycleOwner, Observer {
             chatRecycleView = ChatRecycleView(it, userId!!)
 
@@ -113,14 +115,14 @@ class ChatDetailsFragment : Fragment(), View.OnClickListener {
                 }
             }
             chatDetailsScheduleButton -> {
-                coroutineScope.cancel()
+                coroutineChatScope.cancel()
                 v?.findNavController()?.navigate(R.id.action_global_scheduleCreateFragment)
             }
         }
     }
 
     fun getChatCoroutine(interval: Long) {
-        coroutineScope.launch {
+        coroutineChatScope.launch {
             while (true) {
                 delay(interval)
                 chatViewModel.getChat(matchId!!)

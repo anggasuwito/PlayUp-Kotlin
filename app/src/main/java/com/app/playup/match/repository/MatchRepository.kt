@@ -20,9 +20,11 @@ class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
         matchAPI.findOpponentSingleBadminton(findingMatchModel).enqueue(object : Callback<Wrapper> {
             override fun onFailure(call: Call<Wrapper>, t: Throwable) {
                 t.printStackTrace()
+                println("ERROR FIND MATCH")
             }
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                println("RESPON FIND = " + response.body()?.code.toString())
                 val response = response.body()
                 val stringResponse = Gson().toJson(response)
                 val stringResponseData = Gson().toJson(response?.data)
@@ -47,6 +49,19 @@ class MatchRepository @Inject constructor(val matchAPI: MatchAPI) {
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
                 println("SUCCESS CANCEL MATCH")
+            }
+        })
+    }
+
+    fun resetRoom() {
+        matchAPI.resetRoom().enqueue(object : Callback<Wrapper> {
+            override fun onFailure(call: Call<Wrapper>, t: Throwable) {
+                t.printStackTrace()
+                println("FAIL RESET ROOM")
+            }
+
+            override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
+                println("RESET ROOM RESPONSE = " + response.body()?.message.toString())
             }
         })
     }

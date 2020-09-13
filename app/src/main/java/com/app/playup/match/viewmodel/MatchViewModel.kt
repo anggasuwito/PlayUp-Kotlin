@@ -20,6 +20,9 @@ class MatchViewModel @Inject constructor(var matchRepository: MatchRepository) :
     fun cancelFindOpponentSingleBadminton(id: String){
         matchRepository.cancelFindOpponentSingleBadminton(id)
     }
+    fun resetRoom(){
+        matchRepository.resetRoom()
+    }
 //    var matchWaitResponse = matchRepository.matchWaitResponse
 //    var matchWaitResponseData = matchRepository.matchWaitResponseData
 //    fun waitOpponentSingleBadminton(findingMatchModel: FindingMatchModel) {

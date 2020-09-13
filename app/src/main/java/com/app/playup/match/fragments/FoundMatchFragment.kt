@@ -8,13 +8,17 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.navigation.findNavController
 import com.app.playup.R
+import com.app.playup.dagger.MyApplication
+import com.app.playup.match.viewmodel.MatchViewModel
 import kotlinx.android.synthetic.main.fragment_found_match.*
+import javax.inject.Inject
 
 class FoundMatchFragment : Fragment(),View.OnClickListener {
-
+    @Inject
+    lateinit var matchViewModel: MatchViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        (activity?.applicationContext as MyApplication).applicationComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -29,6 +33,7 @@ class FoundMatchFragment : Fragment(),View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         matchFoundButton.setOnClickListener(this)
         requireActivity().onBackPressedDispatcher.addCallback(this){
+            matchViewModel.resetRoom()
             requireActivity().finish()
         }
     }
@@ -36,6 +41,7 @@ class FoundMatchFragment : Fragment(),View.OnClickListener {
     override fun onClick(v: View?) {
         when(v){
             matchFoundButton->{
+                matchViewModel.resetRoom()
                 v?.findNavController()?.navigate(R.id.action_global_chatDetailsFragment)
             }
         }
