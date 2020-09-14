@@ -25,15 +25,18 @@ import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.menu.viewmodel.MenuAccountViewModel
 import com.app.playup.user.viewmodel.UserLoginViewModel
+import com.bumptech.glide.Glide
 import com.facebook.Profile
 import com.facebook.ProfileTracker
 import com.facebook.login.LoginManager
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_menu_account.*
+import kotlinx.android.synthetic.main.fragment_menu_home.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -50,7 +53,6 @@ import javax.inject.Inject
 
 class MenuAccountFragment : Fragment(), View.OnClickListener {
     var sharedPreferences: SharedPreferences? = null
-    val SELECT_FILE_FROM_STORAGE = 66
     val OPEN_CAMERA_REQUEST_CODE = 13
     lateinit var photoFile: File
     lateinit var currentPhotoPath: String
@@ -61,10 +63,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var rankMatchUser: String? = ""
     var rankGradeUser: String? = ""
     var loginMethod: String? = ""
-    var googleUsername: String? = ""
-    var googlePhoto: Uri? = null
-    var facebookUsername: String? = ""
-    var facebookPhoto: Uri? = null
 
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
@@ -123,22 +121,26 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     menuAccountImage,
                     this.requireActivity()
                 )
+                println("IMAGE FETCH")
             }
             menuAccountSettingProfile.setOnClickListener(this)
             menuAccountImage.setOnClickListener(this)
             menuAccountLogout.setOnClickListener(this)
             userLoginViewModel.getUserById(id!!)
-            userLoginViewModel.userByIdResponseData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                if (it.rank_user_match_count == "DEFAULT") {
-                    it.rank_user_match_count = "0"
-                }
-                if (it.rank_user_grade_count == "DEFAULT") {
-                    it.rank_user_grade_count = "0"
-                }
-                var rankKalah = ( it.rank_user_match_count?.toInt()?.minus(it.rank_user_grade_count!!.toInt())).toString()
-                menuAccountText.text =
-                    "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
-            })
+            userLoginViewModel.userByIdResponseData.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer {
+                    if (it.rank_user_match_count == "DEFAULT") {
+                        it.rank_user_match_count = "0"
+                    }
+                    if (it.rank_user_grade_count == "DEFAULT") {
+                        it.rank_user_grade_count = "0"
+                    }
+                    var rankKalah = (it.rank_user_match_count?.toInt()
+                        ?.minus(it.rank_user_grade_count!!.toInt())).toString()
+                    menuAccountText.text =
+                        "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
+                })
         }
     }
 
@@ -217,12 +219,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 }
                 activity?.finish()
             }
-            if (googlePhoto == null) {
-                Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
-            } else {
-                Picasso.get().load(googlePhoto).into(menuAccountImage)
-            }
-            menuAccountText.text = "$googleUsername\nMatch : 0\nMenang : 0\nKalah : 0"
         } else if (loginMethod == "facebookLogin") {
             facebookProfileResponse()
             menuAccountSettingProfile.setOnClickListener {
@@ -247,12 +243,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 }
                 activity?.finish()
             }
-            if (facebookPhoto == null) {
-                Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-            } else {
-                Picasso.get().load(facebookPhoto).into(menuAccountImage)
-            }
-            menuAccountText.text = "$facebookUsername\nMatch : 0\nMenang : 0\nKalah : 0"
         } else {
             if (photo == "facebookPhotoDefault.jpg") {
                 Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
@@ -271,17 +261,20 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             menuAccountImage.setOnClickListener(this)
             menuAccountLogout.setOnClickListener(this)
             userLoginViewModel.getUserById(id!!)
-            userLoginViewModel.userByIdResponseData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                if (it.rank_user_match_count == "DEFAULT") {
-                    it.rank_user_match_count = "0"
-                }
-                if (it.rank_user_grade_count == "DEFAULT") {
-                    it.rank_user_grade_count = "0"
-                }
-                var rankKalah = ( it.rank_user_match_count?.toInt()?.minus(it.rank_user_grade_count!!.toInt())).toString()
-                menuAccountText.text =
-                    "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
-            })
+            userLoginViewModel.userByIdResponseData.observe(
+                viewLifecycleOwner,
+                androidx.lifecycle.Observer {
+                    if (it.rank_user_match_count == "DEFAULT") {
+                        it.rank_user_match_count = "0"
+                    }
+                    if (it.rank_user_grade_count == "DEFAULT") {
+                        it.rank_user_grade_count = "0"
+                    }
+                    var rankKalah = (it.rank_user_match_count?.toInt()
+                        ?.minus(it.rank_user_grade_count!!.toInt())).toString()
+                    menuAccountText.text =
+                        "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
+                })
 
         }
     }
@@ -299,29 +292,30 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 v?.findNavController()?.navigate(R.id.action_global_userChangeProfileActivity)
             }
             menuAccountImage -> {
-                val changeImageDialog = AlertDialog.Builder(this.context)
-                changeImageDialog.setTitle(R.string.change_photo_prompt).setItems(
-                    R.array.change_photo_arrays,
-                    DialogInterface.OnClickListener { dialog, selectedOption ->
-                        //selectedOption menunjukan index item
-                        if (selectedOption == 0) {
-                            openCamera()
-                        } else if (selectedOption == 1) {
-                            browseImageFile()
-                        }
-                    }).show()
+                //dialog maker
+//                val changeImageDialog = AlertDialog.Builder(this.context)
+//                changeImageDialog.setTitle(R.string.change_photo_prompt).setItems(
+//                    R.array.change_photo_arrays,
+//                    DialogInterface.OnClickListener { dialog, selectedOption ->
+//                        //selectedOption menunjukan index item
+//                        if (selectedOption == 0) {
+//                            openCamera()
+//                        } else if (selectedOption == 1) {
+//                            browseImageFile()
+//                        }
+//                    }).show()
+                imagePicker()
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val imageBitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
-
-            val requestBody = photoFile.asRequestBody("multipart".toMediaTypeOrNull())
+        if (requestCode == 66 && resultCode == Activity.RESULT_OK) {
+            val getFile = ImagePicker.getFile(data)
+            val requestBody = getFile?.asRequestBody("multipart".toMediaTypeOrNull())
             val imageFileChoosed =
-                MultipartBody.Part.createFormData("image", photoFile.name, requestBody)
+                MultipartBody.Part.createFormData("image", getFile?.name, requestBody!!)
 //            val data = MultipartBody.Part.createFormData(
 //                "data",
 //                """{"username":"${username}","image_name":"${photo}"}"""
@@ -331,74 +325,19 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 "$id"
             )
             menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, userId)
-            menuAccountImage.setImageBitmap(imageBitmap)
-        }
-        if (requestCode == SELECT_FILE_FROM_STORAGE && resultCode == Activity.RESULT_OK) {
-            val originalPath = getOriginalPathFromUri(data?.data!!)
-            val imageFile: File = File(originalPath)
-            val imageBitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
-
-            val requestBody = imageFile.asRequestBody("multipart".toMediaTypeOrNull())
-            val imageFileChoosed =
-                MultipartBody.Part.createFormData("image", imageFile.name, requestBody)
-//            val data = MultipartBody.Part.createFormData(
-//                "data",
-//                """{"username":"${username}","image_name":"${photo}"}"""
-//            )
-            val userId = MultipartBody.Part.createFormData(
-                "id",
-                "$id"
-            )
-            menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, userId)
-            menuAccountImage.setImageBitmap(imageBitmap)
         }
     }
 
-    fun getOriginalPathFromUri(contentUri: Uri): String? {
-        var originalPath: String? = null
-        val projection =
-            arrayOf(MediaStore.Images.Media.DATA)
-        val cursor: Cursor? =
-            activity?.contentResolver?.query(contentUri, projection, null, null, null)
-        if (cursor?.moveToFirst()!!) {
-            val columnIndex: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            originalPath = cursor.getString(columnIndex)
-        }
-        return originalPath
-    }
-
-    private fun browseImageFile() {
-        val selectFileIntent =
-            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        startActivityForResult(selectFileIntent, SELECT_FILE_FROM_STORAGE)
-    }
-
-    fun openCamera() {
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraIntent.resolveActivity(this.requireActivity().packageManager)
-        photoFile = createImageFile()
-        val photoURI =
-            FileProvider.getUriForFile(
-                this.requireContext(),
-                "com.app.playup.fileprovider",
-                photoFile
-            )
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-        startActivityForResult(cameraIntent, OPEN_CAMERA_REQUEST_CODE)
-    }
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            currentPhotoPath = absolutePath
-        }
+    //image picker library
+    private fun imagePicker() {
+        ImagePicker.with(this)
+            .compress(1024)                     //Final image size will be less than 1 MB(Optional)
+            .maxResultSize(
+                1080,
+                1080
+            )     //Final image resolution will be less than 1080 x 1080(Optional)
+//                    .cropSquare()
+            .start(66)
     }
 
     //fungsi keluar google namun data google masih terhubung dengan aplikasi (unsecure)
@@ -449,8 +388,14 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             val personEmail = acct.email
             val personId = acct.id
             val personPhoto: Uri? = acct.photoUrl
-            googleUsername = personName
-            googlePhoto = personPhoto
+            if (personName != "" || personName != null) {
+                if (personPhoto == null) {
+                    Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+                } else {
+                    Picasso.get().load(personPhoto).into(menuAccountImage)
+                }
+                menuAccountText.text = "$personName\nMatch : 0\nMenang : 0\nKalah : 0"
+            }
         }
     }
 
@@ -471,15 +416,15 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     var facebookProfileLinkUri = currentProfile.linkUri
                     var facebookProfilePicture =
                         currentProfile.getProfilePictureUri(150, 150)
-                    facebookUsername = facebookProfileName
-                    facebookPhoto = facebookProfilePicture
-                    if (facebookPhoto == null) {
-                        Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-                    } else {
-                        Picasso.get().load(facebookPhoto).into(menuAccountImage)
+                    if (facebookProfileName != null || facebookProfileName != "") {
+                        if (facebookProfilePicture == null) {
+                            Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+                        } else {
+                            Picasso.get().load(facebookProfilePicture).into(menuAccountImage)
+                        }
+                        menuAccountText.text =
+                            "$facebookProfileName\nMatch : 0\nMenang : 0\nKalah : 0"
                     }
-                    menuAccountText.text =
-                        "$facebookUsername\nMatch : 100\nRank : 70\nLogin : $loginMethod"
                     mProfileTracker?.stopTracking()
                 }
             }
@@ -493,8 +438,15 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             var facebookProfileLinkUri = profile.linkUri
             var facebookProfilePicture =
                 profile.getProfilePictureUri(150, 150)
-            facebookUsername = facebookProfileName
-            facebookPhoto = facebookProfilePicture
+            if (facebookProfileName != null || facebookProfileName != "") {
+                if (facebookProfilePicture == null) {
+                    Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+                } else {
+                    Picasso.get().load(facebookProfilePicture).into(menuAccountImage)
+                }
+                menuAccountText.text =
+                    "$facebookProfileName\nMatch : 0\nMenang : 0\nKalah : 0"
+            }
         }
     }
 }
