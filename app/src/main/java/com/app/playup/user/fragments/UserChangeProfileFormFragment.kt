@@ -118,6 +118,7 @@ class UserChangeProfileFormFragment : Fragment(), View.OnClickListener {
                     } else {
                         userRegisterViewModel.updateUserProfil(
                             UserRegisterModel(
+                                id = id!!,
                                 user_full_name = user_full_name!!,
                                 username = username!!,
                                 email = email!!,

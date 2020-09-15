@@ -42,6 +42,7 @@ class UserRegisterRepository @Inject constructor(val userRegisterAPI: UserRegist
 
             override fun onResponse(call: Call<Wrapper>, response: Response<Wrapper>) {
                 if(response.code()!=404){
+                    println(response.body()?.message.toString())
                     Toast.makeText(context,"Update profil berhasil",Toast.LENGTH_SHORT).show()
                 }else{
                     Toast.makeText(context,"Update profil gagal",Toast.LENGTH_SHORT).show()
