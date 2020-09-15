@@ -13,6 +13,7 @@ import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.schedule.recycleview.ScheduleRecycleView
 import com.app.playup.schedule.viewmodel.ScheduleViewModel
+import com.app.playup.utils.EmptyDataFragment
 import kotlinx.android.synthetic.main.fragment_schedule_active.*
 import kotlinx.android.synthetic.main.fragment_schedule_inactive.*
 import javax.inject.Inject
@@ -21,6 +22,7 @@ class ScheduleInactiveFragment : Fragment() {
     lateinit var scheduleRecycleView: ScheduleRecycleView
     var sharedPreferences: SharedPreferences? = null
     var id: String? = ""
+
     @Inject
     lateinit var scheduleViewModel: ScheduleViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +52,17 @@ class ScheduleInactiveFragment : Fragment() {
         scheduleInactiveRecycleViewContainer.layoutManager = LinearLayoutManager(this.context)
         scheduleViewModel.getInactiveSchedule(id!!)
         scheduleViewModel.scheduleInactiveResponseData.observe(viewLifecycleOwner, Observer {
-            scheduleRecycleView = ScheduleRecycleView(it,id!!)
-            scheduleInactiveRecycleViewContainer.adapter = scheduleRecycleView
+            if (it != null) {
+                scheduleRecycleView = ScheduleRecycleView(it, id!!)
+                scheduleInactiveRecycleViewContainer.adapter = scheduleRecycleView
+            } else {
+                switchFragment(EmptyDataFragment())
+            }
         })
+    }
+
+    fun switchFragment(fragment: Fragment) {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.menuScheduleContainer, fragment)?.commit()
     }
 }

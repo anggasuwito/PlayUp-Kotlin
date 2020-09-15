@@ -39,6 +39,8 @@ class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
                             Gson().fromJson(stringResponseData, Array<ScheduleModel>::class.java)
                                 .toList()
                         scheduleActiveResponseData.value = scheduleResponseDataObject
+                    }else{
+                        scheduleActiveResponseData.value = null
                     }
                 }
             })
@@ -66,6 +68,8 @@ class ScheduleRepository @Inject constructor(val scheduleAPI: ScheduleAPI) {
                             Gson().fromJson(stringResponseData, Array<ScheduleModel>::class.java)
                                 .toList()
                         scheduleInactiveResponseData.value = scheduleResponseDataObject
+                    }else{
+                        scheduleActiveResponseData.value = null
                     }
                 }
             })

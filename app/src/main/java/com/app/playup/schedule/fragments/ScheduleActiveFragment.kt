@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
+import com.app.playup.menu.fragments.MenuHomeFragment
 import com.app.playup.schedule.recycleview.ScheduleRecycleView
 import com.app.playup.schedule.viewmodel.ScheduleViewModel
+import com.app.playup.utils.EmptyDataFragment
 import kotlinx.android.synthetic.main.fragment_schedule_active.*
 import kotlinx.android.synthetic.main.recycle_view_schedule.*
 import javax.inject.Inject
@@ -48,10 +51,15 @@ class ScheduleActiveFragment : Fragment() {
         scheduleActiveRecycleViewContainer.layoutManager = LinearLayoutManager(this.context)
         scheduleViewModel.getActiveSchedule(id!!)
         scheduleViewModel.scheduleActiveResponseData.observe(viewLifecycleOwner, Observer {
-            scheduleRecycleView = ScheduleRecycleView(it,"active")
-            scheduleActiveRecycleViewContainer.adapter = scheduleRecycleView
+            if (it != null) {
+                scheduleRecycleView = ScheduleRecycleView(it, "active")
+                scheduleActiveRecycleViewContainer.adapter = scheduleRecycleView
+            } else {
+               switchFragment(EmptyDataFragment())
+            }
         })
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         id = sharedPreferences?.getString(
@@ -61,8 +69,17 @@ class ScheduleActiveFragment : Fragment() {
         scheduleActiveRecycleViewContainer.layoutManager = LinearLayoutManager(this.context)
         scheduleViewModel.getActiveSchedule(id!!)
         scheduleViewModel.scheduleActiveResponseData.observe(viewLifecycleOwner, Observer {
-            scheduleRecycleView = ScheduleRecycleView(it,"active")
-            scheduleActiveRecycleViewContainer.adapter = scheduleRecycleView
+            if (it != null) {
+                scheduleRecycleView = ScheduleRecycleView(it, "active")
+                scheduleActiveRecycleViewContainer.adapter = scheduleRecycleView
+            } else {
+                switchFragment(EmptyDataFragment())
+            }
         })
+    }
+
+    fun switchFragment(fragment: Fragment) {
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.menuScheduleContainer, fragment)?.commit()
     }
 }

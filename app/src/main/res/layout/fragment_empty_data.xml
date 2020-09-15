@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rankSingleTennisBorderLayout"
+    android:id="@+id/emptyDataLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/customBackground"
-    tools:context=".rank.fragments.RankSingleTennisBorderFragment">
+    tools:context=".utils.EmptyDataFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,10 +25,11 @@
 
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="300dp"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="100dp"
-                android:src="@drawable/comingsoon_animation" />
+                android:src="@drawable/nodata_animation" />
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
