@@ -138,8 +138,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     }
                     var rankKalah = (it.rank_user_match_count?.toInt()
                         ?.minus(it.rank_user_grade_count!!.toInt())).toString()
-                    menuAccountText.text =
-                        "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
+                    menuAccountUsernameText.text = "$username"
+                    menuAccountMatchText.text = "Pertandingan : ${it.rank_user_match_count}"
+                    menuAccountWinText.text = "Menang : ${it.rank_user_grade_count}"
+                    menuAccountLoseText.text = "Kalah : $rankKalah"
                 })
         }
     }
@@ -272,10 +274,11 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     }
                     var rankKalah = (it.rank_user_match_count?.toInt()
                         ?.minus(it.rank_user_grade_count!!.toInt())).toString()
-                    menuAccountText.text =
-                        "$username\nMatch : ${it.rank_user_match_count}\nMenang : ${it.rank_user_grade_count}\nKalah : $rankKalah"
+                    menuAccountUsernameText.text = "$username"
+                    menuAccountMatchText.text = "Pertandingan : ${it.rank_user_match_count}"
+                    menuAccountWinText.text = "Menang : ${it.rank_user_grade_count}"
+                    menuAccountLoseText.text = "Kalah : $rankKalah"
                 })
-
         }
     }
 
@@ -394,7 +397,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 } else {
                     Picasso.get().load(personPhoto).into(menuAccountImage)
                 }
-                menuAccountText.text = "$personName\nMatch : 0\nMenang : 0\nKalah : 0"
+                menuAccountUsernameText.text = "$personName"
+                menuAccountMatchText.text = "Pertandingan : 0"
+                menuAccountWinText.text = "Menang : 0"
+                menuAccountLoseText.text = "Kalah : 0"
             }
         }
     }
@@ -422,8 +428,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                         } else {
                             Picasso.get().load(facebookProfilePicture).into(menuAccountImage)
                         }
-                        menuAccountText.text =
-                            "$facebookProfileName\nMatch : 0\nMenang : 0\nKalah : 0"
+                        menuAccountUsernameText.text = "$facebookProfileName"
+                        menuAccountMatchText.text = "Pertandingan : 0"
+                        menuAccountWinText.text = "Menang : 0"
+                        menuAccountLoseText.text = "Kalah : 0"
                     }
                     mProfileTracker?.stopTracking()
                 }
@@ -444,8 +452,10 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 } else {
                     Picasso.get().load(facebookProfilePicture).into(menuAccountImage)
                 }
-                menuAccountText.text =
-                    "$facebookProfileName\nMatch : 0\nMenang : 0\nKalah : 0"
+                menuAccountUsernameText.text = "$facebookProfileName"
+                menuAccountMatchText.text = "Pertandingan : 0"
+                menuAccountWinText.text = "Menang : 0"
+                menuAccountLoseText.text = "Kalah : 0"
             }
         }
     }

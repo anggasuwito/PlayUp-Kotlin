@@ -19,6 +19,7 @@ import javax.inject.Inject
 class RankRecycleView(val rankList: List<RankModel>, activity: Activity) :
     RecyclerView.Adapter<RankViewHolder>() {
     var activity = activity
+
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
 
@@ -39,12 +40,18 @@ class RankRecycleView(val rankList: List<RankModel>, activity: Activity) :
         val grade = rankList[position].rank_grade_count
         val photo = rankList[position].rank_user_photo_profile
         var rankKalah = (match?.toInt()?.minus(grade!!.toInt())).toString()
-        holder.rankListText.text = "$username\nMatch : $match\nMenang : $grade\nKalah : $rankKalah"
-        menuAccountViewModel.getUserPhoto(photo,holder.rankListImage,activity)
+        holder.rankListUsernameText.text = "$username"
+        holder.rankListMatchText.text = "Pertandingan : $match"
+        holder.rankListWinText.text = "Menang : $grade"
+        holder.rankListLoseText.text = "Kalah : $rankKalah"
+        menuAccountViewModel.getUserPhoto(photo, holder.rankListImage, activity)
     }
 }
 
 class RankViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-    val rankListText = v.findViewById<TextView>(R.id.rankListText)
+    val rankListUsernameText = v.findViewById<TextView>(R.id.rankListUsernameText)
+    val rankListMatchText = v.findViewById<TextView>(R.id.rankListMatchText)
+    val rankListWinText = v.findViewById<TextView>(R.id.rankListWinText)
+    val rankListLoseText = v.findViewById<TextView>(R.id.rankListLoseText)
     val rankListImage = v.findViewById<CircleImageView>(R.id.rankListImage)
 }

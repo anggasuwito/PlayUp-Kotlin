@@ -49,27 +49,90 @@
                         app:civ_border_width="2dp" />
 
                     <TextView
-                        android:id="@+id/menuAccountText"
+                        android:id="@+id/menuAccountUsernameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:textAlignment="center"
                         android:textColor="@color/customWhite"
+                        android:textSize="25dp" />
+                    <TextView
+                        android:id="@+id/menuAccountMatchText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@color/customWhite"
+                        android:textSize="25dp" />
+                    <TextView
+                        android:id="@+id/menuAccountWinText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@color/customWhite"
+                        android:textSize="25dp" />
+                    <TextView
+                        android:id="@+id/menuAccountLoseText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textAlignment="center"
+                        android:textColor="@color/customWhite"
                         android:layout_marginBottom="20dp"
                         android:textSize="25dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+            <FrameLayout
+                android:id="@+id/menuAccountFacebookButtonLayout"
+                android:layout_width="match_parent"
+                android:layout_marginTop="60dp"
+                android:layout_height="wrap_content">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/menuAccountFacebookButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/menuAccountFacebookButtonMaterial"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/customFacebook"
+                    android:text="HUBUNGKAN DENGAN FACEBOOK"
+                    android:layout_gravity="center"
+                    android:textColor="@color/customWhite"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/com_facebook_button_icon"
+                    app:iconSize="25dp"
+                    app:iconTint="@color/customBackground" />
+            </FrameLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/menuAccountGoogleButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/customGoogle"
+                android:text="HUBUNGKAN DENGAN GOOGLE"
+                android:textColor="@color/customWhite"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/ic_icons8_google"
+                app:iconSize="25dp"
+                app:iconTint="@color/customBackground" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/menuAccountSettingProfile"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
                 android:text="UBAH PROFILE"
                 android:layout_gravity="center"
                 android:textColor="@color/customWhite"
                 android:backgroundTint="@color/customButton"
                 app:cornerRadius="10dp"/>
+
 <!--            <com.google.android.material.button.MaterialButton-->
 <!--                android:id="@+id/menuAccountSettingPassword"-->
 <!--                android:layout_width="300dp"-->

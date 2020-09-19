@@ -21,8 +21,6 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/menuRankMaterialCard"
                 android:layout_width="match_parent"
