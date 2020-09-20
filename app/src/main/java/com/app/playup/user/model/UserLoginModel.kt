@@ -2,7 +2,9 @@ package com.app.playup.user.model
 
 class UserLoginModel(
     var username: String = "default",
-    var password: String = "default"
+    var password: String = "default",
+    var facebook_account: String = "default",
+    var google_account: String = "default"
 ) {}
 
 class UserLoginResponseDataModel(
@@ -13,9 +15,11 @@ class UserLoginResponseDataModel(
     var gender: String = "default",
     var email: String = "default",
     var password: String = "default",
-    var rank_id:String="default",
-    var rank_user_match_count:String= "default",
-    var rank_user_grade_count:String= "default",
+    var rank_id: String = "default",
+    var rank_user_match_count: String = "default",
+    var rank_user_grade_count: String = "default",
     var created: String = "default",
-    var updated: String = "default"
+    var updated: String = "default",
+    var facebook_account: String = "default",
+    var google_account: String = "default"
 ) {}

@@ -16,7 +16,7 @@ import com.app.playup.match.viewmodel.MatchViewModel
 import kotlinx.android.synthetic.main.fragment_menu_play.*
 import javax.inject.Inject
 
-class MenuPlayFragment : Fragment(),View.OnClickListener {
+class MenuPlayFragment : Fragment(){
     var sharedPreferences: SharedPreferences? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,36 +40,8 @@ class MenuPlayFragment : Fragment(),View.OnClickListener {
             getString(R.string.login_method_key),
             getString(R.string.default_value)
         )
-        if(loginMethod == "googleLogin"){
-            menuPlayFindOpponentButton.setOnClickListener{
-                Toast.makeText(
-                    this.context,
-                    "Tidak bisa main dengan login google",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }else if (loginMethod == "facebookLogin"){
-            menuPlayFindOpponentButton.setOnClickListener{
-                Toast.makeText(
-                    this.context,
-                    "Tidak bisa main dengan login facebook",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }else{
             menuPlayFindOpponentButton.setOnClickListener{
                 view?.findNavController()?.navigate(R.id.action_global_matchActivity)
             }
-        }
-
-//        menuPlayWaitOpponentButton.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-        when(v){
-//            menuPlayWaitOpponentButton->{
-//                v?.findNavController()?.navigate(R.id.action_global_matchActivity, bundleOf("status" to "WAIT"))
-//            }
-        }
     }
 }

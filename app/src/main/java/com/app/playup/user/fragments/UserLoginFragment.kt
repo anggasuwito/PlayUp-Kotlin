@@ -3,6 +3,7 @@ package com.app.playup.user.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.app.playup.dagger.MyApplication
 import com.app.playup.user.model.UserLoginModel
 import com.app.playup.user.viewmodel.UserLoginViewModel
 import com.facebook.*
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import kotlinx.android.synthetic.main.fragment_menu_home.*
 import kotlinx.android.synthetic.main.fragment_user_login.*
 import javax.inject.Inject
 
@@ -132,6 +135,135 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                     })
                 }
             })
+        userLoginViewModel.userLoginGoogleResponseData.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (it != null) {
+                    with(sharedPreferences?.edit()) {
+                        this?.putString(
+                            getString(R.string.id_key),
+                            it.id
+                        )
+                        this?.putString(
+                            getString(R.string.photo_key),
+                            it.photo
+                        )
+                        this?.putString(
+                            getString(R.string.username_key),
+                            it.username
+                        )
+                        this?.putString(
+                            getString(R.string.username_full_name_key),
+                            it.user_full_name
+                        )
+                        this?.putString(
+                            getString(R.string.gender_key),
+                            it.gender
+                        )
+                        this?.putString(
+                            getString(R.string.email_key),
+                            it.email
+                        )
+                        this?.putString(
+                            getString(R.string.rank_id_key),
+                            it.rank_id
+                        )
+                        this?.putString(
+                            getString(R.string.rank_user_match_count_key),
+                            it.rank_user_match_count
+                        )
+                        this?.putString(
+                            getString(R.string.rank_user_grade_count_key),
+                            it.rank_user_grade_count
+                        )
+                        this?.putString(
+                            getString(R.string.login_method_key),
+                            "googleLogin"
+                        )
+                        this?.commit()
+                    }
+                    Toast.makeText(
+                        this.context,
+                        "Sukses login dengan google",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    println("GOOGLE IN")
+                    googleSignOutWithButton()
+                    revokeAccessGoogleSignOut()
+                    navController.navigate(R.id.action_global_userMenuActivity)
+                } else {
+                    println("GOOGLE FAIL IN")
+                    googleSignOutWithButton()
+                    revokeAccessGoogleSignOut()
+                    Toast.makeText(
+                        this.context,
+                        "Akun google ini tidak terhubung dengan akun manapun",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        userLoginViewModel.userLoginFacebookResponseData.observe(viewLifecycleOwner,
+            Observer {
+                if (it != null) {
+                    with(sharedPreferences?.edit()) {
+                        this?.putString(
+                            getString(R.string.id_key),
+                            it.id
+                        )
+                        this?.putString(
+                            getString(R.string.photo_key),
+                            it.photo
+                        )
+                        this?.putString(
+                            getString(R.string.username_key),
+                            it.username
+                        )
+                        this?.putString(
+                            getString(R.string.username_full_name_key),
+                            it.user_full_name
+                        )
+                        this?.putString(
+                            getString(R.string.gender_key),
+                            it.gender
+                        )
+                        this?.putString(
+                            getString(R.string.email_key),
+                            it.email
+                        )
+                        this?.putString(
+                            getString(R.string.rank_id_key),
+                            it.rank_id
+                        )
+                        this?.putString(
+                            getString(R.string.rank_user_match_count_key),
+                            it.rank_user_match_count
+                        )
+                        this?.putString(
+                            getString(R.string.rank_user_grade_count_key),
+                            it.rank_user_grade_count
+                        )
+                        this?.putString(
+                            getString(R.string.login_method_key),
+                            "facebookLogin"
+                        )
+                        this?.commit()
+                    }
+                    Toast.makeText(
+                        requireContext(),
+                        "Sukses login dengan facebook",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    LoginManager.getInstance().logOut()
+                    navController.navigate(R.id.action_global_userMenuActivity)
+                } else {
+                    LoginManager.getInstance().logOut()
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun facebook ini tidak terhubung dengan akun manapun",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 
     override fun onClick(v: View?) {
@@ -157,47 +289,9 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
             }
             userLoginFacebookButton -> {
                 facebookSignIn()
-                with(sharedPreferences?.edit()) {
-                    this?.putString(
-                        getString(R.string.photo_key),
-                        "facebookPhotoDefault.jpg"
-                    )
-                    this?.putString(
-                        getString(R.string.username_key),
-                        "facebook"
-                    )
-                    this?.putString(
-                        getString(R.string.gender_key),
-                        "L"
-                    )
-                    this?.putString(
-                        getString(R.string.login_method_key),
-                        "facebookLogin"
-                    )
-                    this?.commit()
-                }
             }
             userLoginGoogleButton -> {
                 googleSignIn()
-                with(sharedPreferences?.edit()) {
-                    this?.putString(
-                        getString(R.string.photo_key),
-                        "googlePhotoDefault.jpg"
-                    )
-                    this?.putString(
-                        getString(R.string.username_key),
-                        "google"
-                    )
-                    this?.putString(
-                        getString(R.string.gender_key),
-                        "P"
-                    )
-                    this?.putString(
-                        getString(R.string.login_method_key),
-                        "googleLogin"
-                    )
-                    this?.commit()
-                }
             }
         }
     }
@@ -253,10 +347,9 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
             // Signed in successfully, show authenticated UI.
             //  updateUI(account)
             if (account != null) {
-                Toast.makeText(this.context, "Sukses login dengan google", Toast.LENGTH_SHORT)
-                navController.navigate(R.id.action_global_userMenuActivity)
+                googleProfileResponse()
             } else {
-                Toast.makeText(this.context, "Gagal login dengan google", Toast.LENGTH_SHORT)
+                Toast.makeText(this.context, "Gagal login dengan google", Toast.LENGTH_SHORT).show()
             }
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
@@ -281,7 +374,7 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
             override fun onSuccess(loginResult: LoginResult?) {
                 // App code
                 println("SUCCESS FB = " + loginResult?.accessToken)
-                navController.navigate(R.id.action_global_userMenuActivity)
+                facebookProfileResponse()
             }
 
             override fun onCancel() {
@@ -294,5 +387,114 @@ class UserLoginFragment : Fragment(), View.OnClickListener {
                 println("ERROR FB = " + exception)
             }
         })
+    }
+
+    //google profile response
+    fun googleProfileResponse() {
+        val acct = GoogleSignIn.getLastSignedInAccount(activity)
+        if (acct != null) {
+            val personName = acct.displayName
+            val personGivenName = acct.givenName
+            val personFamilyName = acct.familyName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto: Uri? = acct.photoUrl
+            if (personName != null || personName != "") {
+                userLoginViewModel.loginWithGoogle(
+                    UserLoginModel(
+                        google_account = personId!!,
+                        facebook_account = ""
+                    )
+                )
+            }
+        }
+    }
+
+    //facebook profile response
+    fun facebookProfileResponse() {
+        if (Profile.getCurrentProfile() == null) {
+            var mProfileTracker: ProfileTracker? = null
+            mProfileTracker = object : ProfileTracker() {
+                override fun onCurrentProfileChanged(
+                    oldProfile: Profile?,
+                    currentProfile: Profile
+                ) {
+                    mProfileTracker?.startTracking()
+                    var facebookProfileId = currentProfile.id
+                    var facebookProfileFname = currentProfile.firstName
+                    var facebookProfileMname = currentProfile.middleName
+                    var facebookProfileLname = currentProfile.lastName
+                    var facebookProfileName = currentProfile.name
+                    var facebookProfileLinkUri = currentProfile.linkUri
+                    var facebookProfilePicture =
+                        currentProfile.getProfilePictureUri(150, 150)
+                    if (facebookProfileName != null || facebookProfileName != "") {
+                        userLoginViewModel.loginWithFacebook(
+                            UserLoginModel(
+                                facebook_account = facebookProfileId,
+                                google_account = ""
+                            )
+                        )
+                    }
+                    mProfileTracker?.stopTracking()
+                }
+            }
+        } else {
+            val profile: Profile = Profile.getCurrentProfile()
+            var facebookProfileId = profile.id
+            var facebookProfileFname = profile.firstName
+            var facebookProfileMname = profile.middleName
+            var facebookProfileLname = profile.lastName
+            var facebookProfileName = profile.name
+            var facebookProfileLinkUri = profile.linkUri
+            var facebookProfilePicture =
+                profile.getProfilePictureUri(150, 150)
+            if (facebookProfileName != null || facebookProfileName != "") {
+                userLoginViewModel.loginWithFacebook(
+                    UserLoginModel(
+                        facebook_account = facebookProfileId,
+                        google_account = ""
+                    )
+                )
+            }
+        }
+    }
+
+    //fungsi keluar google namun data google masih terhubung dengan aplikasi (unsecure)
+    fun googleSignOutWithButton() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
+        //        mGoogleSignInClient.signOut()
+        //            .addOnCompleteListener(this, object : OnCompleteListener<Void?> {
+        //                override fun onComplete(p0: Task<Void?>) {
+        //
+        //                }
+        //            })
+        mGoogleSignInClient.signOut()
+            .addOnCompleteListener {
+                println("LOGOUT IT = " + it)
+            }
+    }
+
+    //fungsi keluar google dan memutuskan data google dengan aplikasi (secure and recommended)
+    private fun revokeAccessGoogleSignOut() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
+        //        mGoogleSignInClient.revokeAccess()
+        //            .addOnCompleteListener(
+        //                this,
+        //                OnCompleteListener<Void?> {
+        //                    // ...
+        //                })
+        mGoogleSignInClient.revokeAccess()
+            .addOnCompleteListener {
+                println("REVOKE IT = " + it)
+            }
     }
 }

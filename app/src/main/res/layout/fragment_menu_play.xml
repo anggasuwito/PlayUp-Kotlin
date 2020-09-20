@@ -105,7 +105,7 @@
                         android:layout_marginLeft="60dp"
                         android:layout_marginRight="60dp"
                         android:id="@+id/selectPlayMatchType"
-                        android:checkedButton="@+id/userRegisterMale"
+                        android:checkedButton="@+id/playBadmintonSingle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <RadioButton

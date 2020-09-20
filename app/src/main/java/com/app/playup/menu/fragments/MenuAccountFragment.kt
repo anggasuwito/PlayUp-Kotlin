@@ -1,59 +1,47 @@
 package com.app.playup.menu.fragments
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.database.Cursor
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import com.app.playup.R
 import com.app.playup.dagger.MyApplication
 import com.app.playup.menu.viewmodel.MenuAccountViewModel
+import com.app.playup.user.model.UserLoginModel
+import com.app.playup.user.model.UserLoginResponseDataModel
 import com.app.playup.user.viewmodel.UserLoginViewModel
-import com.bumptech.glide.Glide
-import com.facebook.Profile
-import com.facebook.ProfileTracker
+import com.facebook.*
 import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_menu_account.*
-import kotlinx.android.synthetic.main.fragment_menu_home.*
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 class MenuAccountFragment : Fragment(), View.OnClickListener {
     var sharedPreferences: SharedPreferences? = null
     val OPEN_CAMERA_REQUEST_CODE = 13
+    val GOOGLE_SIGN_IN_REQUEST = 666
+    var callbackManager: CallbackManager? = null
     lateinit var photoFile: File
     lateinit var currentPhotoPath: String
     var username: String? = ""
@@ -63,6 +51,8 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
     var rankMatchUser: String? = ""
     var rankGradeUser: String? = ""
     var loginMethod: String? = ""
+    var googleAccountID: String? = ""
+    var facebookAccountID: String? = ""
 
     @Inject
     lateinit var menuAccountViewModel: MenuAccountViewModel
@@ -108,41 +98,170 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             getString(R.string.login_method_key),
             getString(R.string.default_value)
         )
-        if (loginMethod == "appLogin") {
-            if (photo == "facebookPhotoDefault.jpg") {
-                Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-            } else if (photo == "googlePhotoDefault.jpg") {
-                Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
-            } else if (photo == "defaultUserPhoto.jpg") {
-                Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
-            } else {
-                menuAccountViewModel.getUserPhoto(
-                    photo!!,
-                    menuAccountImage,
-                    this.requireActivity()
-                )
-                println("IMAGE FETCH")
+        if (photo == "facebookPhotoDefault.jpg") {
+            Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+        } else if (photo == "googlePhotoDefault.jpg") {
+            Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+        } else if (photo == "defaultUserPhoto.jpg") {
+            Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
+        } else {
+            menuAccountViewModel.getUserPhoto(
+                photo!!,
+                menuAccountImage,
+                this.requireActivity()
+            )
+            println("IMAGE FETCH")
+        }
+        menuAccountSettingProfile.setOnClickListener(this)
+        menuAccountImage.setOnClickListener(this)
+        userLoginViewModel.getUserById(id!!)
+        userLoginViewModel.userByIdResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it.google_account != "") {
+                    println("MASUK GOOGLE IF")
+                    menuAccountGoogleButton.text = "PUTUSKAN DARI GOOGLE"
+                    menuAccountGoogleButton.setOnClickListener {
+                        userLoginViewModel.updateGoogleAccount(
+                            UserLoginResponseDataModel(
+                                google_account = "", id = id!!
+                            )
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Akun ini berhasil diputuskan dari google",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        refreshFragment()
+                    }
+                } else {
+                    println("MASUK GOOGLE ELSE")
+                    menuAccountGoogleButton.text = "HUBUNGKAN DENGAN GOOGLE"
+                    menuAccountGoogleButton.setOnClickListener {
+                        googleSignIn()
+                    }
+                }
+
+                if (it.facebook_account != "") {
+                    println("MASUK FACEBOOK IF")
+                    menuAccountFacebookButtonMaterial.text = "PUTUSKAN DARI FACEBOOK"
+                    menuAccountFacebookButton.setOnClickListener {
+
+                    }
+                    menuAccountFacebookButtonMaterial.setOnClickListener {
+                        userLoginViewModel.updateFacebookAccount(
+                            UserLoginResponseDataModel(
+                                facebook_account = "", id = id!!
+                            )
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Akun ini berhasil diputuskan dari facebook",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        refreshFragment()
+                    }
+                } else {
+                    println("MASUK FACEBOOK ELSE")
+                    menuAccountFacebookButtonMaterial.text = "HUBUNGKAN DENGAN FACEBOOK"
+                    menuAccountFacebookButton.setOnClickListener {
+                        facebookSignIn()
+                    }
+                    menuAccountFacebookButtonMaterial.setOnClickListener {
+                        menuAccountFacebookButton.performClick()
+                    }
+                }
+
+                if (it.rank_user_match_count == "DEFAULT") {
+                    it.rank_user_match_count = "0"
+                }
+                if (it.rank_user_grade_count == "DEFAULT") {
+                    it.rank_user_grade_count = "0"
+                }
+                var rankKalah = (it.rank_user_match_count?.toInt()
+                    ?.minus(it.rank_user_grade_count!!.toInt())).toString()
+                menuAccountUsernameText.text = "$username"
+                menuAccountMatchText.text = "Pertandingan : ${it.rank_user_match_count}"
+                menuAccountWinText.text = "Menang : ${it.rank_user_grade_count}"
+                menuAccountLoseText.text = "Kalah : $rankKalah"
+            })
+        userLoginViewModel.userLoginFacebookResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it != null) {
+                    LoginManager.getInstance().logOut()
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun facebook ini sudah terhubung dengan akun lain",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    refreshFragment()
+                } else {
+                    userLoginViewModel.updateFacebookAccount(
+                        UserLoginResponseDataModel(
+                            facebook_account = facebookAccountID!!, id = id!!
+                        )
+                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun ini berhasil terhubung dengan facebook",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    LoginManager.getInstance().logOut()
+                    refreshFragment()
+                }
+            })
+        userLoginViewModel.userLoginGoogleResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it != null) {
+                    googleSignOutWithButton()
+                    revokeAccessGoogleSignOut()
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun google ini sudah terhubung dengan akun lain",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    refreshFragment()
+                } else {
+                    userLoginViewModel.updateGoogleAccount(
+                        UserLoginResponseDataModel(
+                            google_account = googleAccountID!!,
+                            id = id!!
+                        )
+                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun ini berhasil terhubung dengan google",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    googleSignOutWithButton()
+                    revokeAccessGoogleSignOut()
+                    refreshFragment()
+                }
+            })
+
+        if (loginMethod == "googleLogin") {
+            menuAccountLogout.setOnClickListener {
+                googleSignOutWithButton()
+                revokeAccessGoogleSignOut()
+                with(sharedPreferences?.edit()) {
+                    this?.clear()
+                    this?.commit()
+                }
+                activity?.finish()
             }
-            menuAccountSettingProfile.setOnClickListener(this)
-            menuAccountImage.setOnClickListener(this)
+        } else if (loginMethod == "facebookLogin") {
+            menuAccountLogout.setOnClickListener {
+                LoginManager.getInstance().logOut()
+                with(sharedPreferences?.edit()) {
+                    this?.clear()
+                    this?.commit()
+                }
+                activity?.finish()
+            }
+        } else {
             menuAccountLogout.setOnClickListener(this)
-            userLoginViewModel.getUserById(id!!)
-            userLoginViewModel.userByIdResponseData.observe(
-                viewLifecycleOwner,
-                androidx.lifecycle.Observer {
-                    if (it.rank_user_match_count == "DEFAULT") {
-                        it.rank_user_match_count = "0"
-                    }
-                    if (it.rank_user_grade_count == "DEFAULT") {
-                        it.rank_user_grade_count = "0"
-                    }
-                    var rankKalah = (it.rank_user_match_count?.toInt()
-                        ?.minus(it.rank_user_grade_count!!.toInt())).toString()
-                    menuAccountUsernameText.text = "$username"
-                    menuAccountMatchText.text = "Pertandingan : ${it.rank_user_match_count}"
-                    menuAccountWinText.text = "Menang : ${it.rank_user_grade_count}"
-                    menuAccountLoseText.text = "Kalah : $rankKalah"
-                })
         }
     }
 
@@ -196,22 +315,151 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 }
             })
 
+
+        if (photo == "facebookPhotoDefault.jpg") {
+            Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
+        } else if (photo == "googlePhotoDefault.jpg") {
+            Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
+        } else if (photo == "defaultUserPhoto.jpg") {
+            Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
+        } else {
+            menuAccountViewModel.getUserPhoto(
+                photo!!,
+                menuAccountImage,
+                this.requireActivity()
+            )
+        }
+        menuAccountSettingProfile.setOnClickListener(this)
+        menuAccountImage.setOnClickListener(this)
+        userLoginViewModel.getUserById(id!!)
+        userLoginViewModel.userByIdResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it.google_account != "") {
+                    println("MASUK GOOGLE IF")
+                    menuAccountGoogleButton.text = "PUTUSKAN DARI GOOGLE"
+                    menuAccountGoogleButton.setOnClickListener {
+                        userLoginViewModel.updateGoogleAccount(
+                            UserLoginResponseDataModel(
+                                google_account = "", id = id!!
+                            )
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Akun ini berhasil diputuskan dari google",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        refreshFragment()
+                    }
+                } else {
+                    println("MASUK GOOGLE ELSE")
+                    menuAccountGoogleButton.text = "HUBUNGKAN DENGAN GOOGLE"
+                    menuAccountGoogleButton.setOnClickListener {
+                        googleSignIn()
+                    }
+                }
+
+                if (it.facebook_account != "") {
+                    println("MASUK FACEBOOK IF")
+                    menuAccountFacebookButtonMaterial.text = "PUTUSKAN DARI FACEBOOK"
+                    menuAccountFacebookButton.setOnClickListener {
+
+                    }
+                    menuAccountFacebookButtonMaterial.setOnClickListener {
+                        userLoginViewModel.updateFacebookAccount(
+                            UserLoginResponseDataModel(
+                                facebook_account = "", id = id!!
+                            )
+                        )
+                        Toast.makeText(
+                            requireContext(),
+                            "Akun ini berhasil diputuskan dari facebook",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        refreshFragment()
+                    }
+                } else {
+                    println("MASUK FACEBOOK ELSE")
+                    menuAccountFacebookButtonMaterial.text = "HUBUNGKAN DENGAN FACEBOOK"
+                    menuAccountFacebookButton.setOnClickListener {
+                        facebookSignIn()
+                    }
+                    menuAccountFacebookButtonMaterial.setOnClickListener {
+                        menuAccountFacebookButton.performClick()
+                    }
+                }
+
+                if (it.rank_user_match_count == "DEFAULT") {
+                    it.rank_user_match_count = "0"
+                }
+                if (it.rank_user_grade_count == "DEFAULT") {
+                    it.rank_user_grade_count = "0"
+                }
+                var rankKalah = (it.rank_user_match_count?.toInt()
+                    ?.minus(it.rank_user_grade_count!!.toInt())).toString()
+                menuAccountUsernameText.text = "$username"
+                menuAccountMatchText.text = "Pertandingan : ${it.rank_user_match_count}"
+                menuAccountWinText.text = "Menang : ${it.rank_user_grade_count}"
+                menuAccountLoseText.text = "Kalah : $rankKalah"
+            })
+        userLoginViewModel.userLoginFacebookResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it != null) {
+                    LoginManager.getInstance().logOut()
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun facebook ini sudah terhubung dengan akun lain",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    refreshFragment()
+                } else {
+                    userLoginViewModel.updateFacebookAccount(
+                        UserLoginResponseDataModel(
+                            facebook_account = facebookAccountID!!, id = id!!
+                        )
+                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun ini berhasil terhubung dengan facebook",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    LoginManager.getInstance().logOut()
+                    refreshFragment()
+                }
+            })
+        userLoginViewModel.userLoginGoogleResponseData.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it != null) {
+                    googleSignOutWithButton()
+                    revokeAccessGoogleSignOut()
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun google ini sudah terhubung dengan akun lain",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    refreshFragment()
+                } else {
+                    userLoginViewModel.updateGoogleAccount(
+                        UserLoginResponseDataModel(
+                            google_account = googleAccountID!!,
+                            id = id!!
+                        )
+                    )
+                    Toast.makeText(
+                        requireContext(),
+                        "Akun ini berhasil terhubung dengan google",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    googleSignOutWithButton()
+                    revokeAccessGoogleSignOut()
+                    refreshFragment()
+                }
+            })
+
+
         if (loginMethod == "googleLogin") {
-            googleProfileResponse()
-            menuAccountSettingProfile.setOnClickListener {
-                Toast.makeText(
-                    this.context,
-                    "Tidak bisa ubah profil dengan google login",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            menuAccountImage.setOnClickListener {
-                Toast.makeText(
-                    this.context,
-                    "Tidak bisa ubah gambar dengan google login",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
             menuAccountLogout.setOnClickListener {
                 googleSignOutWithButton()
                 revokeAccessGoogleSignOut()
@@ -222,21 +470,6 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 activity?.finish()
             }
         } else if (loginMethod == "facebookLogin") {
-            facebookProfileResponse()
-            menuAccountSettingProfile.setOnClickListener {
-                Toast.makeText(
-                    this.context,
-                    "Tidak bisa ubah profil dengan facebook login",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            menuAccountImage.setOnClickListener {
-                Toast.makeText(
-                    this.context,
-                    "Tidak bisa ubah gambar dengan facebook login",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
             menuAccountLogout.setOnClickListener {
                 LoginManager.getInstance().logOut()
                 with(sharedPreferences?.edit()) {
@@ -246,39 +479,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                 activity?.finish()
             }
         } else {
-            if (photo == "facebookPhotoDefault.jpg") {
-                Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-            } else if (photo == "googlePhotoDefault.jpg") {
-                Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
-            } else if (photo == "defaultUserPhoto.jpg") {
-                Picasso.get().load(R.drawable.user_icon_jpg).into(menuAccountImage)
-            } else {
-                menuAccountViewModel.getUserPhoto(
-                    photo!!,
-                    menuAccountImage,
-                    this.requireActivity()
-                )
-            }
-            menuAccountSettingProfile.setOnClickListener(this)
-            menuAccountImage.setOnClickListener(this)
             menuAccountLogout.setOnClickListener(this)
-            userLoginViewModel.getUserById(id!!)
-            userLoginViewModel.userByIdResponseData.observe(
-                viewLifecycleOwner,
-                androidx.lifecycle.Observer {
-                    if (it.rank_user_match_count == "DEFAULT") {
-                        it.rank_user_match_count = "0"
-                    }
-                    if (it.rank_user_grade_count == "DEFAULT") {
-                        it.rank_user_grade_count = "0"
-                    }
-                    var rankKalah = (it.rank_user_match_count?.toInt()
-                        ?.minus(it.rank_user_grade_count!!.toInt())).toString()
-                    menuAccountUsernameText.text = "$username"
-                    menuAccountMatchText.text = "Pertandingan : ${it.rank_user_match_count}"
-                    menuAccountWinText.text = "Menang : ${it.rank_user_grade_count}"
-                    menuAccountLoseText.text = "Kalah : $rankKalah"
-                })
         }
     }
 
@@ -329,6 +530,14 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             )
             menuAccountViewModel.menuAccountChangePhoto(imageFileChoosed, userId)
         }
+        if (requestCode === GOOGLE_SIGN_IN_REQUEST) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleGoogleSignInResult(task)
+        }
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
     }
 
     //image picker library
@@ -381,28 +590,33 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             }
     }
 
-    //google profile response
-    fun googleProfileResponse() {
-        val acct = GoogleSignIn.getLastSignedInAccount(activity)
-        if (acct != null) {
-            val personName = acct.displayName
-            val personGivenName = acct.givenName
-            val personFamilyName = acct.familyName
-            val personEmail = acct.email
-            val personId = acct.id
-            val personPhoto: Uri? = acct.photoUrl
-            if (personName != "" || personName != null) {
-                if (personPhoto == null) {
-                    Picasso.get().load(R.drawable.google_icon_jpg).into(menuAccountImage)
-                } else {
-                    Picasso.get().load(personPhoto).into(menuAccountImage)
-                }
-                menuAccountUsernameText.text = "$personName"
-                menuAccountMatchText.text = "Pertandingan : 0"
-                menuAccountWinText.text = "Menang : 0"
-                menuAccountLoseText.text = "Kalah : 0"
+    //facebook oauth login
+    fun facebookSignIn() {
+
+        callbackManager = CallbackManager.Factory.create();
+
+        var loginButton = menuAccountFacebookButton as LoginButton
+        loginButton.setReadPermissions("email")
+        loginButton.setFragment(this)
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+            override fun onSuccess(loginResult: LoginResult?) {
+                // App code
+                println("SUCCESS FB = " + loginResult?.accessToken)
+                facebookProfileResponse()
             }
-        }
+
+            override fun onCancel() {
+                // App code
+                println("CANCEL FB")
+            }
+
+            override fun onError(exception: FacebookException) {
+                // App code
+                println("ERROR FB = " + exception)
+            }
+        })
     }
 
     //facebook profile response
@@ -414,6 +628,7 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     oldProfile: Profile?,
                     currentProfile: Profile
                 ) {
+                    mProfileTracker?.startTracking()
                     var facebookProfileId = currentProfile.id
                     var facebookProfileFname = currentProfile.firstName
                     var facebookProfileMname = currentProfile.middleName
@@ -423,15 +638,13 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
                     var facebookProfilePicture =
                         currentProfile.getProfilePictureUri(150, 150)
                     if (facebookProfileName != null || facebookProfileName != "") {
-                        if (facebookProfilePicture == null) {
-                            Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-                        } else {
-                            Picasso.get().load(facebookProfilePicture).into(menuAccountImage)
-                        }
-                        menuAccountUsernameText.text = "$facebookProfileName"
-                        menuAccountMatchText.text = "Pertandingan : 0"
-                        menuAccountWinText.text = "Menang : 0"
-                        menuAccountLoseText.text = "Kalah : 0"
+                        facebookAccountID = facebookProfileId
+                        userLoginViewModel.loginWithFacebook(
+                            UserLoginModel(
+                                facebook_account = facebookProfileId,
+                                google_account = ""
+                            )
+                        )
                     }
                     mProfileTracker?.stopTracking()
                 }
@@ -447,17 +660,93 @@ class MenuAccountFragment : Fragment(), View.OnClickListener {
             var facebookProfilePicture =
                 profile.getProfilePictureUri(150, 150)
             if (facebookProfileName != null || facebookProfileName != "") {
-                if (facebookProfilePicture == null) {
-                    Picasso.get().load(R.drawable.facebook_icon_jpg).into(menuAccountImage)
-                } else {
-                    Picasso.get().load(facebookProfilePicture).into(menuAccountImage)
-                }
-                menuAccountUsernameText.text = "$facebookProfileName"
-                menuAccountMatchText.text = "Pertandingan : 0"
-                menuAccountWinText.text = "Menang : 0"
-                menuAccountLoseText.text = "Kalah : 0"
+                facebookAccountID = facebookProfileId
+                userLoginViewModel.loginWithFacebook(
+                    UserLoginModel(
+                        facebook_account = facebookProfileId,
+                        google_account = ""
+                    )
+                )
             }
         }
+    }
+
+    //function for sign in
+    fun googleSignIn() {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("1098032043964-lorva2qev51g3097t9jpa12kj31nva39.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
+
+        val mGoogleSignInClient = GoogleSignIn.getClient(this.requireActivity(), gso);
+
+        //check for last account
+        val account = GoogleSignIn.getLastSignedInAccount(this.context)
+        if (account != null) {
+            Toast.makeText(
+                this.context,
+                "Sukses login dengan google last account",
+                Toast.LENGTH_SHORT
+            )
+        } else {
+            Toast.makeText(
+                this.context,
+                "Gagal login dengan google last account",
+                Toast.LENGTH_SHORT
+            )
+        }
+
+        val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+        startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST)
+    }
+
+    //function ini dipanggil di onActivityResult
+    fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account =
+                completedTask.getResult(ApiException::class.java)
+            // Signed in successfully, show authenticated UI.
+            //  updateUI(account)
+            if (account != null) {
+                googleProfileResponse()
+            } else {
+                Toast.makeText(this.context, "Gagal login dengan google", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            // Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            println("signInResult:failed code=" + e.statusCode)
+            // updateUI(null)
+        }
+    }
+
+    //google profile response
+    fun googleProfileResponse() {
+        val acct = GoogleSignIn.getLastSignedInAccount(activity)
+        if (acct != null) {
+            val personName = acct.displayName
+            val personGivenName = acct.givenName
+            val personFamilyName = acct.familyName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto: Uri? = acct.photoUrl
+            if (personName != null || personName != "") {
+                googleAccountID = personId!!
+                userLoginViewModel.loginWithGoogle(
+                    UserLoginModel(
+                        google_account = personId!!,
+                        facebook_account = ""
+                    )
+                )
+            }
+        }
+    }
+
+    fun refreshFragment(){
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.menuAccountLayout, MenuAccountFragment())?.commit()
     }
 }
 
